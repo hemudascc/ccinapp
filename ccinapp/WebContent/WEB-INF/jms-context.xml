@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jms="http://www.springframework.org/schema/jms"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans      http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+       http://www.springframework.org/schema/context    http://www.springframework.org/schema/context/spring-context-3.2.xsd
+       http://www.springframework.org/schema/jms        http://www.springframework.org/schema/jms/spring-jms-3.0.xsd
+       http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd
+           ">	
+	
+	<bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory"
+		p:brokerURL="${acmq.brokerurl}"  p:useAsyncSend="true"  />
+
+	<bean id="cachedConnectionFactory"
+		class="org.springframework.jms.connection.CachingConnectionFactory"
+		p:targetConnectionFactory-ref="connectionFactory"  p:sessionCacheSize="700" />
+		
+	
+	<bean id="objectSaveJMSTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<constructor-arg name="connectionFactory" ref="cachedConnectionFactory" />
+		<property name="defaultDestinationName" value="ccinapp/objectSaveQueue" />
+		<qualifier value="objectSaveJMSTemplate"/>
+	   </bean>
+	   
+	   <bean id="objectSaveDestination" class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg index="0" value="ccinapp/objectSaveQueue?consumer.prefetchSize=10" />
+      </bean>
+    <bean id="objectSaveListener" class="net.common.jms.JMSObjectSaveListener"/>	
+	
+	
+	<!--Start InappProcessRequest -->
+	  <bean id="inappProcessRequestJMSTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<constructor-arg name="connectionFactory" ref="cachedConnectionFactory" />
+		<property name="defaultDestinationName" value="ccinapp/inappProcessRequestRenewalQueue" />
+		<qualifier value="inappProcessRequestJMSTemplate"/>
+	</bean>
+   <bean id="inappProcessRequestDestination" class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg index="0" value="ccinapp/inappProcessRequestRenewalQueue?consumer.prefetchSize=100" />
+	</bean>
+   <bean id="inappProcessRequestListener" class="net.mycomp.common.inapp.JMSInappProcessRequestListener"/>
+		
+   <!-- End InappProcessRequest-->
+   
+   
+	<jms:listener-container  container-type="default" 
+	connection-factory="cachedConnectionFactory" 
+	acknowledge="auto" concurrency="5-30" >
+			
+			<jms:listener destination="ccinapp/objectSaveQueue" 
+			ref="objectSaveListener"
+			method="onMessage"/>
+		<jms:listener destination="ccinapp/inappProcessRequestRenewalQueue"
+				 ref="inappProcessRequestListener"
+			     method="onMessage"/>						
+	</jms:listener-container>
+	
+
+	</beans>

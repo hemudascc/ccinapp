@@ -1,0 +1,136 @@
+package net.mycomp.common.inapp;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
+import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
+
+import net.common.service.IDaoService;
+import net.common.service.RedisCacheService;
+import net.util.HTTPResponse;
+import net.util.HttpURLConnectionUtil;
+import net.util.JsonMapper;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service("vodafoneInappServiceApi")
+public class VodafoneInappServiceApi implements IInappOperatorServiceApi{
+
+	 private static final Logger logger = Logger
+				.getLogger(VodafoneInappServiceApi.class.getName());
+	 
+	private static final String VODAFONE_OTP_PREFIX="QATAR_OOREDO_OTP_PREFIX";
+	private HttpURLConnectionUtil httpURLConnectionUtil;
+	
+	@Autowired
+	private RedisCacheService redisCacheService;
+	
+	@Autowired
+	private IDaoService daoService;
+	
+	@PostConstruct
+	public void init(){
+		httpURLConnectionUtil=new HttpURLConnectionUtil();
+	}
+	
+public InappOtpSend sendPin(InappOtpSend inappOtpSend,InAppConfig inAppConfig){
+		
+				
+		try{
+			
+	
+		String url=InappConstant.getUrl(inAppConfig.getPinSendUrl(),""+inappOtpSend.getId()
+				,inappOtpSend.getMsisdn()
+				, inAppConfig, "", "");
+		
+		inappOtpSend.setSendOtpUrl(url);
+		HTTPResponse httpResponse=httpURLConnectionUtil.sendGet(url);
+		inappOtpSend.setSendOtpResp(httpResponse.getResponseCode()+" : "+httpResponse.getResponseStr());
+		//inappOtpSend.setResponseToCaller(httpResponse.getResponseStr());
+		
+		if(httpResponse.getResponseCode()==200){//pin_sent
+			 Map map= JsonMapper.getJsonToObject(httpResponse.getResponseStr(), Map.class);
+			 if(map!=null&&Objects.toString(map.get("status")).equals("true")){
+				 inappOtpSend.setSendOtp(true);
+			redisCacheService.putObjectCacheValueByEvictionMinute
+			(VODAFONE_OTP_PREFIX+inappOtpSend.getMsisdn(),map.get("trxId"), 30);
+			 }
+		}
+		}catch(Exception ex){
+			logger.error("sendPin ",ex);
+		
+		}finally{			
+			
+		}		
+		return inappOtpSend;
+	} 
+	
+	
+	public InappOtpValidation validatePin(InappOtpValidation inappOtpValidation,InAppConfig inAppConfig){
+		
+		try{
+		
+		String token=Objects.toString(redisCacheService
+				.getObjectCacheValue(VODAFONE_OTP_PREFIX+inappOtpValidation.getMsisdn()));
+		String url=InappConstant.getUrl(inAppConfig.getPinValidationUrl(),""+token ,inappOtpValidation.getMsisdn()
+				, inAppConfig, inappOtpValidation.getPin(), token);
+		inappOtpValidation.setPinValidationUrl(url);
+		HTTPResponse httpResponse=httpURLConnectionUtil.sendGet(url);
+		inappOtpValidation.setPinValidationResponse(httpResponse.getResponseCode()+":"+httpResponse.getResponseStr());
+		if(httpResponse.getResponseCode()==200){
+			Map map= JsonMapper.getJsonToObject(httpResponse.getResponseStr(), Map.class);
+			 if(map!=null&&Objects.toString(map.get("status")).equals("true")){
+				 inappOtpValidation.setPinValidate(true);
+			 }
+		}
+		
+	
+		}catch(Exception ex){
+			logger.error("sendPin ",ex);
+			//one97OtpValidation.setPinValidationResponse(ex.toString());
+		}finally{
+			
+		}		
+		return inappOtpValidation;
+		
+	} 
+	
+	
+	public InappStatusCheck statusCheck(InappStatusCheck inappStatusCheck,InAppConfig inAppConfig){
+		
+		
+		try{
+			
+		String url=InappConstant.getUrl(inAppConfig.getCheckSubUrl(),null ,inappStatusCheck.getMsisdn()
+				, inAppConfig, "", "");
+		inappStatusCheck.setStatusCheckUrl(url);
+		HTTPResponse httpResponse=httpURLConnectionUtil.sendGet(url);
+		inappStatusCheck.setStatusCheckResp(httpResponse.getResponseCode()
+				+" : "+httpResponse.getResponseStr());
+		//inappStatusCheck.setResponseToCaller(httpResponse.getResponseStr());
+		
+		if(httpResponse.getResponseCode()==200){
+			
+			Map map= JsonMapper.getJsonToObject(httpResponse.getResponseStr(), Map.class);
+			logger.info("sendPin:::::::: "+map+" ,is true:: "+map.get("status").equals("0")+" , and "+
+			map.get("description").equals("active"));
+			 if(map!=null&&Objects.toString(map.get("status")).equals("0")
+					 &&Objects.toString(map.get("description")).equals("active")){				
+			inappStatusCheck.setSubStatus(true);
+			}
+		 }
+		
+		}catch(Exception ex){
+			logger.error("statusCheck ",ex);
+			//one97StatusCheck.setStatusCheckResp(ex.toString());
+			
+		}finally{
+			
+		}		
+		return inappStatusCheck;
+	} 
+}
