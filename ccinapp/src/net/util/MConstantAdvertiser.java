@@ -11,4 +11,5 @@ public interface MConstantAdvertiser {
 	public final int ASCENCO=7;
 	public final int VACA=8;
 	public final int ADACTS=9;
+	public final int APALYA=10;
 }

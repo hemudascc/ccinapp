@@ -9,9 +9,10 @@ import org.springframework.data.repository.query.Param;
 
 public interface JPASubscriberReg extends JpaRepository<SubscriberReg, Long>{
 	
-@Query("select b from SubscriberReg b where b.subscriberId=:subscriberId")
+    @Query("select b from SubscriberReg b where b.subscriberId=:subscriberId")
     SubscriberReg findSubscriberRegById(@Param("subscriberId")Integer subscriberId);
-	@Query("select b from SubscriberReg b where b.msisdn=:msisdn")
+	
+    @Query("select b from SubscriberReg b where b.msisdn=:msisdn")
     List<SubscriberReg> findSubscriberRegByMsisdn(@Param("msisdn")String msisdn);
 	
 	@Query("select b from SubscriberReg b where b.msisdn=:msisdn and b.serviceId=:serviceId")

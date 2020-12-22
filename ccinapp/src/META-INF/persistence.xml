@@ -43,6 +43,8 @@
 		<class>net.mycomp.advertiser.vaca.VacaConfig</class>
 		<class>net.mycomp.inapp.adacts.AdactsConfig</class>
 		<class>net.mycomp.inapp.adacts.AdactsApiTrans</class>
+		<class>net.mycomp.inapp.apalya.ApalyaConfig</class>
+		<class>net.mycomp.inapp.apalya.ApalyaApiTrans</class>
 		
 		    <exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<validation-mode>NONE</validation-mode>

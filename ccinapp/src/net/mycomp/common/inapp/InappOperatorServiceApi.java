@@ -18,6 +18,7 @@ import net.mycomp.common.inapp.one97.InappOne97Service;
 import net.mycomp.common.inapp.tmt.InappTmtService;
 import net.mycomp.common.service.RedisCacheService;
 import net.mycomp.inapp.adacts.AdactsService;
+import net.mycomp.inapp.apalya.ApalyaService;
 import net.mycomp.inapp.skmobi.SkmobiService;
 import net.mycomp.kineticdigital.KinaticService;
 import net.mycomp.shemaroo.ShemarooService;
@@ -70,6 +71,9 @@ public class InappOperatorServiceApi extends  AbstractInappOperatorServiceApi{
 	@Autowired	
 	private AdactsService adactsService;
 	
+	@Autowired	
+	private ApalyaService apalyaService;
+	
 	@Autowired
 	@Qualifier("ascencoService")
 	private AscencoService ascencoService;
@@ -113,6 +117,10 @@ public class InappOperatorServiceApi extends  AbstractInappOperatorServiceApi{
     		inappOperatorServiceApi=adactsService;
     		break;
     	 }
+    	case MConstantAdvertiser.APALYA:{
+    		inappOperatorServiceApi=apalyaService;
+    		break;
+    	}
     	}
 		return inappOperatorServiceApi;
 	}
