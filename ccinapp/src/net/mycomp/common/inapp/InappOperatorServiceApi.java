@@ -125,9 +125,9 @@ public class InappOperatorServiceApi extends AbstractInappOperatorServiceApi {
 	@Override
 	public boolean sendPin(InappProcessRequest inappProcessRequest, ModelAndView modelAndView) {
 
-		List<SubscriberReg> subscriberRegList=jpaSubscriberReg
+		List<SubscriberReg> subscriberRegList = jpaSubscriberReg
 				.findSubscriberRegByMsisdn(inappProcessRequest.getMsisdn());
-		
+
 		List<VWTrafficRouting> vwServiceCampaignDetailList = MData.mapcampaignIdIdToVWTrafficRouting
 				.get(inappProcessRequest.getCmpid());
 		for (VWTrafficRouting vwTrafficRouting : vwServiceCampaignDetailList) {
@@ -161,7 +161,7 @@ public class InappOperatorServiceApi extends AbstractInappOperatorServiceApi {
 
 		SubscriberReg subscriberReg = jpaSubscriberReg.findSubscriberRegByMsisdnAndServiceId(
 				inappProcessRequest.getMsisdn(), inappProcessRequest.getServiceId());
-		
+
 		if (subscriberReg != null && subscriberReg.getStatus() == MConstants.SUBSCRIBED) {
 			inappProcessRequest.setReason(EnumReason.ALREADY_SUBSCRIBED.reason);
 			return false;
@@ -235,17 +235,17 @@ public class InappOperatorServiceApi extends AbstractInappOperatorServiceApi {
 											MConstants.INAPP_ROUTING_CAHCE_PREFIX + inappProcessRequest.getMsisdn())),
 									0));
 			if (inappProcessRequest.getServiceId() != null || inappProcessRequest.getServiceId() == 0) {
-				List<SubscriberReg> listSubscriberReg = jpaSubscriberReg
-						.findSubscriberRegByMsisdn(inappProcessRequest.getMsisdn());
-				for (SubscriberReg subscriberReg : listSubscriberReg) {
-					inappProcessRequest.setServiceId(subscriberReg.getServiceId());
-					if (subscriberReg.getStatus() == MConstants.SUBSCRIBED) {
-						break;
-					}
+				SubscriberReg subscriberReg = jpaSubscriberReg.findSubscriberRegByMsisdnAndServiceId(
+				inappProcessRequest.getMsisdn(), inappProcessRequest.getServiceId());
+				inappProcessRequest.setServiceId(subscriberReg.getServiceId());
+				if (subscriberReg.getStatus() == MConstants.SUBSCRIBED) {
+
+					net.persist.bean.Service service = MData.mapServiceIdToService
+							.get(inappProcessRequest.getServiceId());
+
+					return findProcessRequest(service.getAdvertiserId()).portalUrl(inappProcessRequest, modelAndView);
 				}
 			}
-			net.persist.bean.Service service = MData.mapServiceIdToService.get(inappProcessRequest.getServiceId());
-			return findProcessRequest(service.getAdvertiserId()).portalUrl(inappProcessRequest, modelAndView);
 		} catch (Exception ex) {
 			logger.error("Exception ", ex);
 		}
