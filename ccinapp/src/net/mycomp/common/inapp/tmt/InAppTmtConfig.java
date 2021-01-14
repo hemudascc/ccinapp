@@ -13,6 +13,8 @@ public class InAppTmtConfig {
 	private Integer id;
 	@Column(name = "service_id")
 	private Integer serviceId;
+	@Column(name = "operator_name")
+	private String operatorName;	
 	@Column(name = "pin_send_url")
 	private String pinSendUrl;	
 	@Column(name = "pin_validation_url")
@@ -41,6 +43,13 @@ public class InAppTmtConfig {
 	}
 	public void setServiceId(Integer serviceId) {
 		this.serviceId = serviceId;
+	}
+	
+	public String getOperatorName() {
+		return operatorName;
+	}
+	public void setOperatorName(String operatorName) {
+		this.operatorName = operatorName;
 	}
 	public String getPinSendUrl() {
 		return pinSendUrl;

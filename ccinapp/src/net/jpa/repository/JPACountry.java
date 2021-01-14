@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface JPACountry extends JpaRepository<Country, Long>{
 
+	public Country findByName(String name);
 }

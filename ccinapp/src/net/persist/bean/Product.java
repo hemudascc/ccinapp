@@ -2,6 +2,9 @@ package net.persist.bean;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.SQLInsert;
+
 import javax.persistence.Id;
 import javax.persistence.Column;
 
@@ -34,5 +37,10 @@ public class Product {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ", productName=" + productName + ", status=" + status + "]";
+	}
+	
 	
 }

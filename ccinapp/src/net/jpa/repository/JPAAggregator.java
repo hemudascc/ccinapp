@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface JPAAggregator extends JpaRepository<Aggregator, Long>{
 
+	public Aggregator findByName(String Name);
 }

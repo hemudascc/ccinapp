@@ -37,5 +37,5 @@ public class AdnetworkCallbackService {
 	public static void main(String arg[]){
 		
 	}
-	
-	}
+
+}

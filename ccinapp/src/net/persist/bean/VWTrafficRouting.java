@@ -85,7 +85,7 @@ public class VWTrafficRouting implements Serializable,Comparable<VWTrafficRoutin
 		}		
 	return atomicIntegerclickCounter.getAndUpdate(n -> n + 1) < percentageOfTraffic;	
 	}
-		
+	
 	public static void main(String arg[]){
 	}
 

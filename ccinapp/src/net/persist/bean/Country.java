@@ -1,6 +1,8 @@
 package net.persist.bean;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Table;
 import javax.persistence.Id;
 
@@ -9,6 +11,8 @@ import javax.persistence.Id;
 public class Country {
 
 	@Id
+	@Column(name = "Id")
+	@GeneratedValue
 	private Integer Id;
 	private String name;	
 	private Boolean status;
@@ -31,4 +35,10 @@ public class Country {
 	public void setStatus(Boolean status) {
 		this.status = status;
 	}
+	@Override
+	public String toString() {
+		return "Country [Id=" + Id + ", name=" + name + ", status=" + status + "]";
+	}
+
+
 }

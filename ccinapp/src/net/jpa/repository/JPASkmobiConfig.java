@@ -15,5 +15,6 @@ public interface JPASkmobiConfig extends JpaRepository<SkmobiConfig, Long>{
 	@Query("select b from SkmobiConfig b where b.status=:status")
     List<SkmobiConfig> findEnableSkmobiConfig(@Param("status")boolean status);
 
-    
+    public SkmobiConfig findByServiceIdAndProductIdAndOperatorNameAndCampId(Integer serviceId,Integer productId,String operatorName,Integer campId);
+
 }

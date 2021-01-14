@@ -14,4 +14,5 @@ public interface JPACollectcentServiceConfig extends JpaRepository<CollectcentSe
 	@Query("select b from CollectcentServiceConfig b where b.status=:status")
     List<CollectcentServiceConfig> findEnableCollectcentServiceConfig(@Param("status")boolean status);
     
+	public CollectcentServiceConfig findByServiceId(Integer serviceId);
 }

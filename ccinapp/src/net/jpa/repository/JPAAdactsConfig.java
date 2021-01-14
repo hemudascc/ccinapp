@@ -12,5 +12,7 @@ public interface JPAAdactsConfig extends JpaRepository<AdactsConfig, Long>{
 
 	@Query("select b from AdactsConfig b where b.status=:status")
     List<AdactsConfig> findEnableAdactsConfig(@Param("status")boolean status);
+	
+	public AdactsConfig findByServiceIdAndProductIdAndOperatorNameAndCampId(Integer serviceId,Integer productId,String operatorName,Integer campId);
 
 }

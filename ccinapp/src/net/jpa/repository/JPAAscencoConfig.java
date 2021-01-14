@@ -14,5 +14,6 @@ public interface JPAAscencoConfig extends JpaRepository<AscencoConfig, Long>{
 	@Query("select b from AscencoConfig b where b.status=:status")
     List<AscencoConfig> findEnableAscencoConfig(@Param("status")boolean status);
 
-    
+	public AscencoConfig findByServiceIdAndProductIdAndOperatorNameAndCampId(Integer serviceId,Integer productId,String operatorName,Integer campId);
+
 }

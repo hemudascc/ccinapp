@@ -14,5 +14,6 @@ public interface JPAVacaConfig extends JpaRepository<VacaConfig, Long>{
 	@Query("select b from VacaConfig b where b.status=:status")
     List<VacaConfig> findEnableVacaConfig(@Param("status")boolean status);
 
-    
+	public VacaConfig findByServiceIdAndProductIdAndOperatorName(Integer serviceId,Integer productId,String operatorName);
+   
 }

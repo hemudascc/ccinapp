@@ -14,4 +14,5 @@ public interface JPAInAppOne97Config extends JpaRepository<InAppOne97Config, Lon
 	@Query("select b from InAppOne97Config b where b.status=:status")
     List<InAppOne97Config> findEnableOne97Config(@Param("status")boolean status);
     
+	public InAppOne97Config findByServiceIdAndOperatorDetail(Integer serviceId,String operatorDetail);
 }

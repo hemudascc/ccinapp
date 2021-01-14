@@ -166,6 +166,13 @@ public class MUtility {
 		return defaultValue;
 	}
 
+	public static Boolean toBoolean(String str, Boolean defaultValue) {
+		try {
+			return Boolean.parseBoolean(str);
+		} catch (Exception ex) {
+		}
+		return defaultValue;
+	}
 
 	public static boolean trafficRouting(AtomicInteger atomicTrafficRouting, Integer trafficRoutingCounter) {
 		try {

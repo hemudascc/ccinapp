@@ -15,6 +15,8 @@ public class InAppOne97Config {
 	private Integer id;
 	@Column(name = "service_id")
 	private Integer serviceId;
+	@Column(name = "operator_detail")
+	private String operatorDetail;
 	@Column(name = "pin_send_api_url")
 	private String pinSendUrl;
 	
@@ -97,6 +99,14 @@ public String toString() {
 
 	public void setPortalUrl(String portalUrl) {
 		this.portalUrl = portalUrl;
+	}
+
+	public String getOperatorDetail() {
+		return operatorDetail;
+	}
+
+	public void setOperatorDetail(String operatorDetail) {
+		this.operatorDetail = operatorDetail;
 	}
 	
 	

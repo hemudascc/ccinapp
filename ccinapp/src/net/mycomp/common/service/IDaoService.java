@@ -27,7 +27,7 @@ public interface IDaoService {
 	public List<Adnetworks> findAllEnableAdnetworks();
 	public Integer findNextAutoIncrementId(String tableName, String dbName);
 	public List<Operator> findAllOperator();
-		public List<Operator> findAllEnabledOperator();
+	public List<Operator> findAllEnabledOperator();
 	public List<VWCampaignDetail> findEnableVWServiceCampaignDetail();
 	
     public AdnetworkOperatorConfig findAdnetworkOperatorConfigById(Integer adnopconfigid);

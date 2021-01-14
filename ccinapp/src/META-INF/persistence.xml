@@ -7,7 +7,7 @@
 		<class>net.persist.bean.Operator</class>
 		<class>net.persist.bean.Service</class>
 		<class>net.persist.bean.SubscriberReg</class>
-		
+		<class>net.persist.bean.CampaignDetails</class>
 		<class>net.persist.bean.Aggregator</class>
 		<class>net.persist.bean.Country</class>
 		<class>net.persist.bean.Product</class>	

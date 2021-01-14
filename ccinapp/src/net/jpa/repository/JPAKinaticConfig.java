@@ -14,5 +14,5 @@ public interface JPAKinaticConfig extends JpaRepository<KinaticConfig, Long>{
 	@Query("select b from KinaticConfig b where b.status=:status")
     List<KinaticConfig> findEnableKinaticConfig(@Param("status")boolean status);
 
-    
+    public KinaticConfig findByServiceIdAndProductIdAndOperatorNameAndCampId(Integer serviceId,Integer productId,String operatorName,Integer campId);;
 }

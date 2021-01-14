@@ -14,5 +14,7 @@ public interface JPATrafficRouting extends JpaRepository<TrafficRouting, Long>{
 
 	@Query("select b from TrafficRouting b where b.trafiicRoutingId=:trafiicRoutingId")
 	TrafficRouting findTrafficRoutingByTraffingId(@Param("trafiicRoutingId")Integer trafiicRoutingId);
+	
+	public TrafficRouting  findByCampaignIdAndServiceId(Integer campaignId,Integer serviceId);
 
 }
