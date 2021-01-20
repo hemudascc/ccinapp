@@ -20,7 +20,9 @@
 		<class>net.mycomp.common.inapp.one97.InappOne97OtpSend</class>
 		<class>net.mycomp.common.inapp.one97.InappOne97StatusCheck</class>
 		<class>net.mycomp.common.inapp.one97.InappOne97OtpValidation</class>
-		<class>net.persist.bean.AdnetworkOperatorConfig</class>
+		<class>net.mycomp.inapp.raone.RaoneConfig</class>
+		<class>net.mycomp.inapp.raone.RaoneApiTrans</class>
+		<class>net.persist.bean.AdnetworkOperatorConfig</class> 
 		<class>net.mycomp.common.inapp.collectcent.CollectcentServiceConfig</class>
 		<class>net.mycomp.common.inapp.collectcent.InappCollectcentOtpSend</class>
 		<class>net.mycomp.common.inapp.collectcent.InappCollectcentValidation</class>
