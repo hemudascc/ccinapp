@@ -12,4 +12,5 @@ public interface MConstantAdvertiser {
 	public final int VACA=8;
 	public final int ADACTS=9;
 	public final int APALYA=10;
+	public final int RAONE=11;
 }

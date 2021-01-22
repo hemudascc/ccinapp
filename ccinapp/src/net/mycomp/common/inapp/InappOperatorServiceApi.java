@@ -19,6 +19,7 @@ import net.mycomp.common.inapp.tmt.InappTmtService;
 import net.mycomp.common.service.RedisCacheService;
 import net.mycomp.inapp.adacts.AdactsService;
 import net.mycomp.inapp.apalya.ApalyaService;
+import net.mycomp.inapp.raone.RaoneService;
 import net.mycomp.inapp.skmobi.SkmobiService;
 import net.mycomp.kineticdigital.KinaticService;
 import net.mycomp.shemaroo.ShemarooService;
@@ -70,7 +71,10 @@ public class InappOperatorServiceApi extends AbstractInappOperatorServiceApi {
 
 	@Autowired
 	private ApalyaService apalyaService;
-
+	
+	@Autowired
+	private RaoneService raoneService;
+	
 	@Autowired
 	@Qualifier("ascencoService")
 	private AscencoService ascencoService;
@@ -118,6 +122,10 @@ public class InappOperatorServiceApi extends AbstractInappOperatorServiceApi {
 			inappOperatorServiceApi = apalyaService;
 			break;
 		}
+		case MConstantAdvertiser.RAONE: {
+			inappOperatorServiceApi = raoneService;
+			break;
+		}
 		}
 		return inappOperatorServiceApi;
 	}
@@ -130,8 +138,9 @@ public class InappOperatorServiceApi extends AbstractInappOperatorServiceApi {
 
 		List<VWTrafficRouting> vwServiceCampaignDetailList = MData.mapcampaignIdIdToVWTrafficRouting
 				.get(inappProcessRequest.getCmpid());
+		logger.info("vwtrafficlist:"+vwServiceCampaignDetailList);
 		for (VWTrafficRouting vwTrafficRouting : vwServiceCampaignDetailList) {
-			if (vwTrafficRouting.isSendPin(subscriberRegList)) {
+			if(vwTrafficRouting.isSendPin(subscriberRegList)) {
 				inappProcessRequest.setServiceId(vwTrafficRouting.getServiceId());
 				break;
 			}
