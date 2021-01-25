@@ -2,12 +2,15 @@ package net.mycomp.inapp.skmobi;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
+import net.mycomp.common.inapp.InappAutomatedProcessRequest;
+
 import javax.persistence.Id;
 import javax.persistence.Column;
 
 @Entity
 @Table(name = "tb_skmobi_config")
-public class SkmobiConfig {
+public class SkmobiConfig  extends InappAutomatedProcessRequest{
 
 	@Id
 	private Integer id;

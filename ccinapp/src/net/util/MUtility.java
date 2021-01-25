@@ -375,6 +375,14 @@ public class MUtility {
 	    	 return param;
 	     }
 	     
+	 	public static Boolean toBoolean(String str, Boolean defaultValue) {
+			try {
+				return Boolean.parseBoolean(str);
+			} catch (Exception ex) {
+			}
+			return defaultValue;
+		}
+	     
 	     }
 	  
 

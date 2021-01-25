@@ -4,12 +4,15 @@ import java.lang.reflect.Field;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
+import net.mycomp.common.inapp.InappAutomatedProcessRequest;
+
 import javax.persistence.Id;
 import javax.persistence.Column;
 
 @Entity
 @Table(name = "tb_inapp_one97_config")
-public class InAppOne97Config {
+public class InAppOne97Config  extends InappAutomatedProcessRequest{
 
 	@Id
 	private Integer id;

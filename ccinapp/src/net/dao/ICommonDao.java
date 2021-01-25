@@ -1,6 +1,9 @@
 package net.dao;
 
 import java.util.List;
+
+import javax.persistence.Query;
+
 import net.mycomp.common.inapp.InappLiveReport;
 import net.persist.bean.AdnetworkOperatorConfig;
 import net.persist.bean.Adnetworks;
@@ -30,5 +33,7 @@ public interface ICommonDao {
 				AggReport aggReport);
 	 public List<VWAdnetworkOperatorConfig> findAllAdnConfig();
 	 public List<VWCampaignDetail> findEnableVWServiceCampaignDetail();
-				
+	 public List<Object> getDataList(Query query);	
+	 public boolean checkExistingRecord(Query query);		
+	 
 }

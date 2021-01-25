@@ -4,6 +4,9 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.Query;
+import javax.websocket.OnError;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -190,6 +193,26 @@ public class DaoServiceImpl implements IDaoService {
 		return null;
 	}
 
+	@Override
+	public List<Object> getDataList(Query query){
+		try {
+			return commonDao.getDataList(query);
+		} catch (Exception ex) {
+			logger.error("checkExistingRecord:: "+ ex);
+		}
+		return null;
+	}
 	
+	@Override
+	public boolean checkExistingRecord(Query query) {
+		try {
+			return commonDao.checkExistingRecord(query);
+		} catch (Exception ex) {
+			logger.error("checkExistingRecord:: "+ ex);
+		}
+		return false;
+	} 
+
+
 	
 }

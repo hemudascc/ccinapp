@@ -2,12 +2,15 @@ package net.mycomp.common.inapp.tmt;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
+import net.mycomp.common.inapp.InappAutomatedProcessRequest;
+
 import javax.persistence.Id;
 import javax.persistence.Column;
 
 @Entity
 @Table(name = "tb_inapp_tmt_config")
-public class InAppTmtConfig {
+public class InAppTmtConfig  extends InappAutomatedProcessRequest{
 
 	@Id
 	private Integer id;
@@ -27,6 +30,9 @@ public class InAppTmtConfig {
 	
 	@Column(name = "portal_url2")
 	private String portalUrl2;
+	
+	@Column(name = "operator_name")
+	private String operatorName;
 	
 	private Boolean status;
 	
@@ -84,6 +90,12 @@ public class InAppTmtConfig {
 	public void setPortalUrl2(String portalUrl2) {
 		this.portalUrl2 = portalUrl2;
 	}
-	
+	public String getOperatorName() {
+		return operatorName;
+	}
+	public void setOperatorName(String operatorName) {
+		this.operatorName = operatorName;
+	}
+	  
 	
 }

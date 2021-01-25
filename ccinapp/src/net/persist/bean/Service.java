@@ -23,6 +23,13 @@ private Integer advertiserId;
 
 @Column(name = "otp_length")
 private Integer otpLength;	
+@Column(name = "product_id")
+private Integer productId;
+@Column(name = "validity")
+private Integer validity;
+@Column(name = "price_point")
+private Integer pricePoint;
+
 
 
 private Boolean status;
@@ -69,5 +76,24 @@ public Integer getOtpLength() {
 public void setOtpLength(Integer otpLength) {
 	this.otpLength = otpLength;
 }
+public Integer getProductId() {
+	return productId;
+}
+public void setProductId(Integer productId) {
+	this.productId = productId;
+}
+public Integer getValidity() {
+	return validity;
+}
+public void setValidity(Integer validity) {
+	this.validity = validity;
+}
+public Integer getPricePoint() {
+	return pricePoint;
+}
+public void setPricePoint(Integer pricePoint) {
+	this.pricePoint = pricePoint;
+}
+
 
 }
