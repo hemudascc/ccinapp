@@ -13,4 +13,6 @@ public interface MConstantAdvertiser {
 	public final int ADACTS=9;
 	public final int APALYA=10;
 	public final int RAONE=11;
+	public final int AUDIENCENEST=12;
+	
 }
