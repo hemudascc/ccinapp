@@ -21,6 +21,7 @@ import net.mycomp.common.inapp.one97.InAppOne97Config;
 import net.mycomp.common.inapp.tmt.InAppTmtConfig;
 import net.mycomp.inapp.adacts.AdactsConfig;
 import net.mycomp.inapp.apalya.ApalyaConfig;
+import net.mycomp.inapp.audiencenest.AudiencenestConfig;
 import net.mycomp.inapp.raone.RaoneConfig;
 import net.mycomp.inapp.skmobi.SkmobiConfig;
 import net.mycomp.kineticdigital.KinaticConfig;
@@ -106,6 +107,11 @@ public class AutomatedServiceApi implements AutomatedService{
 		case MConstantAdvertiser.RAONE: {
 			table = "tb_raone_config";
 			inprocessConfig = new RaoneConfig();
+			break;
+		}
+		case MConstantAdvertiser.AUDIENCENEST: {
+			table = "tb_audiencenest_config";
+			inprocessConfig = new AudiencenestConfig();
 			break;
 		}
 		}
