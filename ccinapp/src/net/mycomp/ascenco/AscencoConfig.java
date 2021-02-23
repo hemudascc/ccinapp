@@ -2,12 +2,15 @@ package net.mycomp.ascenco;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
+import net.mycomp.common.inapp.InappAutomatedProcessRequest;
+
 import javax.persistence.Id;
 import javax.persistence.Column;
 
 @Entity
 @Table(name = "tb_ascenco_config")
-public class AscencoConfig {
+public class AscencoConfig  extends InappAutomatedProcessRequest{
 
 	@Id
 	private Integer id;

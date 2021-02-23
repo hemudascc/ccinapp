@@ -47,6 +47,9 @@
 		<class>net.mycomp.inapp.apalya.ApalyaApiTrans</class>
 		<class>net.mycomp.inapp.raone.RaoneConfig</class>
 		<class>net.mycomp.inapp.raone.RaoneApiTrans</class>
+		<class>net.persist.bean.CampaignDetails</class>
+		<class>net.mycomp.inapp.audiencenest.AudiencenestConfig</class>
+		<class>net.mycomp.inapp.audiencenest.AudiencenestApiTrans</class> 
 		    <exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<validation-mode>NONE</validation-mode>
 		<properties>

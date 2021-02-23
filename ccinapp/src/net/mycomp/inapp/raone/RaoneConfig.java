@@ -7,9 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import net.mycomp.common.inapp.InappAutomatedProcessRequest;
+
 @Entity
 @Table(name = "tb_raone_config")
-public class RaoneConfig {
+public class RaoneConfig  extends InappAutomatedProcessRequest{
 
 	@Id
 	private Integer id;

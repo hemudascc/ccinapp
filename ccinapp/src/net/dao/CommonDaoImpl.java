@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -16,6 +17,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
+import net.mycomp.common.inapp.InappAutomatedProcessRequest;
 import net.mycomp.common.inapp.InappLiveReport;
 import net.persist.bean.AdnetworkOperatorConfig;
 import net.persist.bean.Adnetworks;
@@ -327,5 +329,25 @@ Map<String, Object> parameters = new HashMap<String, Object>();
 		query.setParameter("campaignDetailsStatus", true);
 		query.setParameter("serviceStatus", true);
 		return query.getResultList();
-	}	
+	}
+
+	@Transactional
+	@Override
+	public List<Object> getDataList(Query query) {
+		return query.getResultList();
+	} 
+	
+	@Transactional
+	@Override
+	public boolean checkExistingRecord(Query query) {
+		Object existingRecord = null;
+		try {
+		existingRecord =  query.getSingleResult();
+		}catch(NoResultException e) {
+			logger.error("existing config error : "+e);
+		}
+	    return ( ( existingRecord == null ) ? false : true );  
+		
+	}  
+
 }
