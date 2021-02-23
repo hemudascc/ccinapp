@@ -5,9 +5,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import net.mycomp.common.inapp.InappAutomatedProcessRequest;
+
 @Entity
 @Table(name = "tb_inapp_collectcent_service_config")
-public class CollectcentServiceConfig {
+public class CollectcentServiceConfig  extends InappAutomatedProcessRequest{
 
 	@Id
 	private Integer id;

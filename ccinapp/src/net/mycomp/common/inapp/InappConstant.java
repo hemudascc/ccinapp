@@ -28,4 +28,5 @@ public interface InappConstant {
 	public static final int INAPP_INNOVERA_SOLUTIONS_ADNETWORK_ID=56;
 	public static final int INAPP_HALAWA_ADNETWORK_ID=57;
 	public static final int INAPP_GULFTECH_ADNETWORK_ID=58;
+	public static final int INAPP_SARAS_MEDIA_ADNETWORK_ID=59;
 }

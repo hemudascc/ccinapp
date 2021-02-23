@@ -5,6 +5,8 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.Query;
+
 import net.mycomp.common.inapp.InappLiveReport;
 import net.persist.bean.AdnetworkOperatorConfig;
 import net.persist.bean.Adnetworks;
@@ -36,6 +38,7 @@ public interface IDaoService {
 			AggReport aggReport);
 	
 	List<VWAdnetworkOperatorConfig> findAllAdnConfig();
-	
-	 
+
+	public List<Object> getDataList(Query query);
+	public boolean checkExistingRecord(Query query);
 }

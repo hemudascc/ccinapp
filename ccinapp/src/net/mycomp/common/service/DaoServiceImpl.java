@@ -1,8 +1,8 @@
 package net.mycomp.common.service;
 
-import java.sql.Timestamp;
 import java.util.List;
-import java.util.Map;
+
+import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,6 @@ import net.persist.bean.SubscriberReg;
 import net.persist.bean.VWAdnetworkOperatorConfig;
 import net.persist.bean.VWCampaignDetail;
 import net.process.bean.AggReport;
-import net.util.MConstants;
 
 @Service("daoService")
 public class DaoServiceImpl implements IDaoService {
@@ -190,6 +189,26 @@ public class DaoServiceImpl implements IDaoService {
 		return null;
 	}
 
+	@Override
+	public List<Object> getDataList(Query query){
+		try {
+			return commonDao.getDataList(query);
+		} catch (Exception ex) {
+			logger.error("checkExistingRecord:: "+ ex);
+		}
+		return null;
+	}
 	
+	@Override
+	public boolean checkExistingRecord(Query query) {
+		try {
+			return commonDao.checkExistingRecord(query);
+		} catch (Exception ex) {
+			logger.error("checkExistingRecord:: "+ ex);
+		}
+		return false;
+	} 
+
+
 	
 }

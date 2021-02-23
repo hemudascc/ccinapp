@@ -133,6 +133,14 @@ public interface MConstants {
 	public static final String DAILY_REPORT_TYPE="DAILY";
 	public static final String MONTHLY_REPORT_TYPE="MONTHLY";
 
+	public static final int CAMPAIGN_DETAILS = 21;
+	public static final int COUNTRY = 22;
+	public static final int PRODUCT = 23;
+	public static final int ADVERTISER = 24;
+	public static final int SERVICE = 25;
+	public static final int OPERATOR = 26;
+	public static final int ADNETWORK_OPERATOR_CONFIG = 27;
+	public static final int TRAFFIC_ROUTING = 28;
 }
 
 

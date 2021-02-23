@@ -19,6 +19,7 @@ import net.mycomp.common.inapp.tmt.InappTmtService;
 import net.mycomp.common.service.RedisCacheService;
 import net.mycomp.inapp.adacts.AdactsService;
 import net.mycomp.inapp.apalya.ApalyaService;
+import net.mycomp.inapp.audiencenest.AudiencenestService;
 import net.mycomp.inapp.raone.RaoneService;
 import net.mycomp.inapp.skmobi.SkmobiService;
 import net.mycomp.kineticdigital.KinaticService;
@@ -76,6 +77,9 @@ public class InappOperatorServiceApi extends AbstractInappOperatorServiceApi {
 	private RaoneService raoneService;
 	
 	@Autowired
+	private AudiencenestService audiencenestService;
+	
+	@Autowired
 	@Qualifier("ascencoService")
 	private AscencoService ascencoService;
 
@@ -124,6 +128,9 @@ public class InappOperatorServiceApi extends AbstractInappOperatorServiceApi {
 		}
 		case MConstantAdvertiser.RAONE: {
 			inappOperatorServiceApi = raoneService;
+			break;
+		}case MConstantAdvertiser.AUDIENCENEST: {
+			inappOperatorServiceApi = audiencenestService;
 			break;
 		}
 		}

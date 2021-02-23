@@ -5,9 +5,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import net.mycomp.common.inapp.InappAutomatedProcessRequest;
+
 @Entity
 @Table(name = "tb_apalya_config")
-public class ApalyaConfig {
+public class ApalyaConfig  extends InappAutomatedProcessRequest{
 
 	@Id
 	private Integer id;

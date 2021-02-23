@@ -2,12 +2,15 @@ package net.mycomp.advertiser.vaca;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
+import net.mycomp.common.inapp.InappAutomatedProcessRequest;
+
 import javax.persistence.Id;
 import javax.persistence.Column;
 
 @Entity
 @Table(name = "tb_vaca_config")
-public class VacaConfig {
+public class VacaConfig  extends InappAutomatedProcessRequest{
 
 	@Id
 	private Integer id;

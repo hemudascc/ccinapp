@@ -2,12 +2,15 @@ package net.mycomp.kineticdigital;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
+import net.mycomp.common.inapp.InappAutomatedProcessRequest;
+
 import javax.persistence.Id;
 import javax.persistence.Column;
 
 @Entity
 @Table(name = "tb_kinatic_config")
-public class KinaticConfig {
+public class KinaticConfig  extends InappAutomatedProcessRequest {
 
 	@Id
 	private Integer id;
