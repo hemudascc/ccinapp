@@ -12,6 +12,7 @@ import net.mycomp.publisher.MaclatoInappPublisherService;
 import net.mycomp.publisher.MobilartsPublisherService;
 import net.mycomp.publisher.MplusInappPublisherService;
 import net.mycomp.publisher.SaintInappPublisherService;
+import net.mycomp.publisher.SarasMediaInappPublisherService;
 import net.mycomp.publisher.SmileDigitalInappPublisherService;
 import net.mycomp.publisher.TOEInappPublisherService;
 
@@ -74,6 +75,9 @@ public class InappPublisherService implements IInappPublisherService{
 	@Qualifier("gulftechInappPublisherService")
 	private GulftechInappPublisherService gulftechInappPublisherService;
 	
+	@Autowired
+	@Qualifier("sarasMediaInappPublisherService")
+	private SarasMediaInappPublisherService sarasMediaInappPublisherService;
 	
 private IInappPublisherService findProcessRequest(int adnetworkId){
 	
@@ -129,6 +133,10 @@ private IInappPublisherService findProcessRequest(int adnetworkId){
 		}
 		case InappConstant.INAPP_GULFTECH_ADNETWORK_ID:{
 			inappPublisherService=gulftechInappPublisherService;
+			break;
+		}
+		case InappConstant.INAPP_SARAS_MEDIA_ADNETWORK_ID:{
+			inappPublisherService=sarasMediaInappPublisherService;
 			break;
 		}
 		default:{
