@@ -7,10 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import net.mycomp.common.inapp.InappAutomatedProcessRequest;
+
 
 @Entity
 @Table(name = "tb_audiencenest_config")
-public class AudiencenestConfig{
+public class AudiencenestConfig extends InappAutomatedProcessRequest{
 
 	@Id
 	private Integer id;
