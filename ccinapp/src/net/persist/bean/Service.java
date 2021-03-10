@@ -1,6 +1,7 @@
 package net.persist.bean;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.Column;
@@ -10,6 +11,7 @@ import javax.persistence.Column;
 public class Service {
 	
 @Id
+@GeneratedValue
 @Column(name = "service_id")
 private Integer serviceId;
 @Column(name = "service_name")

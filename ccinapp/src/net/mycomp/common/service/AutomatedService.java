@@ -22,12 +22,15 @@ public interface AutomatedService {
 	 public Object findAllSerivce();
 	 public Object findAllOperator();
 	 public Object findAllCampaignDetails();
+	 public Object findAllAdnetwork();
+	 public Object findAllAdvertiser();
+	 public Object findAllServiceConfigs(); 
 	 public Object saveCampaignDetails(InappAutomatedProcessRequest inappAutomatedProcessRequest);
 	 public Object saveCountry(InappAutomatedProcessRequest inappAutomatedProcessRequest);
 	 public Object saveProduct(InappAutomatedProcessRequest inappAutomatedProcessRequest);
-	 public Object saveSerivce(InappAutomatedProcessRequest inappAutomatedProcessRequest);
+//	 public Object saveSerivce(InappAutomatedProcessRequest inappAutomatedProcessRequest);
 	 public Object saveOperator(InappAutomatedProcessRequest inappAutomatedProcessRequest);
-	 public Object saveAdnetworkOperatorConfig(InappAutomatedProcessRequest inappAutomatedProcessRequest);
+//	 public Object saveAdnetworkOperatorConfig(InappAutomatedProcessRequest inappAutomatedProcessRequest);
 	 public Object advertiserConfig(InappAutomatedProcessRequest inappAutomatedProcessRequest,ModelAndView modelAndView); 
-	 public Object saveTrafficRouting(InappAutomatedProcessRequest inappAutomatedProcessRequest);
+//	 public Object saveTrafficRouting(InappAutomatedProcessRequest inappAutomatedProcessRequest);
 }

@@ -7,6 +7,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Column;
 import javax.persistence.Transient;
@@ -30,10 +31,11 @@ public class Operator implements Serializable{
 	
 	@Id
 	@Column(name = "operator_id", unique = true, nullable = false)
+	@GeneratedValue
 	private Integer operatorId;
 	@Column(name = "operator_name")
 	private String operatorName;
-	
+	 
 	@Column(name = "aggregator_id")
 	private Integer aggregatorId;
 	@Column(name = "country_id")

@@ -14,6 +14,7 @@ public class InappAutomatedProcessRequest{
 	private Integer id;
 	private Integer serviceId;
 	private Integer productId;
+	private Integer  operatorId;
 	private String  operatorName;
 	private Integer campId;
 	private Boolean status;
@@ -32,6 +33,8 @@ public class InappAutomatedProcessRequest{
 	private String  operatorDetail;
 	private String  checkSubUrl;
 	private String  portalUrl2;
+	private String  requestStatus;
+	private int otpLength;
 
 	private CampaignDetails campaignDetails;
 	private Country country;
@@ -73,6 +76,14 @@ public class InappAutomatedProcessRequest{
 
 	public void setProductId(Integer productId) {
 		this.productId = productId;
+	}
+
+	public Integer getOperatorId() {
+		return operatorId;
+	}
+
+	public void setOperatorId(Integer operatorId) {
+		this.operatorId = operatorId;
 	}
 
 	public String getOperatorName() {
@@ -281,6 +292,22 @@ public class InappAutomatedProcessRequest{
 
 	public void setTrafficRouting(TrafficRouting trafficRouting) {
 		this.trafficRouting = trafficRouting;
+	}
+
+	public int getOtpLength() {
+		return otpLength;
+	}
+
+	public void setOtpLength(int otpLength) {
+		this.otpLength = otpLength;
+	}
+
+	public String getRequestStatus() {
+		return requestStatus;
+	}
+
+	public void setRequestStatus(String requestStatus) {
+		this.requestStatus = requestStatus;
 	}
 
 

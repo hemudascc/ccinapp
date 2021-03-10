@@ -1,6 +1,9 @@
 package net.mycomp.common.inapp;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
@@ -13,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import net.jpa.repository.JPACountry;
 import net.mycomp.common.service.AutomatedService;
+import net.util.JsonMapper;
 import net.util.MConstants;
 import net.dao.ICommonDao;
 
@@ -38,7 +42,7 @@ public class InappAutomatedController {
 	@ResponseBody
 	public Object getCountry(HttpServletRequest request, ModelAndView modelAndView) {
 
-		return automatedService.findAllCountry();
+		return automatedService.findAllCountry();  
 	}
 
 	@RequestMapping(value = { "addcountry" }, method = { RequestMethod.GET, RequestMethod.POST })
@@ -67,11 +71,18 @@ public class InappAutomatedController {
 	public Object addProduct(HttpServletRequest request, ModelAndView modelAndView) {
 		InappAutomatedProcessRequest inappautomatedprocessrequest = null;
 		Object res = null;
+		Map<String, Object> responseMap = new HashMap<String, Object>();
+		if(request.getParameter("productname") == null || request.getParameter("productname") == "") {
+			responseMap.put("message", "Product name cannot be null");
+			responseMap.put("status", false);
+			res = JsonMapper.getObjectToJson(responseMap);
+		}else {
 		try {
 			inappautomatedprocessrequest = inappRequestFactory.createAutomatedRequestBean(MConstants.PRODUCT,request);
 			res = automatedService.saveProduct(inappautomatedprocessrequest);
 		} catch (Exception ex) {
 			logger.error("addProduct:  " + ex);
+		}
 		}
 		return res;
 
@@ -89,11 +100,18 @@ public class InappAutomatedController {
 	public Object addOperators(HttpServletRequest request, ModelAndView modelAndView) {
 		InappAutomatedProcessRequest inappautomatedprocessrequest = null;
 		Object res = null;
+		Map<String, Object> responseMap = new HashMap<String, Object>();
+		if(request.getParameter("operatorname") == null || request.getParameter("operatorname") == "") {
+			responseMap.put("message", "Operator name cannot be null");
+			responseMap.put("status", false);
+			res = JsonMapper.getObjectToJson(responseMap);
+		}else {
 		try {
 			inappautomatedprocessrequest = inappRequestFactory.createAutomatedRequestBean(MConstants.OPERATOR,request);
 			res = automatedService.saveOperator(inappautomatedprocessrequest);
 		} catch (Exception ex) {
 			logger.error("addoperators:  " + ex);
+		}
 		}
 		return res;
 	}
@@ -105,19 +123,19 @@ public class InappAutomatedController {
 		return automatedService.findAllSerivce();
 	}
 
-	@RequestMapping(value = { "addservices" }, method = { RequestMethod.GET, RequestMethod.POST })
-	@ResponseBody
-	public Object addServices(HttpServletRequest request, ModelAndView modelAndView) {
-		InappAutomatedProcessRequest inappautomatedprocessrequest = null;
-		Object res = null;
-		try {
-			inappautomatedprocessrequest = inappRequestFactory.createAutomatedRequestBean(MConstants.SERVICE,request);
-			res = automatedService.saveSerivce(inappautomatedprocessrequest);
-		} catch (Exception ex) {
-			logger.error("addservices:  " + ex);
-		}
-		return res;
-	}
+//	@RequestMapping(value = { "addservices" }, method = { RequestMethod.GET, RequestMethod.POST })
+//	@ResponseBody
+//	public Object addServices(HttpServletRequest request, ModelAndView modelAndView) {
+//		InappAutomatedProcessRequest inappautomatedprocessrequest = null;
+//		Object res = null;
+//		try {
+//			inappautomatedprocessrequest = inappRequestFactory.createAutomatedRequestBean(MConstants.SERVICE,request);
+//			res = automatedService.saveSerivce(inappautomatedprocessrequest);
+//		} catch (Exception ex) {
+//			logger.error("addservices:  " + ex);
+//		}
+//		return res;
+//	}
 
 	@RequestMapping(value = { "getcampaign" }, method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody
@@ -140,19 +158,19 @@ public class InappAutomatedController {
 		return res;
 	}
 
-	@RequestMapping(value = { "addadnetworkoperatorconfig" }, method = { RequestMethod.GET, RequestMethod.POST })
-	@ResponseBody
-	public Object addadnetworkOperatorConfig(HttpServletRequest request, ModelAndView modelAndView) {
-		InappAutomatedProcessRequest inappautomatedprocessrequest = null;
-		Object res = null;
-		try {
-			inappautomatedprocessrequest = inappRequestFactory.createAutomatedRequestBean(MConstants.ADNETWORK_OPERATOR_CONFIG,request);
-			res = automatedService.saveAdnetworkOperatorConfig(inappautomatedprocessrequest);
-		} catch (Exception ex) {
-			logger.error("addadnetworkoperatorconfig:  " + ex);
-		}
-		return res;
-	}
+//	@RequestMapping(value = { "addadnetworkoperatorconfig" }, method = { RequestMethod.GET, RequestMethod.POST })
+//	@ResponseBody
+//	public Object addadnetworkOperatorConfig(HttpServletRequest request, ModelAndView modelAndView) {
+//		InappAutomatedProcessRequest inappautomatedprocessrequest = null;
+//		Object res = null;
+//		try {
+//			inappautomatedprocessrequest = inappRequestFactory.createAutomatedRequestBean(MConstants.ADNETWORK_OPERATOR_CONFIG,request);
+//			res = automatedService.saveAdnetworkOperatorConfig(inappautomatedprocessrequest);
+//		} catch (Exception ex) {
+//			logger.error("addadnetworkoperatorconfig:  " + ex);
+//		}
+//		return res;
+//	}
 
 	@RequestMapping(value = { "addadvertiserconfig" }, method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody
@@ -168,17 +186,38 @@ public class InappAutomatedController {
 		return res;
 	}
 
-	@RequestMapping(value = { "addtrafficrouting" }, method = { RequestMethod.GET, RequestMethod.POST })
+//	@RequestMapping(value = { "addtrafficrouting" }, method = { RequestMethod.GET, RequestMethod.POST })
+//	@ResponseBody
+//	public Object addTrafficRouting(HttpServletRequest request, ModelAndView modelAndView) {
+//		InappAutomatedProcessRequest inappautomatedprocessrequest = null;
+//		Object res = null;
+//		try {
+//			inappautomatedprocessrequest = inappRequestFactory.createAutomatedRequestBean(MConstants.TRAFFIC_ROUTING,request);
+//			res = automatedService.saveTrafficRouting(inappautomatedprocessrequest);
+//		} catch (Exception ex) {
+//			logger.error("TrafficRouting:  " + ex);
+//		}
+//		return res;
+//	}
+	
+	@RequestMapping(value = { "getadnetwork" }, method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody
-	public Object addTrafficRouting(HttpServletRequest request, ModelAndView modelAndView) {
-		InappAutomatedProcessRequest inappautomatedprocessrequest = null;
-		Object res = null;
-		try {
-			inappautomatedprocessrequest = inappRequestFactory.createAutomatedRequestBean(MConstants.TRAFFIC_ROUTING,request);
-			res = automatedService.saveTrafficRouting(inappautomatedprocessrequest);
-		} catch (Exception ex) {
-			logger.error("TrafficRouting:  " + ex);
-		}
-		return res;
+	public Object getAdnetwork(HttpServletRequest request, ModelAndView modelAndView) {
+		
+		return automatedService.findAllAdnetwork();
+	}
+	
+	@RequestMapping(value = { "getadvertiser" }, method = { RequestMethod.GET, RequestMethod.POST })
+	@ResponseBody
+	public Object getAdvertiser(HttpServletRequest request, ModelAndView modelAndView) {
+
+		return automatedService.findAllAdvertiser();  
+	}
+	
+	@RequestMapping(value = { "getserviceconfigs" }, method = { RequestMethod.GET, RequestMethod.POST })
+	@ResponseBody
+	public Object getServiceConfigs(HttpServletRequest request, ModelAndView modelAndView) {
+
+		return automatedService.findAllServiceConfigs();
 	}
 }

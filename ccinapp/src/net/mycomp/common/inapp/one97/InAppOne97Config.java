@@ -3,6 +3,7 @@ package net.mycomp.common.inapp.one97;
 import java.lang.reflect.Field;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Table;
 
 import net.mycomp.common.inapp.InappAutomatedProcessRequest;
@@ -15,6 +16,7 @@ import javax.persistence.Column;
 public class InAppOne97Config  extends InappAutomatedProcessRequest{
 
 	@Id
+	@GeneratedValue
 	private Integer id;
 	@Column(name = "service_id")
 	private Integer serviceId;
@@ -30,6 +32,8 @@ public class InAppOne97Config  extends InappAutomatedProcessRequest{
 	private Double amount;
 	@Column(name = "portal_url")
 	private String portalUrl;
+	@Column(name="operator_detail")
+	private String operatorDetail;
 	
 	private Boolean status;
 	
@@ -100,6 +104,14 @@ public String toString() {
 
 	public void setPortalUrl(String portalUrl) {
 		this.portalUrl = portalUrl;
+	}
+
+	public String getOperatorDetail() {
+		return operatorDetail;
+	}
+
+	public void setOperatorDetail(String operatorDetail) {
+		this.operatorDetail = operatorDetail;
 	}
 	
 	
