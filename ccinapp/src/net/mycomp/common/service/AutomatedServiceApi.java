@@ -39,7 +39,6 @@ import net.persist.bean.ServiceConfigTrans;
 import net.persist.bean.TrafficRouting;
 import net.util.JsonMapper;
 import net.util.MConstantAdvertiser;
-import net.util.MData;
 import net.util.MUtility;
 
 @Service("automatedServiceApi")
@@ -135,8 +134,6 @@ public class AutomatedServiceApi implements AutomatedService{
 		responseMap.put("status", false);
 		boolean isAdvertiserAdded = false;
 				try {
-//					List<Product> product MData.mapIdToProduct.get(inappAutomatedProcessRequest.getProductId());
-					
 					queryStr = "select e.* from tb_operators e where e.operator_id= :operatorId";
 					query = entityManager.createNativeQuery(queryStr, Operator.class);
 					query.setParameter("operatorId", inappAutomatedProcessRequest.getOperatorId());
@@ -149,17 +146,18 @@ public class AutomatedServiceApi implements AutomatedService{
 					query.setParameter("id", inappAutomatedProcessRequest.getProductId());
 					Product product = (Product)daoService.getSingleRecord(query);	  
 					logger.info("product: "+product);
-					Advertiser adveriser = MData.mapIdToAdvertiser.get(inappAutomatedProcessRequest.getAdvertiserId());
+					queryStr = "select e.* from tb_advertiser e where e.id=:id";
+					query = entityManager.createNativeQuery(queryStr, Advertiser.class);
+					query.setParameter("id", inappAutomatedProcessRequest.getProductId());
+					Advertiser adveriser = (Advertiser)daoService.getSingleRecord(query);	  
+					logger.info("product: "+product);
 					net.persist.bean.Service service = new net.persist.bean.Service();
-//					service.setServiceId(MUtility.toInt(request.getParameter("serviceid"), 0));
 					service.setServiceName(adveriser.getAdvertiserName()+"_"+inappAutomatedProcessRequest.getOperatorName()+"_"+product.getProductName());
 					service.setServiceDesc(adveriser.getAdvertiserName()+"_"+inappAutomatedProcessRequest.getOperatorName()+"_"+product.getProductName());
 					service.setOpId(inappAutomatedProcessRequest.getOperatorId());
 					service.setAdvertiserId(inappAutomatedProcessRequest.getAdvertiserId());
 					service.setProductId(inappAutomatedProcessRequest.getProductId()); 
 					service.setOtpLength(inappAutomatedProcessRequest.getOtpLength());
-//					service.setValidity(0);
-//					service.setPricePoint(MUtility.toInt(request.getParameter("pricepoint"), 0));
 					service.setStatus(true);			
 					inappAutomatedProcessRequest.setService(service);	
 					boolean isServiceAdded = saveSerivce(inappAutomatedProcessRequest);
@@ -417,13 +415,6 @@ public class AutomatedServiceApi implements AutomatedService{
 						saveAdnetworkOperatorConfig(inappAutomatedProcessRequest);
 						responseMap.put("message", "Campaign Details added Successfully");
 						responseMap.put("status", true);
-//						if(adNetworkOpConfig){
-//							responseMap.put("message", "Campaign Details added Successfully");
-//							responseMap.put("status", true);
-//						}else {
-//							responseMap.put("message", "Error in adding adnetwork operator config");
-//							responseMap.put("status", false);
-//						}
 					}else {
 						responseMap.put("message", "Error in adding traffic routing");
 						responseMap.put("status", false);
@@ -516,10 +507,6 @@ public class AutomatedServiceApi implements AutomatedService{
 			Boolean isAlreadyExist = daoService.checkExistingRecord(query);
 			logger.info(" isAlreadyExist Service : "+isAlreadyExist);
 			return (isAlreadyExist)?false: daoService.saveObject(inappAutomatedProcessRequest.getService());
-//			{	
-//			} else {
-//				daoService.saveObject(inappAutomatedProcessRequest.getService());
-//			}
 		}catch (Exception e) {
 			logger.error("ex: " + e);
 		}
@@ -567,11 +554,6 @@ public class AutomatedServiceApi implements AutomatedService{
 			Boolean isAlreadyExist = daoService.checkExistingRecord(query);
 			logger.info(" isAlreadyExist AdnetworkOperatorConfig : "+isAlreadyExist);
 			return (isAlreadyExist)?false:daoService.saveObject(inappAutomatedProcessRequest.getAdnetworkOperatorConfig());
-//			{
-//			} else {
-//				daoService.saveObject(inappAutomatedProcessRequest.getAdnetworkOperatorConfig());
-//			}
-
 		}catch (Exception e) {
 			logger.error("ex: " + e);
 		}

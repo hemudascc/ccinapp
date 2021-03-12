@@ -85,7 +85,6 @@ public class InappRequestFactory {
 		}
 		case MConstants.PRODUCT: {
 			Product product = new Product();
-//			product.setId(MUtility.toInt(request.getParameter("id"), 0));
 			product.setProductName(request.getParameter("productname").trim());
 			product.setStatus(true);
 			automatedProcessRequest.setProduct(product);  
@@ -108,37 +107,13 @@ public class InappRequestFactory {
 		}
 		case MConstants.OPERATOR: {
 			Operator operator = new Operator();
-//			operator.setOperatorId(MUtility.toInt(request.getParameter("operatorid"), 0));
 			operator.setOperatorName(request.getParameter("operatorname").trim());
 			operator.setCountryId(1);
 			operator.setStatus(true);
 			operator.setAggregatorId(14); 
 			automatedProcessRequest.setOperator(operator);
 			break;
-		}  
-//		case MConstants.ADNETWORK_OPERATOR_CONFIG: {  
-//			AdnetworkOperatorConfig adnetworkOperatorConfig = new AdnetworkOperatorConfig();
-//			adnetworkOperatorConfig.setAdnetworkOperatorConfigId(MUtility.toInt(request.getParameter("adnetworkoperatorconfigid"), 0));
-//			adnetworkOperatorConfig.setAdNetworkId(MUtility.toInt(request.getParameter("adnetworkid"), 0));
-//			adnetworkOperatorConfig.setOperatorId(MUtility.toInt(request.getParameter("operatorid"), 0));
-//			adnetworkOperatorConfig.setSkipNumber(MUtility.toInt(request.getParameter("skipnumber"), 0));
-//			adnetworkOperatorConfig.setStatus(MUtility.toBoolean(request.getParameter("status"), true));
-//			adnetworkOperatorConfig.setOpCpaValue(MUtility.toDouble(request.getParameter("opcpavalue"), 0));
-//			adnetworkOperatorConfig.setDuplicateBlockStatus(Boolean.parseBoolean(request.getParameter("duplicateblockstatus")));
-//			adnetworkOperatorConfig.setAdBlockStatus(MUtility.toBoolean(request.getParameter("adblockstatus"), true));
-//			automatedProcessRequest.setAdnetworkOperatorConfig(adnetworkOperatorConfig);
-//			break;
-//		}
-//		case MConstants.TRAFFIC_ROUTING: {
-//			TrafficRouting trafficRouting = new TrafficRouting();
-////			trafficRouting.setTrafiicRoutingId(MUtility.toInt(request.getParameter("trafficroutingid"), 0));
-//			trafficRouting.setCampaignId(MUtility.toInt(request.getParameter("campaignid"), 0));
-//			trafficRouting.setServiceId(MUtility.toInt(request.getParameter("serviceid"), 0));
-//			trafficRouting.setPercentageOfTraffic(MUtility.toInt(request.getParameter("percentageoftraffic"), 0));
-//			trafficRouting.setTrafiicRoutingStatus(MUtility.toBoolean(request.getParameter("trafiicroutingstatus"), true));
-//			automatedProcessRequest.setTrafficRouting(trafficRouting);
-//			break;
-//		}
+		} 
 		case MConstants.ADVERTISER: {
 			automatedProcessRequest.setAdvertiserId(MUtility.toInt(request.getParameter("advertiserid").trim(), 0));
 			automatedProcessRequest.setProductId(MUtility.toInt(request.getParameter("productid").trim(), 0));
@@ -169,13 +144,6 @@ public class InappRequestFactory {
 			automatedProcessRequest.setCheckSubUrl(automatedProcessRequest.getStatusCheckUrl());
 			automatedProcessRequest.setPortalUrl2(automatedProcessRequest.getPortalUrl());
 			logger.info("query String : "+request.getQueryString());
-//			Operator operator = MData.mapIdToOperator.get(automatedProcessRequest.getOperatorId());
-//			logger.info("operator Name: "+operator.getOperatorName());    
-//			automatedProcessRequest.setOperatorName(operator.getOperatorName());
-//			automatedProcessRequest.setOperatorDetail(operator.getOperatorName());  
-//			automatedProcessRequest.setId(MUtility.toInt(request.getParameter("id"), 0));
-//			automatedProcessRequest.setServiceId(MUtility.toInt(request.getParameter("serviceid"), 0));
-//			automatedProcessRequest.setCampId(null);
 			break;
 			}
 		}
