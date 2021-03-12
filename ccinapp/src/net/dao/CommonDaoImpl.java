@@ -336,7 +336,7 @@ Map<String, Object> parameters = new HashMap<String, Object>();
 	public List<Object> getDataList(Query query) {
 		return query.getResultList();
 	} 
-	
+	  
 	@Transactional
 	@Override
 	public boolean checkExistingRecord(Query query) {
@@ -347,6 +347,18 @@ Map<String, Object> parameters = new HashMap<String, Object>();
 			logger.error("existing config error : "+e);
 		}
 	    return ( ( existingRecord == null ) ? false : true );  
+		
+	}  
+	
+	@Override
+	public Object getSingleRecord(Query query) {
+		Object record = null;
+		try {
+			record =  query.getSingleResult();
+		}catch(NoResultException e) {
+			logger.error("single record error : "+e);
+		}
+	    return record;  
 		
 	}  
 

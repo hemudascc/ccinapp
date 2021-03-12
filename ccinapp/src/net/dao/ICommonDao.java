@@ -34,6 +34,7 @@ public interface ICommonDao {
 	 public List<VWAdnetworkOperatorConfig> findAllAdnConfig();
 	 public List<VWCampaignDetail> findEnableVWServiceCampaignDetail();
 	 public List<Object> getDataList(Query query);	
-	 public boolean checkExistingRecord(Query query);		
+	 public boolean checkExistingRecord(Query query);	
+	 public Object getSingleRecord(Query query);
 	 
 }

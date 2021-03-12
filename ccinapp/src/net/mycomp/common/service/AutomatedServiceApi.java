@@ -135,7 +135,20 @@ public class AutomatedServiceApi implements AutomatedService{
 		responseMap.put("status", false);
 		boolean isAdvertiserAdded = false;
 				try {
-					Product product = MData.mapIdToProduct.get(inappAutomatedProcessRequest.getProductId());
+//					List<Product> product MData.mapIdToProduct.get(inappAutomatedProcessRequest.getProductId());
+					
+					queryStr = "select e.* from tb_operators e where e.operator_id= :operatorId";
+					query = entityManager.createNativeQuery(queryStr, Operator.class);
+					query.setParameter("operatorId", inappAutomatedProcessRequest.getOperatorId());
+					Operator operator = (Operator)daoService.getSingleRecord(query);
+					logger.info("operator: "+operator);
+					inappAutomatedProcessRequest.setOperatorDetail(operator.getOperatorName());
+					inappAutomatedProcessRequest.setOperatorName(operator.getOperatorName());
+					queryStr = "select e.* from tb_product e where e.id=:id";
+					query = entityManager.createNativeQuery(queryStr, Product.class);
+					query.setParameter("id", inappAutomatedProcessRequest.getProductId());
+					Product product = (Product)daoService.getSingleRecord(query);	  
+					logger.info("product: "+product);
 					Advertiser adveriser = MData.mapIdToAdvertiser.get(inappAutomatedProcessRequest.getAdvertiserId());
 					net.persist.bean.Service service = new net.persist.bean.Service();
 //					service.setServiceId(MUtility.toInt(request.getParameter("serviceid"), 0));

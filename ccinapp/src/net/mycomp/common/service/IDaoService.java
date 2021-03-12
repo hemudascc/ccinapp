@@ -41,4 +41,5 @@ public interface IDaoService {
 
 	public List<Object> getDataList(Query query);
 	public boolean checkExistingRecord(Query query);
+	public Object getSingleRecord(Query query);
 }

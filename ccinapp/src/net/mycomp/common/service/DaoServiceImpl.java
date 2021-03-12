@@ -209,6 +209,14 @@ public class DaoServiceImpl implements IDaoService {
 		return false;
 	} 
 
-
+	@Override
+	public Object getSingleRecord(Query query) {
+		try {
+		return commonDao.getSingleRecord(query);
+		}catch(Exception ex) {
+			logger.info("Error in getSingleRecord");
+		}
+		return null;
+	}
 	
 }

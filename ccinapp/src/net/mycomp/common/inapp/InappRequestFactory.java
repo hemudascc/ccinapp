@@ -168,10 +168,11 @@ public class InappRequestFactory {
 			automatedProcessRequest.setPinVerificationUrl(automatedProcessRequest.getPinValidationUrl());
 			automatedProcessRequest.setCheckSubUrl(automatedProcessRequest.getStatusCheckUrl());
 			automatedProcessRequest.setPortalUrl2(automatedProcessRequest.getPortalUrl());
-			Operator operator = MData.mapIdToOperator.get(automatedProcessRequest.getOperatorId());
-			logger.info("operator Name: "+operator.getOperatorName());    
-			automatedProcessRequest.setOperatorName(operator.getOperatorName());
-//			automatedProcessRequest.setOperatorDetail(operator.getOperatorName());
+			logger.info("query String : "+request.getQueryString());
+//			Operator operator = MData.mapIdToOperator.get(automatedProcessRequest.getOperatorId());
+//			logger.info("operator Name: "+operator.getOperatorName());    
+//			automatedProcessRequest.setOperatorName(operator.getOperatorName());
+//			automatedProcessRequest.setOperatorDetail(operator.getOperatorName());  
 //			automatedProcessRequest.setId(MUtility.toInt(request.getParameter("id"), 0));
 //			automatedProcessRequest.setServiceId(MUtility.toInt(request.getParameter("serviceid"), 0));
 //			automatedProcessRequest.setCampId(null);
