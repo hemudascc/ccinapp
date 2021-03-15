@@ -8,7 +8,6 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,7 +38,6 @@ import net.persist.bean.ServiceConfigTrans;
 import net.persist.bean.TrafficRouting;
 import net.util.JsonMapper;
 import net.util.MConstantAdvertiser;
-import net.util.MUtility;
 
 @Service("automatedServiceApi")
 public class AutomatedServiceApi implements AutomatedService{
@@ -148,9 +146,9 @@ public class AutomatedServiceApi implements AutomatedService{
 					logger.info("product: "+product);
 					queryStr = "select e.* from tb_advertiser e where e.id=:id";
 					query = entityManager.createNativeQuery(queryStr, Advertiser.class);
-					query.setParameter("id", inappAutomatedProcessRequest.getProductId());
+					query.setParameter("id", inappAutomatedProcessRequest.getAdvertiserId());
 					Advertiser adveriser = (Advertiser)daoService.getSingleRecord(query);	  
-					logger.info("product: "+product);
+					logger.info("adveriser: "+adveriser);
 					net.persist.bean.Service service = new net.persist.bean.Service();
 					service.setServiceName(adveriser.getAdvertiserName()+"_"+inappAutomatedProcessRequest.getOperatorName()+"_"+product.getProductName());
 					service.setServiceDesc(adveriser.getAdvertiserName()+"_"+inappAutomatedProcessRequest.getOperatorName()+"_"+product.getProductName());
@@ -413,7 +411,7 @@ public class AutomatedServiceApi implements AutomatedService{
 						adnetworkOperatorConfig.setAdBlockStatus(false);
 						inappAutomatedProcessRequest.setAdnetworkOperatorConfig(adnetworkOperatorConfig);
 						saveAdnetworkOperatorConfig(inappAutomatedProcessRequest);
-						responseMap.put("message", "Campaign Details added Successfully");
+						responseMap.put("message", inappAutomatedProcessRequest.getCampaignDetails().getCampaignId()+" Campaign Details added Successfully");
 						responseMap.put("status", true);
 					}else {
 						responseMap.put("message", "Error in adding traffic routing");

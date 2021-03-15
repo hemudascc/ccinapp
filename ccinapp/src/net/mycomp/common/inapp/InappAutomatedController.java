@@ -123,20 +123,6 @@ public class InappAutomatedController {
 		return automatedService.findAllSerivce();
 	}
 
-//	@RequestMapping(value = { "addservices" }, method = { RequestMethod.GET, RequestMethod.POST })
-//	@ResponseBody
-//	public Object addServices(HttpServletRequest request, ModelAndView modelAndView) {
-//		InappAutomatedProcessRequest inappautomatedprocessrequest = null;
-//		Object res = null;
-//		try {
-//			inappautomatedprocessrequest = inappRequestFactory.createAutomatedRequestBean(MConstants.SERVICE,request);
-//			res = automatedService.saveSerivce(inappautomatedprocessrequest);
-//		} catch (Exception ex) {
-//			logger.error("addservices:  " + ex);
-//		}
-//		return res;
-//	}
-
 	@RequestMapping(value = { "getcampaign" }, method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody
 	public Object getCampaign(HttpServletRequest request, ModelAndView modelAndView) {
@@ -158,19 +144,6 @@ public class InappAutomatedController {
 		return res;
 	}
 
-//	@RequestMapping(value = { "addadnetworkoperatorconfig" }, method = { RequestMethod.GET, RequestMethod.POST })
-//	@ResponseBody
-//	public Object addadnetworkOperatorConfig(HttpServletRequest request, ModelAndView modelAndView) {
-//		InappAutomatedProcessRequest inappautomatedprocessrequest = null;
-//		Object res = null;
-//		try {
-//			inappautomatedprocessrequest = inappRequestFactory.createAutomatedRequestBean(MConstants.ADNETWORK_OPERATOR_CONFIG,request);
-//			res = automatedService.saveAdnetworkOperatorConfig(inappautomatedprocessrequest);
-//		} catch (Exception ex) {
-//			logger.error("addadnetworkoperatorconfig:  " + ex);
-//		}
-//		return res;
-//	}
 
 	@RequestMapping(value = { "addadvertiserconfig" }, method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody
@@ -186,19 +159,6 @@ public class InappAutomatedController {
 		return res;
 	}
 
-//	@RequestMapping(value = { "addtrafficrouting" }, method = { RequestMethod.GET, RequestMethod.POST })
-//	@ResponseBody
-//	public Object addTrafficRouting(HttpServletRequest request, ModelAndView modelAndView) {
-//		InappAutomatedProcessRequest inappautomatedprocessrequest = null;
-//		Object res = null;
-//		try {
-//			inappautomatedprocessrequest = inappRequestFactory.createAutomatedRequestBean(MConstants.TRAFFIC_ROUTING,request);
-//			res = automatedService.saveTrafficRouting(inappautomatedprocessrequest);
-//		} catch (Exception ex) {
-//			logger.error("TrafficRouting:  " + ex);
-//		}
-//		return res;
-//	}
 	
 	@RequestMapping(value = { "getadnetwork" }, method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody

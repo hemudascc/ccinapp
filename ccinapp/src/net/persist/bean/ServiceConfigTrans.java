@@ -107,8 +107,7 @@ public class ServiceConfigTrans {
 	public void setDcturl(String dcturl) {
 		this.dcturl = dcturl;
 	}
-	
-	public String isRequestStatus() {
+	public String getRequestStatus() {
 		return requestStatus;
 	}
 	public void setRequestStatus(String requestStatus) {
