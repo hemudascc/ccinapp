@@ -1,6 +1,7 @@
 package net.mycomp.advertiser.vaca;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Table;
 
 import net.mycomp.common.inapp.InappAutomatedProcessRequest;
@@ -13,6 +14,7 @@ import javax.persistence.Column;
 public class VacaConfig  extends InappAutomatedProcessRequest{
 
 	@Id
+	@GeneratedValue
 	private Integer id;
 	@Column(name = "service_id")
 	private Integer serviceId;

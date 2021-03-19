@@ -21,6 +21,7 @@ public class AdnetworkOperatorConfig  {
 	
 	@Id
 	@Column(name="adnetwork_operator_config_id", unique = true, nullable = false)
+	@GeneratedValue
 	private Integer adnetworkOperatorConfigId;
 
 	

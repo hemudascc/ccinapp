@@ -1,5 +1,6 @@
 package net.mycomp.common.service;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,14 +28,19 @@ import net.mycomp.inapp.skmobi.SkmobiConfig;
 import net.mycomp.kineticdigital.KinaticConfig;
 import net.mycomp.shemaroo.ShemarooConfig;
 import net.persist.bean.AdnetworkOperatorConfig;
+import net.persist.bean.Adnetworks;
+import net.persist.bean.Advertiser;
 import net.persist.bean.Aggregator;
 import net.persist.bean.CampaignDetails;
 import net.persist.bean.Country;
 import net.persist.bean.Operator;
 import net.persist.bean.Product;
+import net.persist.bean.ServiceConfigTrans;
 import net.persist.bean.TrafficRouting;
 import net.util.JsonMapper;
 import net.util.MConstantAdvertiser;
+import net.util.MData;
+import net.util.MUtility;
 
 @Service("automatedServiceApi")
 public class AutomatedServiceApi implements AutomatedService{
@@ -120,36 +126,56 @@ public class AutomatedServiceApi implements AutomatedService{
 	}
 
 	@Override
+	@Transactional
 	public Object advertiserConfig(InappAutomatedProcessRequest inappAutomatedProcessRequest,
 			ModelAndView modelAndView) {
-    		InappAutomatedProcessRequest inprocessConfig = findAdvertiserConfig(inappAutomatedProcessRequest);
-			Map<String, String> responseMap = new HashMap<String, String>();
-			responseMap.put("statusCode", "500");
-			responseMap.put("message", "InAppRaoneConfig not added");
-			responseMap.put("status", "Fail");
-			inprocessConfig.setId(inappAutomatedProcessRequest.getId());
-			inprocessConfig.setServiceId(inappAutomatedProcessRequest.getServiceId());
-			inprocessConfig.setOperatorName(inappAutomatedProcessRequest.getOperatorName());
-			inprocessConfig.setPinGenerationUrl(inappAutomatedProcessRequest.getPinGenerationUrl());
-			inprocessConfig.setPinVerificationUrl(inappAutomatedProcessRequest.getPinVerificationUrl());
-			inprocessConfig.setStatusCheckUrl(inappAutomatedProcessRequest.getStatusCheckUrl());
-			inprocessConfig.setPortalUrl(inappAutomatedProcessRequest.getPortalUrl());
-			inprocessConfig.setStatus(inappAutomatedProcessRequest.getStatus());
-			inprocessConfig.setAmount(inappAutomatedProcessRequest.getAmount());
-			inprocessConfig.setAuthorization(inappAutomatedProcessRequest.getAuthorization());
-			inprocessConfig.setCampId(inappAutomatedProcessRequest.getCampId());
-			inprocessConfig.setCheckSubUrl(inappAutomatedProcessRequest.getCheckSubUrl());
-			inprocessConfig.setDctUrl(inappAutomatedProcessRequest.getDctUrl());
-			inprocessConfig.setOperatorDetail(inappAutomatedProcessRequest.getOperatorDetail());
-			inprocessConfig.setPinSendUrl(inappAutomatedProcessRequest.getPinSendUrl());
-			inprocessConfig.setPinValidationUrl(inappAutomatedProcessRequest.getPinValidationUrl());
-			inprocessConfig.setPortalUrl2(inappAutomatedProcessRequest.getPortalUrl2());
-			inprocessConfig.setPricePoint(inappAutomatedProcessRequest.getPricePoint());
-			inprocessConfig.setProductId(inappAutomatedProcessRequest.getProductId());
-			inprocessConfig.setResendPinUrl(inappAutomatedProcessRequest.getResendPinUrl());
-			inprocessConfig.setValidity(inappAutomatedProcessRequest.getValidity());
-			logger.info("inprocessObject: "+inprocessConfig.getClass().getName());
+		InappAutomatedProcessRequest inprocessConfig = null;
+		Map<String, Object> responseMap = new HashMap<String, Object>();
+		responseMap.put("message", "Service not added");
+		responseMap.put("status", false);
+		boolean isAdvertiserAdded = false;
 				try {
+					Product product = MData.mapIdToProduct.get(inappAutomatedProcessRequest.getProductId());
+					Advertiser adveriser = MData.mapIdToAdvertiser.get(inappAutomatedProcessRequest.getAdvertiserId());
+					net.persist.bean.Service service = new net.persist.bean.Service();
+//					service.setServiceId(MUtility.toInt(request.getParameter("serviceid"), 0));
+					service.setServiceName(adveriser.getAdvertiserName()+"_"+inappAutomatedProcessRequest.getOperatorName()+"_"+product.getProductName());
+					service.setServiceDesc(adveriser.getAdvertiserName()+"_"+inappAutomatedProcessRequest.getOperatorName()+"_"+product.getProductName());
+					service.setOpId(inappAutomatedProcessRequest.getOperatorId());
+					service.setAdvertiserId(inappAutomatedProcessRequest.getAdvertiserId());
+					service.setProductId(inappAutomatedProcessRequest.getProductId()); 
+					service.setOtpLength(inappAutomatedProcessRequest.getOtpLength());
+//					service.setValidity(0);
+//					service.setPricePoint(MUtility.toInt(request.getParameter("pricepoint"), 0));
+					service.setStatus(true);			
+					inappAutomatedProcessRequest.setService(service);	
+					boolean isServiceAdded = saveSerivce(inappAutomatedProcessRequest);
+					if(isServiceAdded) {
+					inappAutomatedProcessRequest.setRequestStatus("Data added in Service Table");
+					inappAutomatedProcessRequest.setServiceId(service.getServiceId());	
+		    		inprocessConfig = findAdvertiserConfig(inappAutomatedProcessRequest);
+					inprocessConfig.setId(inappAutomatedProcessRequest.getId());
+					inprocessConfig.setServiceId(inappAutomatedProcessRequest.getServiceId());
+					inprocessConfig.setOperatorName(inappAutomatedProcessRequest.getOperatorName());
+					inprocessConfig.setPinGenerationUrl(inappAutomatedProcessRequest.getPinGenerationUrl());
+					inprocessConfig.setPinVerificationUrl(inappAutomatedProcessRequest.getPinVerificationUrl());
+					inprocessConfig.setStatusCheckUrl(inappAutomatedProcessRequest.getStatusCheckUrl());
+					inprocessConfig.setPortalUrl(inappAutomatedProcessRequest.getPortalUrl());
+					inprocessConfig.setStatus(inappAutomatedProcessRequest.getStatus());
+					inprocessConfig.setAmount(inappAutomatedProcessRequest.getAmount());
+					inprocessConfig.setAuthorization(inappAutomatedProcessRequest.getAuthorization());
+					inprocessConfig.setCampId(inappAutomatedProcessRequest.getCampId());
+					inprocessConfig.setCheckSubUrl(inappAutomatedProcessRequest.getCheckSubUrl());
+					inprocessConfig.setDctUrl(inappAutomatedProcessRequest.getDctUrl());
+					inprocessConfig.setOperatorDetail(inappAutomatedProcessRequest.getOperatorName());
+					inprocessConfig.setPinSendUrl(inappAutomatedProcessRequest.getPinSendUrl());
+					inprocessConfig.setPinValidationUrl(inappAutomatedProcessRequest.getPinValidationUrl());
+					inprocessConfig.setPortalUrl2(inappAutomatedProcessRequest.getPortalUrl2());
+					inprocessConfig.setPricePoint(inappAutomatedProcessRequest.getPricePoint());
+					inprocessConfig.setProductId(inappAutomatedProcessRequest.getProductId());
+					inprocessConfig.setResendPinUrl(inappAutomatedProcessRequest.getResendPinUrl());
+					inprocessConfig.setValidity(inappAutomatedProcessRequest.getValidity());
+					logger.info("inprocessObject: "+inprocessConfig.getClass().getSimpleName());
 					queryStr = "select e.* from "+table+" e where e.service_id = :serviceId";
 					logger.info("quer: "+queryStr);
 					query = entityManager.createNativeQuery(queryStr, inprocessConfig.getClass());
@@ -157,20 +183,31 @@ public class AutomatedServiceApi implements AutomatedService{
 					Boolean isAlreadyExist = daoService.checkExistingRecord(query);
 					logger.info(" isAlreadyExist : "+isAlreadyExist);
 					if(isAlreadyExist) {  
-						responseMap.put("statusCode", "200");  
-						responseMap.put("message", inprocessConfig.getClass().getName()+" already exist");
-						responseMap.put("status", "Success");
+						inappAutomatedProcessRequest.setRequestStatus(inprocessConfig.getClass().getSimpleName()+" already exist");
+						responseMap.put("message", inprocessConfig.getClass().getSimpleName()+" already exist");
+						responseMap.put("status", false);
 					}else {
-						daoService.saveObject(inprocessConfig);
-						responseMap.put("statusCode", "200");
-						responseMap.put("message", inprocessConfig.getClass().getName()+" added successfully");
-						responseMap.put("status", "Success");
+
+						isAdvertiserAdded = daoService.saveObject(inprocessConfig);
+						if(isAdvertiserAdded) {
+							inappAutomatedProcessRequest.setRequestStatus(inprocessConfig.getClass().getSimpleName()+" added successfully");
+						}else {
+							inappAutomatedProcessRequest.setRequestStatus("Not added in "+inprocessConfig.getClass().getSimpleName());
+						}
+						responseMap.put("message", inprocessConfig.getClass().getSimpleName()+" added successfully");
+						responseMap.put("status", true);
 					}
+					saveServiceConfigTrans(inappAutomatedProcessRequest);
+					}else {
+						inappAutomatedProcessRequest.setRequestStatus("Service already exist");
+						saveServiceConfigTrans(inappAutomatedProcessRequest);
+					}
+	
+					  
 				} catch (Exception e) {
-					logger.error("ex: " + e);
-					responseMap.put("statusCode", "500");
-					responseMap.put("message", inprocessConfig.getClass().getName()+" error"+e);
-					responseMap.put("status", "Fail");
+					logger.error("ex: " + e);  
+					responseMap.put("message", inprocessConfig.getClass().getSimpleName()+" error"+e);
+					responseMap.put("status", false);
 					}
 			return JsonMapper.getObjectToJson(responseMap);
 }
@@ -179,21 +216,22 @@ public class AutomatedServiceApi implements AutomatedService{
 
 	@Override
 	public Object findAllCountry() {
-		Map<String, String> responseMap = new HashMap<String, String>();
+		Map<String, Object> responseMap = new HashMap<String, Object>();
 		List<Object> countryList = null;
-		responseMap.put("statusCode", "500");
 		responseMap.put("message", "Country Not Found");
-		responseMap.put("status", "Fail");
+		responseMap.put("status", false);
 		try {
 			queryStr = "select e.* from tb_country e";
 			query = entityManager.createNativeQuery(queryStr, Country.class);
 			countryList = daoService.getDataList(query);
-			responseMap.put("statusCode", "200");
+			if(countryList.size()>0) {
 			responseMap.put("message", "Country List");
-			responseMap.put("status", "Success");
-			responseMap.put("countryList", JsonMapper.getObjectToJson(countryList));
+			responseMap.put("status", true);
+			responseMap.put("countryList", countryList);
+			}
 		} catch (Exception e) {
 			logger.error("ex: " + e);
+			responseMap.put("status", false);
 			responseMap.put("message", "" + e);
 			return JsonMapper.getObjectToJson(responseMap);
 		}
@@ -202,21 +240,22 @@ public class AutomatedServiceApi implements AutomatedService{
 
 	@Override
 	public Object findAllProduct() {
-		Map<String, String> responseMap = new HashMap<String, String>();
+		Map<String, Object> responseMap = new HashMap<String, Object>();
 		List<Object> productList = null;
-		responseMap.put("statusCode", "500");
 		responseMap.put("message", "Product Not Found");
-		responseMap.put("status", "Fail");
+		responseMap.put("status", false);
 		try {
 			queryStr = "select e.* from tb_product e";
 			query = entityManager.createNativeQuery(queryStr, Product.class);
 			productList = daoService.getDataList(query);
-			responseMap.put("statusCode", "200");
+			if(productList.size()>0) {
 			responseMap.put("message", "Product List");
-			responseMap.put("status", "Success");
-			responseMap.put("productList", "" + JsonMapper.getObjectToJson(productList));
-		} catch (Exception e) {
-			logger.error("ex: " + e);
+			responseMap.put("status", false);
+			responseMap.put("productList", productList);
+			}
+		} catch (Exception e) { 
+			logger.error("ex: " + e);  
+			responseMap.put("status", false);
 			responseMap.put("message", "" + e);
 			return JsonMapper.getObjectToJson(responseMap);
 		}
@@ -226,21 +265,22 @@ public class AutomatedServiceApi implements AutomatedService{
 
 	@Override
 	public Object findAllAggregator() {
-		Map<String, String> responseMap = new HashMap<String, String>();
+		Map<String, Object> responseMap = new HashMap<String, Object>();
 		List<Object> aggregatorList = null;
-		responseMap.put("statusCode", "500");
 		responseMap.put("message", "Aggregator not found");
-		responseMap.put("status", "Fail");
+		responseMap.put("status", false);
 		try {
 			queryStr = "select e.* from tb_aggregator e";
 			query = entityManager.createNativeQuery(queryStr, Aggregator.class);
 			aggregatorList = daoService.getDataList(query);
-			responseMap.put("statusCode", "500");
+			if(aggregatorList.size()>0) {
 			responseMap.put("message", "Aggregator List");
-			responseMap.put("status", "Fail");
-			responseMap.put("aggregatorList", "" + JsonMapper.getObjectToJson(aggregatorList));
+			responseMap.put("status", true);
+			responseMap.put("aggregatorList", aggregatorList);
+			}
 		} catch (Exception e) {
 			logger.error("ex: " + e);
+			responseMap.put("status", false);
 			responseMap.put("message", "" + e);
 			return JsonMapper.getObjectToJson(responseMap);
 		}
@@ -250,22 +290,23 @@ public class AutomatedServiceApi implements AutomatedService{
 
 	@Override
 	public Object findAllOperator() {
-		Map<String, String> responseMap = new HashMap<String, String>();
+		Map<String, Object> responseMap = new HashMap<String, Object>();
 		List<Object> operatorList = null;
-		responseMap.put("statusCode", "500");
 		responseMap.put("message", "operator not found");
-		responseMap.put("status", "Fail");
+		responseMap.put("status", false);
 		try {
 			queryStr = "select e.* from tb_operators e";
 			query = entityManager.createNativeQuery(queryStr, Operator.class);
 			operatorList= daoService.getDataList(query);
-			responseMap.put("statusCode", "200");
-			responseMap.put("message", "operatorList List");
-			responseMap.put("status", "Success");
-			responseMap.put("operatorList", "" + JsonMapper.getObjectToJson(operatorList));
+			if(operatorList.size()>0) {
+			responseMap.put("message", "Operator List");
+			responseMap.put("status", true);
+			responseMap.put("operatorList",operatorList);
+			}
 		} catch (Exception e) {
 			logger.error("ex: " + e);
 			responseMap.put("message", "" + e);
+			responseMap.put("status", false);
 			return JsonMapper.getObjectToJson(responseMap);
 		}
 		return JsonMapper.getObjectToJson(responseMap);
@@ -273,22 +314,23 @@ public class AutomatedServiceApi implements AutomatedService{
 	
 	@Override
 	public Object findAllSerivce() {
-		Map<String, String> responseMap = new HashMap<String, String>();
+		Map<String, Object> responseMap = new HashMap<String, Object>();
 		List<Object> serivceList = null;
-		responseMap.put("statusCode", "500");
 		responseMap.put("message", "Service not found");
-		responseMap.put("status", "Fail");
+		responseMap.put("status", false);
 		try {
 			queryStr = "select e.* from tb_service e";
 			query = entityManager.createNativeQuery(queryStr, net.persist.bean.Service.class);
 			serivceList = daoService.getDataList(query);
-			responseMap.put("statusCode", "200");
+			if(serivceList.size()>0) {
 			responseMap.put("message", "Service List");
-			responseMap.put("status", "Success");
-			responseMap.put("serivceList", "" + JsonMapper.getObjectToJson(serivceList));
+			responseMap.put("status", true);
+			responseMap.put("serivceList",serivceList);
+			}
 		} catch (Exception e) {
 			logger.error("ex: " + e);
 			responseMap.put("message", "" + e);
+			responseMap.put("status", false);
 			return JsonMapper.getObjectToJson(responseMap);
 		}
 		return JsonMapper.getObjectToJson(responseMap);
@@ -297,22 +339,23 @@ public class AutomatedServiceApi implements AutomatedService{
 
 	@Override
 	public Object findAllCampaignDetails() {
-		Map<String, String> responseMap = new HashMap<String, String>();
+		Map<String, Object> responseMap = new HashMap<String, Object>();
 		List<Object> campaignDetails = null;
-		responseMap.put("statusCode", "500");
-		responseMap.put("message", "CampaignDetails not fond");
-		responseMap.put("status", "Fail");
+		responseMap.put("message", "Campaign not fond");
+		responseMap.put("status", false);
 		try {
 			queryStr = "select e.* from tb_campaign_details e";
 			query = entityManager.createNativeQuery(queryStr, CampaignDetails.class);
 			campaignDetails = daoService.getDataList(query);
-			responseMap.put("statusCode", "200");
-			responseMap.put("message", "CampaignDetails List");
-			responseMap.put("status", "Success");
-			responseMap.put("campaignDetails", "" + JsonMapper.getObjectToJson(campaignDetails));
+			if(campaignDetails.size()>0) {
+			responseMap.put("message", "Campaign List");  
+			responseMap.put("status", true);
+			responseMap.put("campaignList", campaignDetails);
+			}
 		} catch (Exception e) {
 			logger.error("ex: " + e);
 			responseMap.put("message", "" + e);
+			responseMap.put("status", false);
 			return JsonMapper.getObjectToJson(responseMap);
 		}
 		return JsonMapper.getObjectToJson(responseMap);
@@ -320,11 +363,11 @@ public class AutomatedServiceApi implements AutomatedService{
 	}
 
 	@Override
+	@Transactional
 	public Object saveCampaignDetails(InappAutomatedProcessRequest inappAutomatedProcessRequest) {
-		Map<String, String> responseMap = new HashMap<String, String>();
-		responseMap.put("statusCode", "500");
+		Map<String, Object> responseMap = new HashMap<String, Object>();
 		responseMap.put("message", "Campaign Details not added");
-		responseMap.put("status", "Fail");
+		responseMap.put("status", false);
 		try {
 			queryStr = "select e.* from tb_campaign_details e where e.campaign_name= :campaignName and e.ad_network_id = :adNetworkId and e.op_id = :opId";
 			query = entityManager.createNativeQuery(queryStr, CampaignDetails.class);
@@ -334,18 +377,54 @@ public class AutomatedServiceApi implements AutomatedService{
 			Boolean isAlreadyExist = daoService.checkExistingRecord(query);
 			logger.info(" isAlreadyExist CampaignDetails : "+isAlreadyExist);
 			if (isAlreadyExist) {
-				responseMap.put("statusCode", "200");
 				responseMap.put("message", "Campaign Details Already Exist");
-				responseMap.put("status", "Success");
+				responseMap.put("status", false);
 			} else {
-				daoService.saveObject(inappAutomatedProcessRequest.getCampaignDetails());
-				responseMap.put("statusCode", "200");
-				responseMap.put("message", "Campaign Details added Successfully");
-				responseMap.put("status", "Success");
+				boolean isCampaignAdded = daoService.saveObject(inappAutomatedProcessRequest.getCampaignDetails());
+				if(isCampaignAdded) {
+					logger.info("generated Key: "+inappAutomatedProcessRequest.getCampaignDetails().getCampaignId());
+					TrafficRouting trafficRouting = new TrafficRouting();
+					trafficRouting.setCampaignId(inappAutomatedProcessRequest.getCampaignDetails().getCampaignId());
+					trafficRouting.setServiceId(inappAutomatedProcessRequest.getServiceId());
+					trafficRouting.setPercentageOfTraffic(0);
+					trafficRouting.setTrafiicRoutingStatus(true);
+					inappAutomatedProcessRequest.setTrafficRouting(trafficRouting);
+					
+					boolean isTrafficRoutingAdded = saveTrafficRouting(inappAutomatedProcessRequest);
+					if(isTrafficRoutingAdded) {
+						AdnetworkOperatorConfig adnetworkOperatorConfig = new AdnetworkOperatorConfig();
+						adnetworkOperatorConfig.setAdNetworkId(inappAutomatedProcessRequest.getCampaignDetails().getAdNetworkId());
+						adnetworkOperatorConfig.setOperatorId(inappAutomatedProcessRequest.getCampaignDetails().getOpId());
+						adnetworkOperatorConfig.setSkipNumber(0);
+						adnetworkOperatorConfig.setStatus(true);
+						adnetworkOperatorConfig.setOpCpaValue(0.0);
+						adnetworkOperatorConfig.setDuplicateBlockStatus(false);
+						adnetworkOperatorConfig.setAdBlockStatus(false);
+						inappAutomatedProcessRequest.setAdnetworkOperatorConfig(adnetworkOperatorConfig);
+						saveAdnetworkOperatorConfig(inappAutomatedProcessRequest);
+						responseMap.put("message", "Campaign Details added Successfully");
+						responseMap.put("status", true);
+//						if(adNetworkOpConfig){
+//							responseMap.put("message", "Campaign Details added Successfully");
+//							responseMap.put("status", true);
+//						}else {
+//							responseMap.put("message", "Error in adding adnetwork operator config");
+//							responseMap.put("status", false);
+//						}
+					}else {
+						responseMap.put("message", "Error in adding traffic routing");
+						responseMap.put("status", false);
+					}
+				}else {
+					responseMap.put("message", "Error in adding campaign");
+					responseMap.put("status", false);
+				}
+				
 			}
 		}catch (Exception e) {
 			logger.error("ex: " + e);
 			responseMap.put("message", "" + e);
+			responseMap.put("status", false);
 			return JsonMapper.getObjectToJson(responseMap);
 		}
 		return JsonMapper.getObjectToJson(responseMap);
@@ -386,8 +465,7 @@ public class AutomatedServiceApi implements AutomatedService{
 	@Override 
 	public Object saveProduct(InappAutomatedProcessRequest inappAutomatedProcessRequest) {
 
-		Map<String, String> responseMap = new HashMap<String, String>();
-		responseMap.put("statusCode", "500");
+		Map<String, Object> responseMap = new HashMap<String, Object>();
 		responseMap.put("message", "Product not added");
 		responseMap.put("status", "Fail");
 		try {
@@ -398,29 +476,24 @@ public class AutomatedServiceApi implements AutomatedService{
 			Boolean isAlreadyExist = daoService.checkExistingRecord(query);
 			logger.info(" isAlreadyExist Product : "+isAlreadyExist);
 			if (isAlreadyExist) {
-				responseMap.put("statusCode", "200");
-				responseMap.put("message", "Product Already Exist");
-				responseMap.put("status", "Success");
+				responseMap.put("message", "Product Already Exist");  
+				responseMap.put("status", false);
 			} else {
 				daoService.saveObject(inappAutomatedProcessRequest.getProduct());
-				responseMap.put("statusCode", "200");
-				responseMap.put("message", "Product Added Successfully");
-				responseMap.put("status", "Success");
+				responseMap.put("message", "Product Added Successfully");  
+				responseMap.put("status", true);
 			}
 		}  catch (Exception e) {
 			logger.error("ex: " + e);
+			responseMap.put("status", false);
 			responseMap.put("message", "" + e);
 			return JsonMapper.getObjectToJson(responseMap);
 		}
 		return JsonMapper.getObjectToJson(responseMap);
 	}
 
-	@Override
-	public Object saveSerivce(InappAutomatedProcessRequest inappAutomatedProcessRequest) {
-		Map<String, String> responseMap = new HashMap<String, String>();
-		responseMap.put("statusCode", "500");
-		responseMap.put("message", "Service not added");
-		responseMap.put("status", "Fail");
+
+	public boolean saveSerivce(InappAutomatedProcessRequest inappAutomatedProcessRequest) {
 		try {
 			queryStr = "select e.* from tb_service e where e.advertiser_id= :advertiserId and e.service_name = :serviceName and e.op_id = :opId";
 			query = entityManager.createNativeQuery(queryStr, net.persist.bean.Service.class);
@@ -429,46 +502,36 @@ public class AutomatedServiceApi implements AutomatedService{
 			query.setParameter("opId", inappAutomatedProcessRequest.getService().getOpId());
 			Boolean isAlreadyExist = daoService.checkExistingRecord(query);
 			logger.info(" isAlreadyExist Service : "+isAlreadyExist);
-			if (isAlreadyExist) {	responseMap.put("statusCode", "200");
-				responseMap.put("message", "Service Already Exist");
-				responseMap.put("status", "Success");
-			} else {
-				daoService.saveObject(inappAutomatedProcessRequest.getService());
-				responseMap.put("statusCode", "200");
-				responseMap.put("message", "Service Added Successfully");
-				responseMap.put("status", "Success");
-			}
+			return (isAlreadyExist)?false: daoService.saveObject(inappAutomatedProcessRequest.getService());
+//			{	
+//			} else {
+//				daoService.saveObject(inappAutomatedProcessRequest.getService());
+//			}
 		}catch (Exception e) {
 			logger.error("ex: " + e);
-			responseMap.put("message", "" + e);
 		}
-		return JsonMapper.getObjectToJson(responseMap);
+		return false;
 
 	}
 
 	@Override
 	public Object saveOperator(InappAutomatedProcessRequest inappAutomatedProcessRequest) {
-		Map<String, String> responseMap = new HashMap<String, String>();
-		responseMap.put("statusCode", "500");
+		Map<String, Object> responseMap = new HashMap<String, Object>();
 		responseMap.put("message", "Operator not added");
 		responseMap.put("status", "Fail");
 		try {
-			queryStr = "select e.* from tb_operators e where e.operator_name= :operatorName and e.aggregator_id = :aggregatorId and e.country_id = :countryId";
+			queryStr = "select e.* from tb_operators e where e.operator_name= :operatorName";
 			query = entityManager.createNativeQuery(queryStr, Operator.class);
 			query.setParameter("operatorName", inappAutomatedProcessRequest.getOperator().getOperatorName());
-			query.setParameter("aggregatorId", inappAutomatedProcessRequest.getOperator().getAggregatorId());
-			query.setParameter("countryId", inappAutomatedProcessRequest.getOperator().getCountryId());
 			Boolean isAlreadyExist = daoService.checkExistingRecord(query);
 			logger.info(" isAlreadyExist Operator : "+isAlreadyExist);
 			if (isAlreadyExist) {
-				responseMap.put("statusCode", "200");
 				responseMap.put("message", "Operator Already Exist");
-				responseMap.put("status", "Success");
+				responseMap.put("status", false);
 			} else {
 				daoService.saveObject(inappAutomatedProcessRequest.getOperator());
-				responseMap.put("statusCode", "200");
 				responseMap.put("message", "Operator Added Successfully");
-				responseMap.put("status", "Success");
+				responseMap.put("status", true);
 			}
 
 		}catch (Exception e) {
@@ -480,12 +543,9 @@ public class AutomatedServiceApi implements AutomatedService{
 
 	}
 
-	@Override
-	public Object saveAdnetworkOperatorConfig(InappAutomatedProcessRequest inappAutomatedProcessRequest) {
-		Map<String, String> responseMap = new HashMap<String, String>();
-		responseMap.put("statusCode", "500");
-		responseMap.put("message", "AdNetwork Operator Config Not Added");
-		responseMap.put("status", "Fail");
+
+	public boolean saveAdnetworkOperatorConfig(InappAutomatedProcessRequest inappAutomatedProcessRequest) {
+	
 		try {
 			queryStr = "select e.* from tb_adnetwork_operator_config e where e.ad_network_id= :adNetworkId and e.operator_id = :operatorId";
 			query = entityManager.createNativeQuery(queryStr, AdnetworkOperatorConfig.class);
@@ -493,58 +553,121 @@ public class AutomatedServiceApi implements AutomatedService{
 			query.setParameter("operatorId", inappAutomatedProcessRequest.getAdnetworkOperatorConfig().getOperatorId());
 			Boolean isAlreadyExist = daoService.checkExistingRecord(query);
 			logger.info(" isAlreadyExist AdnetworkOperatorConfig : "+isAlreadyExist);
-			if (isAlreadyExist) {
-				responseMap.put("statusCode", "200");
-				responseMap.put("message", "AdNetwork Operator Config Already Exist");
-				responseMap.put("status", "Success");
-			} else {
-				daoService.saveObject(inappAutomatedProcessRequest.getAdnetworkOperatorConfig());
-				responseMap.put("statusCode", "200");
-				responseMap.put("message", "AdNetwork Operator Config Added Successfully");
-				responseMap.put("status", "Success");
-			}
+			return (isAlreadyExist)?false:daoService.saveObject(inappAutomatedProcessRequest.getAdnetworkOperatorConfig());
+//			{
+//			} else {
+//				daoService.saveObject(inappAutomatedProcessRequest.getAdnetworkOperatorConfig());
+//			}
 
 		}catch (Exception e) {
 			logger.error("ex: " + e);
-			responseMap.put("message", "" + e);
-			return JsonMapper.getObjectToJson(responseMap);
 		}
-		return JsonMapper.getObjectToJson(responseMap);
+		return false;
 
 	}
 
-	@Override
-	public Object saveTrafficRouting(InappAutomatedProcessRequest inappAutomatedProcessRequest) {
-		Map<String, String> responseMap = new HashMap<String, String>();
-		responseMap.put("statusCode", "500");
-		responseMap.put("message", "TrafficRouting not added");
-		responseMap.put("status", "Fail");
+
+	public boolean saveTrafficRouting(InappAutomatedProcessRequest inappAutomatedProcessRequest) {
+		
 		try {
+			logger.info(" TrafficRouting : "+inappAutomatedProcessRequest.getTrafficRouting());
 			queryStr = "select e.* from traffic_routing e where e.campaign_id= :campaignId and e.service_id = :serviceId";
 			query = entityManager.createNativeQuery(queryStr, TrafficRouting.class);
 			query.setParameter("campaignId", inappAutomatedProcessRequest.getTrafficRouting().getCampaignId());
 			query.setParameter("serviceId", inappAutomatedProcessRequest.getTrafficRouting().getServiceId());
 			Boolean isAlreadyExist = daoService.checkExistingRecord(query);
 			logger.info(" isAlreadyExist TrafficRouting : "+isAlreadyExist);
-			if (isAlreadyExist) {
-				responseMap.put("statusCode", "200");
-				responseMap.put("message", "TrafficRouting Already Exist");
-				responseMap.put("status", "Success");
-			}else {
-				daoService.saveObject(inappAutomatedProcessRequest.getTrafficRouting());
-				responseMap.put("statusCode", "200");
-				responseMap.put("message", "TrafficRouting added Successfully");
-				responseMap.put("status", "Success");
-			}  
+			return (isAlreadyExist) ? false:daoService.saveObject(inappAutomatedProcessRequest.getTrafficRouting());
+
 		}catch (Exception e) {
 			logger.error("ex: " + e);
-			responseMap.put("message", "" + e);
 		}
 
-		return JsonMapper.getObjectToJson(responseMap);
+		return false;
 	}
 
+	public void saveServiceConfigTrans(InappAutomatedProcessRequest inappAutomatedProcessRequest) {
+		ServiceConfigTrans  serviceConfigTrans = new ServiceConfigTrans();
+		serviceConfigTrans.setAdvertiserid(inappAutomatedProcessRequest.getAdvertiserId());
+		serviceConfigTrans.setAuthrization(inappAutomatedProcessRequest.getAuthorization());
+		serviceConfigTrans.setDcturl(inappAutomatedProcessRequest.getDctUrl());
+		serviceConfigTrans.setOperatorid(inappAutomatedProcessRequest.getOperatorId());
+		serviceConfigTrans.setPinsendurl(inappAutomatedProcessRequest.getPinSendUrl());
+		serviceConfigTrans.setPinvalidationurl(inappAutomatedProcessRequest.getPinValidationUrl());
+		serviceConfigTrans.setPortalurl(inappAutomatedProcessRequest.getPortalUrl());
+		serviceConfigTrans.setProductid(inappAutomatedProcessRequest.getProductId());
+		serviceConfigTrans.setResendpinurl(inappAutomatedProcessRequest.getResendPinUrl());
+		serviceConfigTrans.setStatuscheckurl(inappAutomatedProcessRequest.getStatusCheckUrl());
+		serviceConfigTrans.setRequestStatus(inappAutomatedProcessRequest.getRequestStatus());
+		serviceConfigTrans.setCreateTime(new Timestamp(System.currentTimeMillis()));
+		daoService.saveObject(serviceConfigTrans);
+	} 
+	public Object findAllAdnetwork() {
+			Map<String, Object> responseMap = new HashMap<String, Object>();
+			List<Object> adnetworkList = null;
+			responseMap.put("message", "Adnetworks not found");
+			responseMap.put("status", false);
+			try {
+				queryStr = "select e.* from tb_adnetworks e";
+				query = entityManager.createNativeQuery(queryStr, Adnetworks.class);
+				adnetworkList= daoService.getDataList(query);
+				if(adnetworkList.size()>0) {
+				responseMap.put("message", "Adnetworks List");
+				responseMap.put("status", true);
+				responseMap.put("adnetworksList",adnetworkList);
+				}
+			} catch (Exception e) {
+				logger.error("ex: " + e);
+				responseMap.put("message", "" + e);
+				responseMap.put("status", false);
+				return JsonMapper.getObjectToJson(responseMap);
+			}
+			return JsonMapper.getObjectToJson(responseMap);
+	 }	 
+	 
+	 public Object findAllAdvertiser() {
+			Map<String, Object> responseMap = new HashMap<String, Object>();
+			List<Object> advertiserList = null;
+			responseMap.put("message", "Advertiser not found");
+			responseMap.put("status", false);
+			try {
+				queryStr = "select e.* from tb_advertiser e";
+				query = entityManager.createNativeQuery(queryStr, Advertiser.class);
+				advertiserList= daoService.getDataList(query);
+				if(advertiserList.size()>0) {
+				responseMap.put("message", "Advertiser List");
+				responseMap.put("status", true);
+				responseMap.put("advertiserList",advertiserList);
+				}
+			} catch (Exception e) {
+				logger.error("ex: " + e);
+				responseMap.put("message", "" + e);
+				responseMap.put("status", false);
+				return JsonMapper.getObjectToJson(responseMap);
+			}
+			return JsonMapper.getObjectToJson(responseMap);
+	 }
 
-
-	
+	 public Object findAllServiceConfigs() {
+			Map<String, Object> responseMap = new HashMap<String, Object>();
+			List<Object> advertiserList = null;
+			responseMap.put("message", "Advertiser not found");
+			responseMap.put("status", false);
+			try {
+				queryStr = "select e.* from tb_service_config_trans e";
+				query = entityManager.createNativeQuery(queryStr, ServiceConfigTrans.class);
+				advertiserList= daoService.getDataList(query);
+				if(advertiserList.size()>0){
+				responseMap.put("message", "ServiceConfig List");
+				responseMap.put("status", true);
+				responseMap.put("serviceConfigList",advertiserList);
+				}
+			} catch (Exception e) {
+				logger.error("ex: " + e);
+				responseMap.put("message", "" + e);
+				responseMap.put("status", false);
+				return JsonMapper.getObjectToJson(responseMap);
+			}
+			return JsonMapper.getObjectToJson(responseMap);
+	 }
 }

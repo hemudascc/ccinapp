@@ -1,6 +1,7 @@
 package net.persist.bean;
 
 import java.lang.reflect.Field;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,7 +24,7 @@ public class CampaignDetails {
 	@Column(name = "callback_url")
 	private String callbackUrl;
 	@Column(name = "reg_date")
-	private String regDate;	
+	private Timestamp regDate;	
 	@Column(name = "op_id")
 	private Integer opId;
 	
@@ -61,11 +62,11 @@ public class CampaignDetails {
 		this.callbackUrl = callbackUrl;
 	}
 
-	public String getRegDate() {
+	public Timestamp getRegDate() {
 		return regDate;
 	}
 
-	public void setRegDate(String regDate) {
+	public void setRegDate(Timestamp regDate) {
 		this.regDate = regDate;
 	}
 

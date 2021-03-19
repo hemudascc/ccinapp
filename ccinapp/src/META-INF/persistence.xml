@@ -50,6 +50,7 @@
 		<class>net.persist.bean.CampaignDetails</class>
 		<class>net.mycomp.inapp.audiencenest.AudiencenestConfig</class>
 		<class>net.mycomp.inapp.audiencenest.AudiencenestApiTrans</class> 
+		<class>net.persist.bean.ServiceConfigTrans</class>
 		    <exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<validation-mode>NONE</validation-mode>
 		<properties>

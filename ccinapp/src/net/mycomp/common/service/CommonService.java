@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import net.jpa.repository.JPAAdvertiser;
 import net.jpa.repository.JPAAggregator;
 import net.jpa.repository.JPACountry;
 import net.jpa.repository.JPAProduct;
@@ -30,6 +31,7 @@ import net.jpa.repository.JPAVWCampaignDetail;
 import net.jpa.repository.JPAVWTrafficRouting;
 import net.persist.bean.AdnetworkOperatorConfig;
 import net.persist.bean.Adnetworks;
+import net.persist.bean.Advertiser;
 import net.persist.bean.Aggregator;
 import net.persist.bean.Country;
 import net.persist.bean.Operator;
@@ -74,6 +76,8 @@ public class CommonService {
 	@Autowired
 	private JPAVWCampaignDetail jpaVWCampaignDetail;
 
+	@Autowired
+	private JPAAdvertiser jpaAdvertiser;
 	@PostConstruct
 	public void init() {
 		httpURLConnectionUtil = new HttpURLConnectionUtil();	
@@ -152,6 +156,10 @@ public class CommonService {
 		.stream().collect(Collectors.
 				groupingBy(VWTrafficRouting::getCampaignId, 
 						Collectors.mapping(a->a, Collectors.toList()))));
+		
+		List<Advertiser> listAdvertiser = jpaAdvertiser.findAll();
+		MData.mapIdToAdvertiser.putAll(listAdvertiser.stream().collect(
+				Collectors.toMap(p -> p.getId(), p -> p)));
 		
 		loadAdnetworkTypeConfig();
 		
