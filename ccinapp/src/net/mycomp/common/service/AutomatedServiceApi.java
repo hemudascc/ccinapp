@@ -150,8 +150,8 @@ public class AutomatedServiceApi implements AutomatedService{
 					Advertiser adveriser = (Advertiser)daoService.getSingleRecord(query);	  
 					logger.info("adveriser: "+adveriser);
 					net.persist.bean.Service service = new net.persist.bean.Service();
-					service.setServiceName(adveriser.getAdvertiserName()+"_"+inappAutomatedProcessRequest.getOperatorName()+"_"+product.getProductName());
-					service.setServiceDesc(adveriser.getAdvertiserName()+"_"+inappAutomatedProcessRequest.getOperatorName()+"_"+product.getProductName());
+					service.setServiceName(inappAutomatedProcessRequest.getServiceName());
+					service.setServiceDesc(inappAutomatedProcessRequest.getServiceName());
 					service.setOpId(inappAutomatedProcessRequest.getOperatorId());
 					service.setAdvertiserId(inappAutomatedProcessRequest.getAdvertiserId());
 					service.setProductId(inappAutomatedProcessRequest.getProductId()); 
@@ -497,11 +497,11 @@ public class AutomatedServiceApi implements AutomatedService{
 
 	public boolean saveSerivce(InappAutomatedProcessRequest inappAutomatedProcessRequest) {
 		try {
-			queryStr = "select e.* from tb_service e where e.advertiser_id= :advertiserId and e.service_name = :serviceName and e.op_id = :opId";
+			queryStr = "select e.* from tb_service e where e.service_name = :serviceName";
 			query = entityManager.createNativeQuery(queryStr, net.persist.bean.Service.class);
-			query.setParameter("advertiserId", inappAutomatedProcessRequest.getService().getAdvertiserId());
+//			query.setParameter("advertiserId", inappAutomatedProcessRequest.getService().getAdvertiserId());
 			query.setParameter("serviceName", inappAutomatedProcessRequest.getService().getServiceName());
-			query.setParameter("opId", inappAutomatedProcessRequest.getService().getOpId());
+//			query.setParameter("opId", inappAutomatedProcessRequest.getService().getOpId());
 			Boolean isAlreadyExist = daoService.checkExistingRecord(query);
 			logger.info(" isAlreadyExist Service : "+isAlreadyExist);
 			return (isAlreadyExist)?false: daoService.saveObject(inappAutomatedProcessRequest.getService());
@@ -593,6 +593,8 @@ public class AutomatedServiceApi implements AutomatedService{
 		serviceConfigTrans.setStatuscheckurl(inappAutomatedProcessRequest.getStatusCheckUrl());
 		serviceConfigTrans.setRequestStatus(inappAutomatedProcessRequest.getRequestStatus());
 		serviceConfigTrans.setCreateTime(new Timestamp(System.currentTimeMillis()));
+		serviceConfigTrans.setQueryString(inappAutomatedProcessRequest.getQueryString());
+		serviceConfigTrans.setOtpLength(inappAutomatedProcessRequest.getOtpLength());
 		daoService.saveObject(serviceConfigTrans);
 	} 
 	public Object findAllAdnetwork() {

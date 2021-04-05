@@ -34,9 +34,11 @@ public class InappAutomatedProcessRequest{
 	private String  checkSubUrl;
 	private String  portalUrl2;
 	private String  requestStatus;
+	private String  queryString;
 	private int otpLength;
+	private String serviceName;
 
-	private CampaignDetails campaignDetails;
+	private CampaignDetails campaignDetails;  
 	private Country country;
 	private Aggregator aggregator;
 	private Operator operator;
@@ -308,6 +310,22 @@ public class InappAutomatedProcessRequest{
 
 	public void setRequestStatus(String requestStatus) {
 		this.requestStatus = requestStatus;
+	}
+
+	public String getQueryString() {
+		return queryString;
+	}
+
+	public void setQueryString(String queryString) {
+		this.queryString = queryString;
+	}
+
+	public String getServiceName() {
+		return serviceName;
+	}
+
+	public void setServiceName(String serviceName) {
+		this.serviceName = serviceName;
 	}
 
 

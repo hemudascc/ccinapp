@@ -1,12 +1,14 @@
 package net.mycomp.advertiser.vaca;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 import javax.annotation.PostConstruct;
 
 import net.common.jms.JMSService;
+import net.jpa.repository.JPASubscriberReg;
 import net.mycomp.common.inapp.InappProcessRequest;
 import net.mycomp.common.inapp.collectcent.CollectcentConstant;
 import net.mycomp.common.inapp.collectcent.CollectcentServiceConfig;
@@ -14,6 +16,7 @@ import net.mycomp.common.inapp.collectcent.InappCollectcentOtpSend;
 import net.mycomp.common.inapp.collectcent.InappCollectcentStatusCheck;
 import net.mycomp.common.inapp.collectcent.InappCollectcentValidation;
 import net.mycomp.common.service.RedisCacheService;
+import net.persist.bean.SubscriberReg;
 import net.util.EnumReason;
 import net.util.HTTPResponse;
 import net.util.HttpURLConnectionUtil;
@@ -38,7 +41,9 @@ public class VacaServiceApi {
    @Autowired
    private JMSService jmsService;
    
-   
+   @Autowired
+   private JPASubscriberReg jpaSubscriberReg;
+     
 	  
 	private HttpURLConnectionUtil httpURLConnectionUtil;
 	
@@ -168,34 +173,48 @@ public class VacaServiceApi {
 		public boolean statusCheck(InappProcessRequest inappProcessRequest
 				){
 		   
-			InappCollectcentStatusCheck one97InappStatusCheck=null;
-			try{			
-				VacaConfig vacaConfig=VacaConstant
-						.mapServiceIdToVacaConfig.get(inappProcessRequest
-						.getServiceId());
-				logger.info("vaca-config"+vacaConfig==null);
-				String url=VacaConstant
-						.getUrl(vacaConfig.getStatusCheckUrl(),
-								inappProcessRequest.getMsisdn(), vacaConfig, 
-								"", inappProcessRequest.getCgToken());
-						
-				HTTPResponse httpResponse=httpURLConnectionUtil.sendGet(url);				
-				inappProcessRequest.setAdvertiserApiRequest(url);
-				inappProcessRequest.setAdvertiserApiResponseCode(httpResponse.getResponseCode());
-				inappProcessRequest.setAdvertiserApiResponse(httpResponse.getResponseStr());
-				
-				if(httpResponse.getResponseCode()==200
-						&&Objects.toString(httpResponse.getResponseStr()).equalsIgnoreCase("ACTIVE")){				   
-						inappProcessRequest.setSuccess(true);					
-						return true;
-			  }
-			}catch(Exception ex){
-				logger.error("statusCheck ",ex);
+			List<SubscriberReg> list = jpaSubscriberReg.findSubscriberRegByMsisdn(inappProcessRequest.getMsisdn());
+			logger.info("checkSub:::::::::: list of subscriberreg "+list);
+			SubscriberReg subscriberReg=null;
+			if(list!=null&&list.size()>0){
+				subscriberReg=list.get(0);
+			}
+			logger.info("checkSub:::::::::: subscriberReg: "+subscriberReg);
+			if(subscriberReg!=null&&subscriberReg.getStatus()==MConstants.SUBSCRIBED){
+				inappProcessRequest.setSuccess(true);
+				return true;
+			}   
+			return false;
 			
-			}finally{
-				jmsService.saveObject(one97InappStatusCheck);
-			}		
-			return true;
+			
+//			InappCollectcentStatusCheck one97InappStatusCheck=null;
+//			try{			
+//				VacaConfig vacaConfig=VacaConstant
+//						.mapServiceIdToVacaConfig.get(inappProcessRequest
+//						.getServiceId());
+//				logger.info("vaca-config"+vacaConfig==null);
+//				String url=VacaConstant
+//						.getUrl(vacaConfig.getStatusCheckUrl(),
+//								inappProcessRequest.getMsisdn(), vacaConfig, 
+//								"", inappProcessRequest.getCgToken());
+//						
+//				HTTPResponse httpResponse=httpURLConnectionUtil.sendGet(url);				
+//				inappProcessRequest.setAdvertiserApiRequest(url);
+//				inappProcessRequest.setAdvertiserApiResponseCode(httpResponse.getResponseCode());
+//				inappProcessRequest.setAdvertiserApiResponse(httpResponse.getResponseStr());
+//				
+//				if(httpResponse.getResponseCode()==200
+//						&&Objects.toString(httpResponse.getResponseStr()).equalsIgnoreCase("ACTIVE")){				   
+//						inappProcessRequest.setSuccess(true);					
+//						return true;
+//			  }
+//			}catch(Exception ex){
+//				logger.error("statusCheck ",ex);
+//			
+//			}finally{
+//				jmsService.saveObject(one97InappStatusCheck);
+//			}		
+//			return true;
 		}
 		
 		

@@ -134,6 +134,8 @@ public class InappRequestFactory {
 			automatedProcessRequest.setPortalUrl(request.getParameter("portalurl").trim());		
 			}if(request.getParameter("otplength")!= null) {
 			automatedProcessRequest.setOtpLength(MUtility.toInt(request.getParameter("otplength").trim(),0));
+			}if(request.getParameter("servicename")!= null) {
+				automatedProcessRequest.setServiceName(request.getParameter("servicename").trim());
 			}
 			automatedProcessRequest.setPricePoint(0.0);
 			automatedProcessRequest.setValidity(0);
@@ -143,6 +145,7 @@ public class InappRequestFactory {
 			automatedProcessRequest.setPinVerificationUrl(automatedProcessRequest.getPinValidationUrl());
 			automatedProcessRequest.setCheckSubUrl(automatedProcessRequest.getStatusCheckUrl());
 			automatedProcessRequest.setPortalUrl2(automatedProcessRequest.getPortalUrl());
+			automatedProcessRequest.setQueryString(request.getQueryString());
 			logger.info("query String : "+request.getQueryString());
 			break;
 			}
