@@ -1,4 +1,3 @@
-
 package net.mycomp.common.inapp;
 
 import java.beans.PropertyEditorSupport;
@@ -118,6 +117,11 @@ public class InappMisController {
 		ModelAndView modelAndView=new ModelAndView("inapp/agg_report");
 		
 		//modelAndView.addObject("mapAggregator",MData.mapIdToAggregator);
+
+		InappLiveReport InappLiveReport = daoService.getInappLiveReport();
+		logger.info(" InappLiveReport :  "+InappLiveReport);		   
+		modelAndView.addObject("advertiserList", MData.mapIdToAdvertiser.values().stream().collect(Collectors.toList()));
+		modelAndView.addObject("lastInappLiveReport",InappLiveReport);
 		modelAndView.addObject("mapAggregator", MData.mapIdToAggregator.entrySet().stream()
                 .filter(map -> map.getValue().getType().equalsIgnoreCase(InappConstant.INAPP))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
@@ -128,7 +132,7 @@ public class InappMisController {
 		modelAndView.addObject("productId",aggReport.getProductId());
 		
 		modelAndView.addObject("listAggregator",MData.mapIdToAggregator.values().stream()
-				.collect(Collectors.toList()));
+				.collect(Collectors.toList()));  
 		
 		if(aggReport.getAggregatorId()!=null){
 			modelAndView.addObject("operatorList", MData.mapIdToOperator.values().stream()
@@ -296,5 +300,32 @@ public class InappMisController {
 		TrafficRouting trafficRoouting=jpaTrafficRouting.findTrafficRoutingByTraffingId(trafiicRoutingId);
 		jpaTrafficRouting.delete(trafficRoouting);
 		return true;
+	}
+
+	
+	@RequestMapping("/advertreport")	
+	public ModelAndView advertReport(@ModelAttribute(value="AggReport") AggReport aggReport,BindingResult result) {
+		
+		ModelAndView modelAndView=new ModelAndView("inapp/advertiser_report");
+		
+		logger.info(" aggReport :  "+aggReport);		   
+		modelAndView.addObject("advertiserList", MData.mapIdToAdvertiser.values().stream().collect(Collectors.toList()));
+		List<InAppAdverterReport> list = daoService.findInappAdvertiserReport(aggReport);
+		modelAndView.addObject("reportlist",list);
+		logger.info("reportlist:"+list);
+		return modelAndView;
+	}
+	
+	@RequestMapping("/uniquecount")	
+	public ModelAndView uniqueCount(@ModelAttribute(value="InappLiveReport") InappLiveReport inappLiveReport,BindingResult result) {
+		
+		ModelAndView modelAndView=new ModelAndView("inapp/unique_count");
+		
+		logger.info(" inappLiveReport :  "+inappLiveReport);		   
+//		modelAndView.addObject("advertiserList", MData.mapIdToAdvertiser.values().stream().collect(Collectors.toList()));
+		UniqueCount uniqueCount = daoService.findInappUniqueCount(inappLiveReport);
+		modelAndView.addObject("uniqueCount",uniqueCount);
+//		logger.info("reportlist:"+list);
+		return modelAndView;
 	}
 }

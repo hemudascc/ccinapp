@@ -38,6 +38,10 @@ public class ServiceConfigTrans {
 	private String dcturl;
 	@Column(name="request_status")
 	private String requestStatus;
+	@Column(name="query_string")
+	private String queryString;
+	@Column(name="otp_length")
+	private int otpLength;
 	@Column(name="create_time")
 	private Timestamp createTime;
 	
@@ -115,6 +119,18 @@ public class ServiceConfigTrans {
 	}
 	public Timestamp getCreateTime() {
 		return createTime;
+	}	
+	public String getQueryString() {
+		return queryString;
+	}
+	public void setQueryString(String queryString) {
+		this.queryString = queryString;
+	}
+	public int getOtpLength() {
+		return otpLength;
+	}
+	public void setOtpLength(int otpLength) {
+		this.otpLength = otpLength;
 	}
 	public void setCreateTime(Timestamp createTime) {
 		this.createTime = createTime;

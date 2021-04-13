@@ -4,7 +4,9 @@ import java.util.List;
 
 import javax.persistence.Query;
 
+import net.mycomp.common.inapp.InAppAdverterReport;
 import net.mycomp.common.inapp.InappLiveReport;
+import net.mycomp.common.inapp.UniqueCount;
 import net.persist.bean.AdnetworkOperatorConfig;
 import net.persist.bean.Adnetworks;
 import net.persist.bean.Operator;
@@ -26,7 +28,7 @@ public interface ICommonDao {
 	public List<Operator> findAllOperator();
 	public List<Operator> findAllEnabledOperator();
 	//public List<VWServiceCampaignDetail> findEnableVWServiceCampaignDetail(); 
-	
+	 
 	 public AdnetworkOperatorConfig findAdnetworkOperatorConfigById(Integer adnopconfigid);
 	 public boolean generateInappLiveReport(InappLiveReport liveReport);
 	 public List<InappLiveReport> findInappLiveReportAggReport(
@@ -36,5 +38,7 @@ public interface ICommonDao {
 	 public List<Object> getDataList(Query query);	
 	 public boolean checkExistingRecord(Query query);	
 	 public Object getSingleRecord(Query query);
-	 
+	 InappLiveReport getInappLiveReport();
+	 public List<InAppAdverterReport> findInappAdvertiserReport(AggReport aggReport);
+	 public UniqueCount findInappUniqueCount(InappLiveReport inappLiveReport);
 }
