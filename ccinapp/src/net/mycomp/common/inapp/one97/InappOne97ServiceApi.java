@@ -7,6 +7,7 @@ import javax.annotation.PostConstruct;
 
 import net.common.jms.JMSService;
 import net.jpa.repository.JPAInappTmtConfig;
+import net.mycomp.common.inapp.InappProcessRequest;
 import net.mycomp.common.service.IDaoService;
 import net.util.HTTPResponse;
 import net.util.HttpURLConnectionUtil;
@@ -43,7 +44,7 @@ public class InappOne97ServiceApi{
 	
 
 	
-	public boolean checkSubscriptionStatus(String msisdn,Integer id,String cgToken,InAppOne97Config one97InAppConfig
+	public boolean checkSubscriptionStatus(InappProcessRequest  inappProcessRequest, String msisdn,Integer id,String cgToken,InAppOne97Config one97InAppConfig
 			
 			){
 	   
@@ -62,7 +63,9 @@ public class InappOne97ServiceApi{
 		HTTPResponse httpResponse=httpURLConnectionUtil.sendGet(url);
 		one97InappStatusCheck.setStatusCheckResp(httpResponse.getResponseCode()
 				+" : "+httpResponse.getResponseStr());
-		
+		inappProcessRequest.setAdvertiserApiRequest(url);
+		inappProcessRequest.setAdvertiserApiResponseCode(httpResponse.getResponseCode());
+		inappProcessRequest.setAdvertiserApiResponse(httpResponse.getResponseStr());
 		String arr[]=InappOne97Constant.parse(httpResponse.getResponseStr());
 		if(httpResponse.getResponseCode()==200&&arr[6].equalsIgnoreCase("ACTIVE")){
 			one97InappStatusCheck.setSubStatus(arr[6]);
@@ -80,25 +83,27 @@ public class InappOne97ServiceApi{
 	}
 	
 	
-public boolean checkChargeStatus(String msisdn,Integer id,String cgToken,InAppOne97Config one97InAppConfig
+public boolean checkChargeStatus(InappProcessRequest  inappProcessRequest,InAppOne97Config one97InAppConfig
 		){
 	   
 	InappOne97StatusCheck one97InappStatusCheck=null;
 	try{
 		one97InappStatusCheck=new InappOne97StatusCheck(true);
-		one97InappStatusCheck.setCgToken(cgToken);
-		one97InappStatusCheck.setRequestId(id);
+		one97InappStatusCheck.setCgToken(inappProcessRequest.getCgToken());
+		one97InappStatusCheck.setRequestId(inappProcessRequest.getId());
 	   
 		String url=InappOne97Constant
 				.getUrl(one97InAppConfig.getCheckSubUrl(),""+one97InappStatusCheck.getCgToken()
-				,msisdn
+				,inappProcessRequest.getMsisdn()
 				,null,null,null,null);	
 	
 		one97InappStatusCheck.setStatusCheckUrl(url);
 	HTTPResponse httpResponse=httpURLConnectionUtil.sendGet(url);
 	one97InappStatusCheck.setStatusCheckResp(httpResponse.getResponseCode()
 			+" : "+httpResponse.getResponseStr());
-	
+	inappProcessRequest.setAdvertiserApiRequest(url);
+	inappProcessRequest.setAdvertiserApiResponseCode(httpResponse.getResponseCode());
+	inappProcessRequest.setAdvertiserApiResponse(httpResponse.getResponseStr());
 	String arr[]=InappOne97Constant.parse(httpResponse.getResponseStr());
 	if(httpResponse.getResponseCode()==200&&arr[6].equalsIgnoreCase("ACTIVE")){
 		one97InappStatusCheck.setSubStatus(arr[6]);

@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import net.dao.ICommonDao;
+import net.mycomp.common.inapp.InAppAdverterReport;
 import net.mycomp.common.inapp.InappLiveReport;
+import net.mycomp.common.inapp.UniqueCount;
 import net.persist.bean.AdnetworkOperatorConfig;
 import net.persist.bean.Adnetworks;
 import net.persist.bean.Operator;
@@ -209,6 +211,43 @@ public class DaoServiceImpl implements IDaoService {
 		return false;
 	} 
 
-
+	@Override
+	public Object getSingleRecord(Query query) {
+		try {
+		return commonDao.getSingleRecord(query);
+		}catch(Exception ex) {
+			logger.info("Error in getSingleRecord"+ex);
+		}
+		return null;
+	}
+	  
+	@Override
+	public InappLiveReport getInappLiveReport() {
+		try {
+			return commonDao.getInappLiveReport();
+			}catch(Exception ex) {
+				logger.info("Error in getSingleRecord"+ex);  
+			}
+			return null;
+	}
 	
+	@Override
+	public List<InAppAdverterReport> findInappAdvertiserReport(AggReport aggReport){
+		try {
+			return commonDao.findInappAdvertiserReport(aggReport);
+			}catch(Exception ex) {
+				logger.info("Error in getSingleRecord"+ex);  
+			}
+			return null;
+	}
+	
+	@Override
+	public UniqueCount findInappUniqueCount(InappLiveReport inappLiveReport) {
+		try {
+			return commonDao.findInappUniqueCount(inappLiveReport);
+			}catch(Exception ex) {
+				logger.info("Error in getSingleRecord"+ex);  
+			}
+			return null;
+	}
 }

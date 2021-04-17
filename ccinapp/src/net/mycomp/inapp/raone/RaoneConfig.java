@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -14,6 +15,7 @@ import net.mycomp.common.inapp.InappAutomatedProcessRequest;
 public class RaoneConfig  extends InappAutomatedProcessRequest{
 
 	@Id
+	@GeneratedValue
 	private Integer id;
 	@Column(name = "service_id")
 	private Integer serviceId;

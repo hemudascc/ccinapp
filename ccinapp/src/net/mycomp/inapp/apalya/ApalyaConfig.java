@@ -2,6 +2,7 @@ package net.mycomp.inapp.apalya;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -12,6 +13,7 @@ import net.mycomp.common.inapp.InappAutomatedProcessRequest;
 public class ApalyaConfig  extends InappAutomatedProcessRequest{
 
 	@Id
+	@GeneratedValue
 	private Integer id;
 	@Column(name = "service_id")
 	private Integer serviceId;
@@ -24,7 +26,7 @@ public class ApalyaConfig  extends InappAutomatedProcessRequest{
 	@Column(name = "pin_generation_url")
 	private String pinGenerationUrl;
 	@Column(name = "pin_verification_url")
-	private String pinVerificationUrl;
+	private String pinVerificationUrl;  
 	@Column(name = "status_check_url")
 	private String statusCheckUrl;
 	@Column(name="portal_url")

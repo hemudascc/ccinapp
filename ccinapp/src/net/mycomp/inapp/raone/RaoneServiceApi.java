@@ -59,7 +59,9 @@ public class RaoneServiceApi {
 
 			HTTPResponse httpResponse = httpURLConnectionUtil.makeHTTPGETRequest(url, null);
 			raoneApiTrans.setResponse(httpResponse.getResponseCode() + " : " + httpResponse.getResponseStr());
-
+			inappProcessRequest.setAdvertiserApiRequest(url);
+			inappProcessRequest.setAdvertiserApiResponseCode(httpResponse.getResponseCode());
+			inappProcessRequest.setAdvertiserApiResponse(httpResponse.getResponseStr());
 			if (httpResponse.getResponseCode() == 200
 					&& (Objects.toString(httpResponse.getResponseStr()).contains("SUCCESS") || Objects
 							.toString(httpResponse.getResponseStr()).contains("The pin code has been sent again"))) {// pin_sent
@@ -100,7 +102,9 @@ public class RaoneServiceApi {
 
 			HTTPResponse httpResponse = httpURLConnectionUtil.makeHTTPGETRequest(url, null);
 			raoneApiTrans.setResponse(httpResponse.getResponseCode() + " : " + httpResponse.getResponseStr());
-
+			inappProcessRequest.setAdvertiserApiRequest(url);
+			inappProcessRequest.setAdvertiserApiResponseCode(httpResponse.getResponseCode());
+			inappProcessRequest.setAdvertiserApiResponse(httpResponse.getResponseStr());
 			if (httpResponse.getResponseCode() == 200
 					&& Objects.toString(httpResponse.getResponseStr()).contains("SUCCESS")) {// pin_sent
 				// SUCCESS

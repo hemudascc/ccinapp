@@ -24,13 +24,16 @@ public class InappLiveReport {
 	private int pinValidationRequestCount;
 	private int pinValidateCount;
 	private double pinValidateAmount;
-	private int statusCheckRequestCount;
+	private int statusCheckRequestCount;  
 	private int sendConversionCount;
 	private double sendConversionAmount;
 	private int actionHours;
 	private Integer serviceId;
 	private String serviceName;
 	private int productId;
+	private Timestamp lastUpdateTime;
+	private String advertiserName;
+	private String productName;
 	
 		public String toString() {
 
@@ -243,4 +246,30 @@ public class InappLiveReport {
 		public Integer getServiceId() {
 			return serviceId;
 		}
+
+		public Timestamp getLastUpdateTime() {
+			return lastUpdateTime;
+		}
+
+		public void setLastUpdateTime(Timestamp lastUpdateTime) {
+			this.lastUpdateTime = lastUpdateTime;
+		}
+
+		public String getAdvertiserName() {
+			return advertiserName;
+		}
+
+		public void setAdvertiserName(String advertiserName) {
+			this.advertiserName = advertiserName;
+		}
+
+		public String getProductName() {
+			return productName;
+		}
+
+		public void setProductName(String productName) {
+			this.productName = productName;
+		}
+
+		
 }

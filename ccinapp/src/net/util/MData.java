@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 
 import net.persist.bean.AdnetworkOperatorConfig;
 import net.persist.bean.Adnetworks;
+import net.persist.bean.Advertiser;
 import net.persist.bean.Aggregator;
 import net.persist.bean.Country;
 import net.persist.bean.Operator;
@@ -29,6 +30,7 @@ public interface MData {
 	public static Map<Integer, Country> mapIdToCountry=new HashMap<Integer, Country>();
 	public static Map<Integer, Operator> mapIdToOperator=new HashMap<Integer, Operator>();
 	public static Map<Integer, Product> mapIdToProduct=new HashMap<Integer, Product>();
+	public static Map<Integer, Advertiser> mapIdToAdvertiser=new HashMap<Integer, Advertiser>();
 	
 	public static Map<Integer, List<VWTrafficRouting>> mapcampaignIdIdToVWTrafficRouting=new HashMap<Integer, List<VWTrafficRouting>>();
 	

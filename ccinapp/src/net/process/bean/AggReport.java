@@ -1,4 +1,3 @@
-
 package net.process.bean;
 
 import java.io.Serializable;
@@ -17,7 +16,11 @@ public class AggReport implements Serializable{
 	private Timestamp fromTime;
 	private Timestamp toTime;
     private String reportType;
-    
+    private String actionType;
+    private Integer advertiserid;
+    private Integer cmpid;
+    private Integer serviceid;
+    private String reportDate;
     
 public String toString() {
 		
@@ -93,6 +96,46 @@ public String toString() {
 
 	public void setProductId(Integer productId) {
 		this.productId = productId;
+	}
+
+	public String getActionType() {
+		return actionType;
+	}
+
+	public void setActionType(String actionType) {
+		this.actionType = actionType;
+	}
+
+	public Integer getAdvertiserid() {
+		return advertiserid;
+	}
+
+	public void setAdvertiserid(Integer advertiserid) {
+		this.advertiserid = advertiserid;
+	}
+
+	public Integer getCmpid() {
+		return cmpid;
+	}
+
+	public void setCmpid(Integer cmpid) {
+		this.cmpid = cmpid;
+	}
+
+	public Integer getServiceid() {
+		return serviceid;
+	}
+
+	public void setServiceid(Integer serviceid) {
+		this.serviceid = serviceid;
+	}
+
+	public String getReportDate() {
+		return reportDate;
+	}
+
+	public void setReportDate(String reportDate) {
+		this.reportDate = reportDate;
 	}
 	
 }

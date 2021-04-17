@@ -7,7 +7,9 @@ import java.util.Map;
 
 import javax.persistence.Query;
 
+import net.mycomp.common.inapp.InAppAdverterReport;
 import net.mycomp.common.inapp.InappLiveReport;
+import net.mycomp.common.inapp.UniqueCount;
 import net.persist.bean.AdnetworkOperatorConfig;
 import net.persist.bean.Adnetworks;
 import net.persist.bean.Operator;
@@ -38,7 +40,11 @@ public interface IDaoService {
 			AggReport aggReport);
 	
 	List<VWAdnetworkOperatorConfig> findAllAdnConfig();
-
+  
 	public List<Object> getDataList(Query query);
 	public boolean checkExistingRecord(Query query);
+	public Object getSingleRecord(Query query);
+	public InappLiveReport getInappLiveReport();
+	public List<InAppAdverterReport> findInappAdvertiserReport(AggReport aggReport);
+	public UniqueCount findInappUniqueCount(InappLiveReport inappLiveReport);
 }

@@ -115,13 +115,7 @@ rel="stylesheet"/>
     });
 };
 </script>
-<script type="text/javascript">
-
-
-function getCount(){
-	$("#countform").submit();
-}	
-</script>	
+	
 
 <script type="text/javascript">
 $(function(){
@@ -130,22 +124,19 @@ $('.formselect').change(function(){
 	//$("#otpform").attr("action", "${pageContext.request.contextPath}/cnt/bz/change/msisdnprefix");
 	$("#reportform").submit();
 })});
-
 </script>
-
 </head>
 <body>
 
 	<center>
 	<p>
 		<a href="adnoconfig" >Config</a>
-		<a href="advertreport">Advertiser Report</a>
 	
 	<p>
 	</center>
     
 <form:form  modelAttribute="AggReport" name="reportform" id="reportform"
- action="${pageContext.request.contextPath}/cnt/inapp/aggstats">
+ action="${pageContext.request.contextPath}/cnt/inapp/advertreport">
  
  
 	
@@ -154,7 +145,7 @@ $('.formselect').change(function(){
 	 <tr>
      
      <td>
- <p>Advertiser
+         <p>Advertiser
              <form:select class="formselect" name="advertiserid" id="advertiserid" path="advertiserid" > 
 						<form:option value="" label="Select Advertiser" />
 						<c:forEach var="advertiser" items="${advertiserList}"
@@ -167,46 +158,14 @@ $('.formselect').change(function(){
            </td>                     
            <td>
            <p>
-           Operator
-             <form:select class="formselect" name="opid" id="opid" path="opid" > 
-						<form:option value="" label="Select Operator" />
-						<c:forEach var="operator" items="${operatorList}"
-								varStatus="oploop">
-							<form:option value="${operator.operatorId}" 
-							label="${operator.operatorName}"></form:option>
-						</c:forEach>
+             	  <label for="actionType">Action Type :</label>&nbsp;		
+    			 <form:select id="actionType" path="actionType">
+						<form:option value="SEND_PIN" label="SEND_PIN" />
+						<form:option value="PIN_VALIDATION" label="PIN_VALIDATION" />
+						<form:option value="STATUS_CHECK" label="STATUS_CHECK" />						
 				</form:select>
-				</p>
            </td>  
            </tr>
-               <tr>   
-           <td>
-           <p>
-           	Product
-             <form:select  name="productid" id="opid" path="productId" > 
-						<form:option value="" label="Select Product" />
-						<c:forEach var="product" items="${productList}"
-								varStatus="productloop">
-							<form:option value="${product.id}" 
-							label="${product.productName}"></form:option>
-						</c:forEach>
-				</form:select>
-				</p>
-           </td>     
-           <td>
-            <label for="adnetworkId">Adnetwork :</label>&nbsp;
-      <form:select id="adnetworkId" path="adnetworkId">
-						<form:option value="0" label="Select Adnetwork" />
-						<c:forEach var="adnetwork" items="${adnetworksList}"
-							varStatus="adnetworkloop">
-							<form:option value="${adnetwork.adNetworkId}" 
-							label="${adnetwork.networkName}"></form:option>							
-						</c:forEach>
-				</form:select>
-           </td>                
-          </tr>
-     
-          
   <tr>
   <td > 
   	  <label for="fromTime">From Time :</label>&nbsp;		
@@ -219,30 +178,21 @@ $('.formselect').change(function(){
          class="text ui-widget-content ui-corner-all"/>
    </td>
      </tr>     
+               <tr>   
+           <td>
+           <p>
+           Campaign ID
+             <input type = "text" name = "cmpid" id ="cmpid">
+             	</p>
+          
+				</p>
+           </td>     
+       
+          </tr>
      
-     <tr>
-  <td > 
-  	  <label for="reportType">Report Type :</label>&nbsp;		
-     <form:select id="reportType" path="reportType">
-						<form:option value="Daily" label="Daily" />
-						<form:option value="Monthly" label="Monthly" />						
-				</form:select>
-   </td>
-    <td > 
-         <p hidden> Aggregator
-         <form:select class="formselect" name="aggregatorId" id="aggregatorId" path="aggregatorId" data-selected=""> 
-						<form:option value="" label="Select " />
-						<c:forEach var="aggregator" items="${listAggregator}"
-								varStatus="aggregatorloop">
-							<form:option value="${aggregator.id}" 
-							 label="${aggregator.name}" ></form:option>
-						</c:forEach>
-		   </form:select>
-		   </p>
-   
-   </td>
-     </tr> 
-     
+          
+
+
       <tr>
       <td colspan="2">
       <input type="submit" value="Find Report" />
@@ -250,91 +200,36 @@ $('.formselect').change(function(){
      
       </td></tr>            
 	</table>
-	
-	</form:form>
 	<br>
-	<center>
-	 <label for="lastclickupdatetime">Last click Updated Time :  <b>${lastInappLiveReport.lastUpdateTime }</b></label>&nbsp;    	
-    </center>
 	<br><br>
 	<table id="reporttable" width="80%" border="1" align="center">
 
-	<c:forEach var="entry" items="${reportMap}" varStatus="outerloop">
 		<tr ><td colspan="8">&nbsp;</td><tr>
 	     
 					
 	<tr>
 	    <td>Campaign Id</td>
 		<th>Advertiser Name</th>
-		<th>Adnetwork Name</th>
-		<th>Product Name</th>
 		<th>Service Name</th>
-		<th>Operator Name</th>
-		<th>Report Date</th>		
-		<th>Pin Request Count</th>		
-		<th>Pin Send Count</th>
-		<th>Pin Validation RequestCount</th>
-		<th>Pin Validate Count</th>
-		<th>Pin Validate Amount</th>
-		<th>Status Check Request Count</th>
-		<th>Send Conversion Count</th>
-		<th>Send Conversion Amount</th>
-		<th>Total Revenue</th>
-		<th>Total Revenue(USD)</th>
-		<th></th>
+		<th>Create Date</th>
+		<th>Advertiser Request</th>
+		<th>Advertiser Response</th>
 		
 	</tr>
-			<c:forEach var="liveReport" items="${entry.value}" varStatus="loop">
+			<c:forEach var="liveReport" items="${reportlist}" varStatus="loop">
 				<tr bgcolor="">
-					<td>${liveReport.adnetworkCampaignId}</td>
+					<td>${liveReport.cmpId}</td>
 					<td>${liveReport.advertiserName}</td>	
-					<td>${liveReport.networkName}</td>	
-					<td>${liveReport.productName}</td>							
-					<td>
-					${liveReport.serviceName}
-<%-- 					<c:if test="${productId!=null&&productId>0}"> --%>
-<%-- 					${mapProduct[liveReport.productId].productName} --%>
-<%-- 					</c:if> --%>
-					</td>						
-					<td>${liveReport.operatorName}</td>					
-					<td>${liveReport.reportDateStr}</td>								
-					<td>${liveReport.pinRequestCount}</td>
-					<td>${liveReport.pinSendCount}</td>
-					<td>${liveReport.pinValidationRequestCount}</td>
-					<td>${liveReport.pinValidateCount}</td>
-					<td>${liveReport.pinValidateAmount}</td>
-					<td>${liveReport.statusCheckRequestCount}</td>
-					<td>${(liveReport.sendConversionCount)}</td>
-					<td>${liveReport.sendConversionAmount}</td>
-					<td></td><td></td>
-					<td><p>
-					<form:form  modelAttribute="InappLiveReport" name="countform" id="countform" action="${pageContext.request.contextPath}/cnt/inapp/uniquecount">
- 								<input type = "hidden" name = "adnetworkCampaignId" id ="adnetworkCampaignId" value="${liveReport.adnetworkCampaignId}">
- 								<input type = "hidden" name = "serviceId" id ="serviceId" value="${liveReport.serviceId}">
- 								<input type = "hidden" name = "reportDateStr" id ="reportDateStr" value="${liveReport.reportDateStr}">
- 								<input type = "hidden" name = "serviceName" id ="serviceName" value="${liveReport.serviceName}">
- 								<input type = "hidden" name = "advertiserName" id ="advertiserName" value="${liveReport.advertiserName}">
- 								
- 								<input type="submit" value="Unique Count" onclick=getCount();/>
-					</form:form>
-					</p>
-					</td>
+					<td>${liveReport.serviceName}</td>	
+					<td>${liveReport.createDate}</td>						
+					<td>${liveReport.advertiserApiRequest}</td>						
+					<td>${liveReport.advertiserApiResponse}</td>
+					
 				</tr>
 			</c:forEach>	
-			  <tr bgcolor="">						
-					<td colspan="5">Total</td>				
-					<td></td><td></td>						
-					<td>${entry.value.stream().map(v->v.pinRequestCount).sum()}</td>								
-					<td>${entry.value.stream().map(v->v.pinSendCount).sum()}</td>
-					<td>${entry.value.stream().map(v->v.pinValidationRequestCount).sum()}</td>
-					<td>${entry.value.stream().map(v->v.pinValidateCount).sum()}</td>
-					<td>${entry.value.stream().map(v->v.pinValidateAmount).sum()}</td>
-					<td>${entry.value.stream().map(v->v.statusCheckRequestCount).sum()}</td>
-			    	<td>${entry.value.stream().map(v->v.sendConversionCount).sum()}</td>
-					<td>${entry.value.stream().map(v->v.sendConversionAmount).sum()}</td>
-				</tr>
-			</c:forEach>
+	
 			</table>
+	</form:form>
 	<br><br>
 	<br><br>
 </body>

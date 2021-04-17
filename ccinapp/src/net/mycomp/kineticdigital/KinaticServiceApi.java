@@ -85,7 +85,9 @@ Map<String,String> headerMap=new HashMap<String,String>();
 					,headerMap);
 			kinaticApiTrans.setResponse(httpResponse.getResponseCode()+" : "+httpResponse.getResponseStr());
 			 
-			
+			inappProcessRequest.setAdvertiserApiRequest(url);
+			inappProcessRequest.setAdvertiserApiResponseCode(httpResponse.getResponseCode());
+			inappProcessRequest.setAdvertiserApiResponse(httpResponse.getResponseStr());
 			if(httpResponse.getResponseCode()==200||httpResponse.getResponseCode()==302){//pin_sent
 				 Map map= JsonMapper.getJsonToObject(httpResponse.getResponseStr(), Map.class);
 				 logger.info("sendPin:::::::: "+map
@@ -147,7 +149,9 @@ Map<String,String> headerMap=new HashMap<String,String>();
 					,headerMap);
 			kinaticApiTrans.setResponse(httpResponse.getResponseCode()+" : "+httpResponse.getResponseStr());
 			 
-			
+			inappProcessRequest.setAdvertiserApiRequest(url);
+			inappProcessRequest.setAdvertiserApiResponseCode(httpResponse.getResponseCode());
+			inappProcessRequest.setAdvertiserApiResponse(httpResponse.getResponseStr());
 			if(httpResponse.getResponseCode()==200){//pin_sent
 				 Map map= JsonMapper.getJsonToObject(httpResponse.getResponseStr(), Map.class);
 				 logger.info("validatePin:::::::: "+map);
@@ -205,7 +209,9 @@ Map<String,String> headerMap=new HashMap<String,String>();
 					,headerMap);
 			kinaticApiTrans.setResponse(httpResponse.getResponseCode()+" : "+httpResponse.getResponseStr());
 			 
-			
+			inappProcessRequest.setAdvertiserApiRequest(url);
+			inappProcessRequest.setAdvertiserApiResponseCode(httpResponse.getResponseCode());
+			inappProcessRequest.setAdvertiserApiResponse(httpResponse.getResponseStr());
 			if(httpResponse.getResponseCode()==200||httpResponse.getResponseCode()==302){//pin_sent
 			
 				 if(httpResponse.getResponseStr().equalsIgnoreCase("1")){					 			 

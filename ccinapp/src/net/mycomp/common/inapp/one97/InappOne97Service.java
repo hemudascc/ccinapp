@@ -95,7 +95,9 @@ public boolean sendPin(InappProcessRequest inappProcessRequest
 		one97InappOtpSend.setSendOtpResp(httpResponse.getResponseCode()+" : "+httpResponse.getResponseStr());
 		//inappOtpSend.setResponseToCaller(httpResponse.getResponseStr());
 		
-	
+		inappProcessRequest.setAdvertiserApiRequest(url);
+		inappProcessRequest.setAdvertiserApiResponseCode(httpResponse.getResponseCode());
+		inappProcessRequest.setAdvertiserApiResponse(httpResponse.getResponseStr());
 		Map map=JsonMapper.getJsonToObject(httpResponse.getResponseStr(), Map.class);
 		if(map!=null){
 		one97InappOtpSend.setTrxId(Objects.toString(map.get("txId")));
@@ -159,7 +161,9 @@ public boolean sendPin(InappProcessRequest inappProcessRequest
 		HTTPResponse httpResponse=httpURLConnectionUtil.sendGet(url);
 		one97InappOtpValidation.setPinValidationResponse(httpResponse.getResponseCode()+":"+httpResponse.getResponseStr());
 		Map map=JsonMapper.getJsonToObject(httpResponse.getResponseStr(), Map.class);
-		
+		inappProcessRequest.setAdvertiserApiRequest(url);
+		inappProcessRequest.setAdvertiserApiResponseCode(httpResponse.getResponseCode());
+		inappProcessRequest.setAdvertiserApiResponse(httpResponse.getResponseStr());
 		if(httpResponse.getResponseCode()==200
 				&&map!=null&&(map.get("mbSubApiResponseTO"))!=null
 				&&Objects.toString(((Map)map.get("mbSubApiResponseTO"))
@@ -200,8 +204,7 @@ public boolean sendPin(InappProcessRequest inappProcessRequest
 					.mapServiiceIdToOne97InAppConfig.get(inappProcessRequest
 					.getServiceId());
 			
-			if(inappOne97ServiceApi.checkChargeStatus(inappProcessRequest.getMsisdn()
-					, inappProcessRequest.getId(), inappProcessRequest.getCgToken()
+			if(inappOne97ServiceApi.checkChargeStatus(inappProcessRequest
 					, one97InAppConfig)){
 				inappProcessRequest.setSuccess(true);
 			}

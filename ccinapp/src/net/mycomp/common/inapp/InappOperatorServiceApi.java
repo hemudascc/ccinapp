@@ -150,9 +150,9 @@ public class InappOperatorServiceApi extends AbstractInappOperatorServiceApi {
 			if(vwTrafficRouting.isSendPin(subscriberRegList)) {
 				inappProcessRequest.setServiceId(vwTrafficRouting.getServiceId());
 				break;
-			}
-		}
+			}  
 
+		}
 		if (inappProcessRequest.getServiceId() == null) {
 			for (VWTrafficRouting vwTrafficRouting : vwServiceCampaignDetailList) {
 				vwTrafficRouting.getAtomicIntegerclickCounter().set(0);
@@ -171,22 +171,22 @@ public class InappOperatorServiceApi extends AbstractInappOperatorServiceApi {
 					MConstants.INAPP_ROUTING_CAHCE_PREFIX + inappProcessRequest.getMsisdn(),
 					inappProcessRequest.getServiceId(), 60);
 		}
-
+		logger.info("inappProcessRequest==> :  "+inappProcessRequest);
 		net.persist.bean.Service service = MData.mapServiceIdToService.get(inappProcessRequest.getServiceId());
-		findProcessRequest(service.getAdvertiserId()).statusCheck(inappProcessRequest, modelAndView);
-
-		SubscriberReg subscriberReg = jpaSubscriberReg.findSubscriberRegByMsisdnAndServiceId(
-				inappProcessRequest.getMsisdn(), inappProcessRequest.getServiceId());
-
-		if (subscriberReg != null && subscriberReg.getStatus() == MConstants.SUBSCRIBED) {
-			inappProcessRequest.setReason(EnumReason.ALREADY_SUBSCRIBED.reason);
-			return false;
-		}
-		if (inappProcessRequest.getSuccess()) {
-			inappProcessRequest.setSuccess(false);// reset beacause set by status check
-			inappProcessRequest.setReason(EnumReason.ALREADY_SUBSCRIBED.reason);
-			return false;
-		}
+		logger.info("service==> :  "+service);
+//		findProcessRequest(service.getAdvertiserId()).statusCheck(inappProcessRequest, modelAndView);
+//		SubscriberReg subscriberReg = jpaSubscriberReg.findSubscriberRegByMsisdnAndServiceId(
+//				inappProcessRequest.getMsisdn(), inappProcessRequest.getServiceId());
+//
+//		if (subscriberReg != null && subscriberReg.getStatus() == MConstants.SUBSCRIBED) {
+//			inappProcessRequest.setReason(EnumReason.ALREADY_SUBSCRIBED.reason);
+//			return false;
+//		}
+//		if (inappProcessRequest.getSuccess()) {
+//			inappProcessRequest.setSuccess(false);// reset beacause set by status check
+//			inappProcessRequest.setReason(EnumReason.ALREADY_SUBSCRIBED.reason);
+//			return false;
+//		}
 
 		return findProcessRequest(service.getAdvertiserId()).sendPin(inappProcessRequest, modelAndView);
 
@@ -201,22 +201,22 @@ public class InappOperatorServiceApi extends AbstractInappOperatorServiceApi {
 				0));
 
 		net.persist.bean.Service service = MData.mapServiceIdToService.get(inappProcessRequest.getServiceId());
-		SubscriberReg subscriberReg = jpaSubscriberReg.findSubscriberRegByMsisdnAndServiceId(
-				inappProcessRequest.getMsisdn(), inappProcessRequest.getServiceId());
-		if (subscriberReg != null && subscriberReg.getStatus() == MConstants.SUBSCRIBED) {
-			inappProcessRequest.setReason(EnumReason.ALREADY_SUBSCRIBED.reason);
-			return false;
-		}
-		findProcessRequest(service.getAdvertiserId()).statusCheck(inappProcessRequest, modelAndView);
-		if (inappProcessRequest.getSuccess()) {
-			inappProcessRequest.setSuccess(false);// reset beacause set by status check
-			inappProcessRequest.setReason(EnumReason.ALREADY_SUBSCRIBED.reason);
-			return false;
-		}
+//		SubscriberReg subscriberReg = jpaSubscriberReg.findSubscriberRegByMsisdnAndServiceId(
+//				inappProcessRequest.getMsisdn(), inappProcessRequest.getServiceId());
+//		if (subscriberReg != null && subscriberReg.getStatus() == MConstants.SUBSCRIBED) {
+//			inappProcessRequest.setReason(EnumReason.ALREADY_SUBSCRIBED.reason);
+//			return false;
+//		}
+//		findProcessRequest(service.getAdvertiserId()).statusCheck(inappProcessRequest, modelAndView);
+//		if (inappProcessRequest.getSuccess()) {
+//			inappProcessRequest.setSuccess(false);// reset beacause set by status check
+//			inappProcessRequest.setReason(EnumReason.ALREADY_SUBSCRIBED.reason);
+//			return false;
+//		}
 
 		boolean status = findProcessRequest(service.getAdvertiserId()).validatePin(inappProcessRequest, modelAndView);
 		if (inappProcessRequest.getSuccess()) {
-			subscriberReg = new SubscriberReg();
+			SubscriberReg subscriberReg = new SubscriberReg();
 			subscriberReg.setMsisdn(inappProcessRequest.getMsisdn());
 			subscriberReg.setServiceId(inappProcessRequest.getServiceId());
 			subscriberReg.setStatus(MConstants.SUBSCRIBED);

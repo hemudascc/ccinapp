@@ -7,6 +7,7 @@ import javax.annotation.PostConstruct;
 
 import net.common.jms.JMSService;
 import net.jpa.repository.JPAInappTmtConfig;
+import net.mycomp.common.inapp.InappProcessRequest;
 import net.mycomp.common.service.IDaoService;
 import net.util.HTTPResponse;
 import net.util.HttpURLConnectionUtil;
@@ -48,18 +49,18 @@ public class InappTmtServiceApi{
 	
 
 	
-	public boolean checkSubscriptionStatus(String msisdn,Integer id,String cgToken,InAppTmtConfig tmtInAppConfig
+	public boolean checkSubscriptionStatus(InappProcessRequest inappProcessRequest,InAppTmtConfig tmtInAppConfig
 			
 			){
 	   
 		InappTmtStatusCheck tmtInappStatusCheck=null;
 		try{
 			tmtInappStatusCheck=new InappTmtStatusCheck(true);
-			tmtInappStatusCheck.setCgToken(cgToken);
-			tmtInappStatusCheck.setRequestId(id);
+			tmtInappStatusCheck.setCgToken(inappProcessRequest.getCgToken());
+			tmtInappStatusCheck.setRequestId(inappProcessRequest.getId());
 		
 		String url=InappTmtConstant.getUrl(tmtInAppConfig.getCheckSubUrl(),
-				null ,msisdn
+				null ,inappProcessRequest.getMsisdn()
 				, tmtInAppConfig, "", "");
 		
 		tmtInappStatusCheck.setStatusCheckUrl(url);
@@ -68,7 +69,9 @@ public class InappTmtServiceApi{
 				+" : "+httpResponse.getResponseStr());
 		// {"status":"0","description":"active","prodid":"Have Fun Games","sc":"",
 		//"keyword":"","trxId":1025652606,"chargeStatus":false}
-		
+		inappProcessRequest.setAdvertiserApiRequest(url);
+		inappProcessRequest.setAdvertiserApiResponseCode(httpResponse.getResponseCode());
+		inappProcessRequest.setAdvertiserApiResponse(httpResponse.getResponseStr());
 		if(httpResponse.getResponseCode()==200){
 			
 			Map map= JsonMapper.getJsonToObject(httpResponse.getResponseStr(), Map.class);
@@ -93,16 +96,16 @@ public class InappTmtServiceApi{
 	}
 	
 	
-public boolean checkChargeStatus(String msisdn,Integer id,String cgToken,InAppTmtConfig tmtInAppConfig,ModelAndView modelAndView){
+public boolean checkChargeStatus(InappProcessRequest inappProcessRequest,InAppTmtConfig tmtInAppConfig,ModelAndView modelAndView){
 	   
 		InappTmtStatusCheck tmtInappStatusCheck=null;
 		try{
 			tmtInappStatusCheck=new InappTmtStatusCheck(true);
-			tmtInappStatusCheck.setCgToken(cgToken);
-			tmtInappStatusCheck.setRequestId(id);
+			tmtInappStatusCheck.setCgToken(inappProcessRequest.getCgToken());
+			tmtInappStatusCheck.setRequestId(inappProcessRequest.getId());
 		
 		String url=InappTmtConstant.getUrl(tmtInAppConfig.getCheckSubUrl(),
-				null ,msisdn
+				null ,inappProcessRequest.getMsisdn()
 				, tmtInAppConfig, "", "");
 		
 		tmtInappStatusCheck.setStatusCheckUrl(url);
@@ -111,7 +114,9 @@ public boolean checkChargeStatus(String msisdn,Integer id,String cgToken,InAppTm
 				+" : "+httpResponse.getResponseStr());
 		// {"status":"0","description":"active","prodid":"Have Fun Games","sc":"",
 		//"keyword":"","trxId":1025652606,"chargeStatus":false}
-		
+		inappProcessRequest.setAdvertiserApiRequest(url);
+		inappProcessRequest.setAdvertiserApiResponseCode(httpResponse.getResponseCode());
+		inappProcessRequest.setAdvertiserApiResponse(httpResponse.getResponseStr());
 		if(httpResponse.getResponseCode()==200){
 			
 			Map map= JsonMapper.getJsonToObject(httpResponse.getResponseStr(), Map.class);

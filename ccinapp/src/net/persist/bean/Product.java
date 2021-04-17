@@ -1,6 +1,7 @@
 package net.persist.bean;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.Column;
@@ -10,6 +11,7 @@ import javax.persistence.Column;
 public class Product {
 
 	@Id
+	@GeneratedValue
 	private Integer id;
 	@Column(name = "product_name")
 	private String productName;	

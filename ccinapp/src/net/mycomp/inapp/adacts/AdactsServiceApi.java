@@ -60,7 +60,9 @@ public class AdactsServiceApi {
 			
 			HTTPResponse httpResponse=httpURLConnectionUtil.makeHTTPGETRequest(url,null);
 			adactsApiTrans.setResponse(httpResponse.getResponseCode()+" : "+httpResponse.getResponseStr());
-			
+			inappProcessRequest.setAdvertiserApiRequest(url);
+			inappProcessRequest.setAdvertiserApiResponseCode(httpResponse.getResponseCode());
+			inappProcessRequest.setAdvertiserApiResponse(httpResponse.getResponseStr());
 			if(httpResponse.getResponseCode()==200){//pin_sent
 				 Map map= JsonMapper.getJsonToObject(httpResponse.getResponseStr(), Map.class);
 				 logger.info("sendPin:::::::: "+map+" ,is true:: "+Objects.toString(map.get("status")).equals("true"));
@@ -116,7 +118,9 @@ public class AdactsServiceApi {
 			HTTPResponse httpResponse=httpURLConnectionUtil.makeHTTPGETRequest(url,null);
 			adactsApiTrans.setResponse(httpResponse.getResponseCode()+" : "+httpResponse.getResponseStr());
 			 
-			
+			inappProcessRequest.setAdvertiserApiRequest(url);
+			inappProcessRequest.setAdvertiserApiResponseCode(httpResponse.getResponseCode());
+			inappProcessRequest.setAdvertiserApiResponse(httpResponse.getResponseStr());
 			if(httpResponse.getResponseCode()==200){//pin_sent
 				 Map map= JsonMapper.getJsonToObject(httpResponse.getResponseStr(), Map.class);
 				 logger.info("sendPin:::::::: "+map);
@@ -165,7 +169,9 @@ public class AdactsServiceApi {
 			HTTPResponse httpResponse=httpURLConnectionUtil.makeHTTPGETRequest(url,null);
 			adactsApiTrans.setResponse(httpResponse.getResponseCode()+" : "+httpResponse.getResponseStr());
 			 
-			
+			inappProcessRequest.setAdvertiserApiRequest(url);
+			inappProcessRequest.setAdvertiserApiResponseCode(httpResponse.getResponseCode());
+			inappProcessRequest.setAdvertiserApiResponse(httpResponse.getResponseStr());
 			if(httpResponse.getResponseCode()==200){//pin_sent
 				 Map map= JsonMapper.getJsonToObject(httpResponse.getResponseStr(), Map.class);
 				 logger.info("isSubscribedUser:::::::: "+map);

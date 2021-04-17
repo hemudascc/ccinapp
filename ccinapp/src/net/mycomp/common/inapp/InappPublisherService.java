@@ -1,5 +1,6 @@
 package net.mycomp.common.inapp;
 
+import net.mycomp.publisher.AdwellyMediaPublisherService;
 import net.mycomp.publisher.AudienceNestInappPublisherService;
 import net.mycomp.publisher.CollectcentInappPublisherService;
 import net.mycomp.publisher.DefaultInappPublisherService;
@@ -79,6 +80,10 @@ public class InappPublisherService implements IInappPublisherService{
 	@Qualifier("sarasMediaInappPublisherService")
 	private SarasMediaInappPublisherService sarasMediaInappPublisherService;
 	
+	@Autowired
+	@Qualifier("adwellyMediaPublisherService")
+	private AdwellyMediaPublisherService adwellyMediaPublisherService;
+	
 private IInappPublisherService findProcessRequest(int adnetworkId){
 	
 	IInappPublisherService inappPublisherService=null;
@@ -137,6 +142,9 @@ private IInappPublisherService findProcessRequest(int adnetworkId){
 		}
 		case InappConstant.INAPP_SARAS_MEDIA_ADNETWORK_ID:{
 			inappPublisherService=sarasMediaInappPublisherService;
+			break;
+		}case InappConstant.INAPP_ADWELLY_MEDIA_ADNETWORK_ID:{
+			inappPublisherService=adwellyMediaPublisherService;
 			break;
 		}
 		default:{

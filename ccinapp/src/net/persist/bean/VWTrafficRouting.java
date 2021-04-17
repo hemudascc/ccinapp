@@ -77,12 +77,12 @@ public class VWTrafficRouting implements Serializable,Comparable<VWTrafficRoutin
 	public AtomicInteger atomicIntegerclickCounter = new AtomicInteger(0);
 	
 	public boolean isSendPin(List<SubscriberReg> listSubbscriberReg) {
-		for(SubscriberReg subscriberReg:listSubbscriberReg){
-			if(subscriberReg!=null&&subscriberReg.getStatus()==MConstants.SUBSCRIBED
-					&&subscriberReg.getServiceId()==serviceId){
-				return false;
-			 }
-		}		
+//		for(SubscriberReg subscriberReg:listSubbscriberReg){
+//			if(subscriberReg!=null&&subscriberReg.getStatus()==MConstants.SUBSCRIBED
+//					&&subscriberReg.getServiceId()==serviceId){
+//				return false;
+//			 } 
+//		}		
 	return atomicIntegerclickCounter.getAndUpdate(n -> n + 1) < percentageOfTraffic;	
 	}
 		
