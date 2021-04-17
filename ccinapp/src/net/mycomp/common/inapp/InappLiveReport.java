@@ -33,6 +33,7 @@ public class InappLiveReport {
 	private int productId;
 	private Timestamp lastUpdateTime;
 	private String advertiserName;
+	private String productName;
 	
 		public String toString() {
 
@@ -260,6 +261,14 @@ public class InappLiveReport {
 
 		public void setAdvertiserName(String advertiserName) {
 			this.advertiserName = advertiserName;
+		}
+
+		public String getProductName() {
+			return productName;
+		}
+
+		public void setProductName(String productName) {
+			this.productName = productName;
 		}
 
 		

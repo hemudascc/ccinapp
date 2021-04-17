@@ -117,7 +117,8 @@ public class InappMisController {
 		ModelAndView modelAndView=new ModelAndView("inapp/agg_report");
 		
 		//modelAndView.addObject("mapAggregator",MData.mapIdToAggregator);
-
+		logger.info("aggReport:  "+aggReport);
+		aggReport.setAggregatorId(14);
 		InappLiveReport InappLiveReport = daoService.getInappLiveReport();
 		logger.info(" InappLiveReport :  "+InappLiveReport);		   
 		modelAndView.addObject("advertiserList", MData.mapIdToAdvertiser.values().stream().collect(Collectors.toList()));
@@ -148,11 +149,11 @@ public class InappMisController {
 //				  mapProduct.put(service.getProductId(),MData.mapIdToProduct.get(service.getProductId()));
 //				}
 //			}
-//			modelAndView.addObject("productList", mapProduct.values().stream()
-//					.collect(Collectors.toList()));
+		logger.info("productLid:  "+MData.mapIdToProduct);
+			modelAndView.addObject("productList", MData.mapIdToProduct.values().stream().collect(Collectors.toList()));
 //		}
 		
-		modelAndView.addObject("adnetworksList", MData.mapAdnetworks.values().stream()
+		modelAndView.addObject("adnetworksList", MData.mapAdnetworks.values().stream()  
 				.collect(Collectors.toList()));
 		
 		List<InappLiveReport> list = daoService.findInappLiveReportAggReport(aggReport);

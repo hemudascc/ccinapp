@@ -154,15 +154,15 @@ $('.formselect').change(function(){
 	 <tr>
      
      <td>
-         <p> Aggregator
-         <form:select class="formselect" name="aggregatorId" id="aggregatorId" path="aggregatorId" > 
-						<form:option value="" label="Select " />
-						<c:forEach var="aggregator" items="${listAggregator}"
-								varStatus="aggregatorloop">
-							<form:option value="${aggregator.id}"
-							 label="${aggregator.name}" ></form:option>
+ <p>Advertiser
+             <form:select class="formselect" name="advertiserid" id="advertiserid" path="advertiserid" > 
+						<form:option value="" label="Select Advertiser" />
+						<c:forEach var="advertiser" items="${advertiserList}"
+								varStatus="advertiserloop">
+							<form:option value="${advertiser.id}" 
+							label="${advertiser.advertiserName}"></form:option>
 						</c:forEach>
-		   </form:select>
+				</form:select>
 		   </p>
            </td>                     
            <td>
@@ -229,16 +229,17 @@ $('.formselect').change(function(){
 				</form:select>
    </td>
     <td > 
-    <p>Advertiser
-             <form:select class="formselect" name="advertiserid" id="advertiserid" path="advertiserid" > 
-						<form:option value="" label="Select Advertiser" />
-						<c:forEach var="advertiser" items="${advertiserList}"
-								varStatus="advertiserloop">
-							<form:option value="${advertiser.id}" 
-							label="${advertiser.advertiserName}"></form:option>
+         <p hidden> Aggregator
+         <form:select class="formselect" name="aggregatorId" id="aggregatorId" path="aggregatorId" data-selected=""> 
+						<form:option value="" label="Select " />
+						<c:forEach var="aggregator" items="${listAggregator}"
+								varStatus="aggregatorloop">
+							<form:option value="${aggregator.id}" 
+							 label="${aggregator.name}" ></form:option>
 						</c:forEach>
-				</form:select>
+		   </form:select>
 		   </p>
+   
    </td>
      </tr> 
      
@@ -267,6 +268,7 @@ $('.formselect').change(function(){
 		<th>Advertiser Name</th>
 		<th>Adnetwork Name</th>
 		<th>Product Name</th>
+		<th>Service Name</th>
 		<th>Operator Name</th>
 		<th>Report Date</th>		
 		<th>Pin Request Count</th>		
@@ -286,7 +288,8 @@ $('.formselect').change(function(){
 				<tr bgcolor="">
 					<td>${liveReport.adnetworkCampaignId}</td>
 					<td>${liveReport.advertiserName}</td>	
-					<td>${liveReport.networkName}</td>						
+					<td>${liveReport.networkName}</td>	
+					<td>${liveReport.productName}</td>							
 					<td>
 					${liveReport.serviceName}
 <%-- 					<c:if test="${productId!=null&&productId>0}"> --%>
@@ -320,7 +323,7 @@ $('.formselect').change(function(){
 			</c:forEach>	
 			  <tr bgcolor="">						
 					<td colspan="5">Total</td>				
-					<td></td>						
+					<td></td><td></td>						
 					<td>${entry.value.stream().map(v->v.pinRequestCount).sum()}</td>								
 					<td>${entry.value.stream().map(v->v.pinSendCount).sum()}</td>
 					<td>${entry.value.stream().map(v->v.pinValidationRequestCount).sum()}</td>

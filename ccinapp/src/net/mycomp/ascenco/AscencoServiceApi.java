@@ -83,7 +83,9 @@ public class AscencoServiceApi {
 			HTTPResponse httpResponse=httpURLConnectionUtil.makeHTTPGETRequest(url, headerMap);
 			ascencoApiTrans.setResponse(httpResponse.getResponseStr());
 			ascencoApiTrans.setResponseCode(httpResponse.getResponseCode());
-			
+			inappProcessRequest.setAdvertiserApiRequest(url);
+			inappProcessRequest.setAdvertiserApiResponseCode(httpResponse.getResponseCode());
+			inappProcessRequest.setAdvertiserApiResponse(httpResponse.getResponseStr());
 			if(httpResponse.getResponseCode()==200){//pin_sent
 				 Map map= JsonMapper.getJsonToObject(httpResponse.getResponseStr(), Map.class);
 				 logger.info("sendPin:::::::: "+map );
@@ -147,6 +149,9 @@ public class AscencoServiceApi {
 			
 			ascencoApiTrans.setResponse(httpResponse.getResponseStr());
 			ascencoApiTrans.setResponseCode(httpResponse.getResponseCode());
+			inappProcessRequest.setAdvertiserApiRequest(url);
+			inappProcessRequest.setAdvertiserApiResponseCode(httpResponse.getResponseCode());
+			inappProcessRequest.setAdvertiserApiResponse(httpResponse.getResponseStr());
 			//{"body": {"msisdn": "","product_id": "","op_id": "","requestStatusCode": "","requestStatusDesc": "","flag": ""}
 			//,"statusCode": "OK","statusCodeValue": 200}
 			if(httpResponse.getResponseCode()==200){//pin_sent
@@ -204,6 +209,9 @@ public class AscencoServiceApi {
 			
 			ascencoApiTrans.setResponse(httpResponse.getResponseStr());
 			ascencoApiTrans.setResponseCode(httpResponse.getResponseCode());
+			inappProcessRequest.setAdvertiserApiRequest(url);
+			inappProcessRequest.setAdvertiserApiResponseCode(httpResponse.getResponseCode());
+			inappProcessRequest.setAdvertiserApiResponse(httpResponse.getResponseStr());
 			//{"body": {"msisdn": "","product_id": "","op_id": "","requestStatusCode": "","requestStatusDesc": "","flag": ""}
 			//,"statusCode": "OK","statusCodeValue": 200}
 			if(httpResponse.getResponseCode()==200){//pin_sent

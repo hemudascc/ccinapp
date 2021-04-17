@@ -75,7 +75,9 @@ public class ShemarooServiceApi {
 			HTTPResponse httpResponse=httpURLConnectionUtil.makeHTTPGETRequest(url,null);
 			shemarooApiTrans.setResponse(httpResponse.getResponseCode()+" : "+httpResponse.getResponseStr());
 			 
-			
+			inappProcessRequest.setAdvertiserApiRequest(url);
+			inappProcessRequest.setAdvertiserApiResponseCode(httpResponse.getResponseCode());
+			inappProcessRequest.setAdvertiserApiResponse(httpResponse.getResponseStr());
 			if(httpResponse.getResponseCode()==200){//pin_sent
 				 Map map= JsonMapper.getJsonToObject(httpResponse.getResponseStr(), Map.class);
 				 logger.info("sendPin:::::::: "+map
@@ -130,7 +132,9 @@ public class ShemarooServiceApi {
 			
 			HTTPResponse httpResponse=httpURLConnectionUtil.makeHTTPGETRequest(url,null);
 			shemarooApiTrans.setResponse(httpResponse.getResponseCode()+" : "+httpResponse.getResponseStr());
-			 
+			inappProcessRequest.setAdvertiserApiRequest(url);
+			inappProcessRequest.setAdvertiserApiResponseCode(httpResponse.getResponseCode());
+			inappProcessRequest.setAdvertiserApiResponse(httpResponse.getResponseStr());
 			
 			if(httpResponse.getResponseCode()==200){//pin_sent
 				 Map map= JsonMapper.getJsonToObject(httpResponse.getResponseStr(), Map.class);
@@ -180,7 +184,9 @@ public class ShemarooServiceApi {
 			HTTPResponse httpResponse=httpURLConnectionUtil.makeHTTPGETRequest(url,null);
 			shemarooApiTrans.setResponse(httpResponse.getResponseCode()+" : "+httpResponse.getResponseStr());
 			 
-			
+			inappProcessRequest.setAdvertiserApiRequest(url);
+			inappProcessRequest.setAdvertiserApiResponseCode(httpResponse.getResponseCode());
+			inappProcessRequest.setAdvertiserApiResponse(httpResponse.getResponseStr());
 			if(httpResponse.getResponseCode()==200){//pin_sent
 				 Map map= JsonMapper.getJsonToObject(httpResponse.getResponseStr(), Map.class);
 				 logger.info("validatePin:::::::: "+map);
@@ -228,7 +234,9 @@ public class ShemarooServiceApi {
 			HTTPResponse httpResponse=httpURLConnectionUtil.makeHTTPGETRequest(url,null);
 			shemarooApiTrans.setResponse(httpResponse.getResponseCode()+" : "+httpResponse.getResponseStr());
 			 
-			
+			inappProcessRequest.setAdvertiserApiRequest(url);
+			inappProcessRequest.setAdvertiserApiResponseCode(httpResponse.getResponseCode());
+			inappProcessRequest.setAdvertiserApiResponse(httpResponse.getResponseStr());
 			if(httpResponse.getResponseCode()==200){//pin_sent		
 				
 				 if(!httpResponse.getResponseStr().equalsIgnoreCase("NEWUSER")){//					 

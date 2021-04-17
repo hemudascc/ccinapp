@@ -81,8 +81,7 @@ public boolean sendPin(InappProcessRequest inappProcessRequest
 			InAppTmtConfig tmtInAppConfig=InappTmtConstant
 					.mapServiiceIdToTmtInAppConfig.get(inappProcessRequest
 					.getServiceId());
-			if(inappTmtServiceApi.checkSubscriptionStatus(inappProcessRequest.getMsisdn()
-					, inappProcessRequest.getId(), inappProcessRequest.getCgToken(), 
+			if(inappTmtServiceApi.checkSubscriptionStatus(inappProcessRequest, 
 					tmtInAppConfig)){
 				inappProcessRequest.setSuccess(false);
 				return true;
@@ -97,7 +96,9 @@ public boolean sendPin(InappProcessRequest inappProcessRequest
 		HTTPResponse httpResponse=httpURLConnectionUtil.sendGet(url);
 		tmtInappOtpSend.setSendOtpResp(httpResponse.getResponseCode()+" : "+httpResponse.getResponseStr());
 		//inappOtpSend.setResponseToCaller(httpResponse.getResponseStr());
-		
+		inappProcessRequest.setAdvertiserApiRequest(url);
+		inappProcessRequest.setAdvertiserApiResponseCode(httpResponse.getResponseCode());
+		inappProcessRequest.setAdvertiserApiResponse(httpResponse.getResponseStr());
 		if(httpResponse.getResponseCode()==200){//pin_sent
 			 Map map= JsonMapper.getJsonToObject(httpResponse.getResponseStr(), Map.class);
 			 logger.info("sendPin:::::::: "+map+" ,is true:: "+Objects.toString(map.get("status")).equals("true"));
@@ -146,7 +147,9 @@ public boolean sendPin(InappProcessRequest inappProcessRequest
 		tmtInappOtpValidation.setPinValidationUrl(url);
 		HTTPResponse httpResponse=httpURLConnectionUtil.sendGet(url);
 		tmtInappOtpValidation.setPinValidationResponse(httpResponse.getResponseCode()+":"+httpResponse.getResponseStr());
-		
+		inappProcessRequest.setAdvertiserApiRequest(url);
+		inappProcessRequest.setAdvertiserApiResponseCode(httpResponse.getResponseCode());
+		inappProcessRequest.setAdvertiserApiResponse(httpResponse.getResponseStr());
 		if(httpResponse.getResponseCode()==200){
 			Map map= JsonMapper.getJsonToObject(httpResponse.getResponseStr(), Map.class);
 			//{"status":true,"trxId":"1025652350"}
@@ -179,8 +182,7 @@ public boolean sendPin(InappProcessRequest inappProcessRequest
 					.mapServiiceIdToTmtInAppConfig.get(inappProcessRequest
 					.getServiceId());
 			
-			inappProcessRequest.setSuccess(inappTmtServiceApi.checkSubscriptionStatus(inappProcessRequest.getMsisdn()
-					, inappProcessRequest.getId(), inappProcessRequest.getCgToken()
+			inappProcessRequest.setSuccess(inappTmtServiceApi.checkSubscriptionStatus(inappProcessRequest
 					, tmtInAppConfig));
 			
 		}catch(Exception ex){

@@ -140,6 +140,7 @@ public class CommonDaoImpl extends NamedParameterJdbcTemplate implements ICommon
       		+ "vwlive.adnetwork_campaign_id as adnetworkCampaignId,"
       		+ "vwlive.adnetworkid as adnetworkId,"
       		+ "vwlive.aggregator_id as aggregatorId,"
+      		+ "vwlive.product_name as productName,"
       		+ "vws.service_id as serviceId,"
       		+ "vws.service_name as serviceName,"
       		+ "vwlive.advertiser_name as advertiserName, "
@@ -182,7 +183,7 @@ public class CommonDaoImpl extends NamedParameterJdbcTemplate implements ICommon
       }
 
       if (aggReport.getProductId() != null) {
-         queryStr = queryStr + " and vwscd.product_id=:product_id";
+         queryStr = queryStr + " and vwlive.product_id=:product_id";
          parameters.put("product_id", aggReport.getProductId());
       }
       
@@ -192,7 +193,7 @@ public class CommonDaoImpl extends NamedParameterJdbcTemplate implements ICommon
     	  
       }
 
-      queryStr = queryStr + " group by 1,3,5,8 order by 1 asc,3 asc";
+      queryStr = queryStr + " group by 1,3,5,9 order by 1 asc,3 asc";
       logger.info("query str: " + queryStr + " ,parameters:: " + parameters);
       List<InappLiveReport> list = query(queryStr, parameters, new BeanPropertyRowMapper<InappLiveReport>(InappLiveReport.class));
       return list;
@@ -325,7 +326,7 @@ public class CommonDaoImpl extends NamedParameterJdbcTemplate implements ICommon
 			}
 			
 			
-		   queryStr+= " group by 1,3,5,8 order by 1 asc,3 asc";
+		   queryStr+= " order by 1 asc,4 asc limit 300";
 				   
 				   logger.info("query str: "+queryStr+" ,parameters:: "+parameters);
 				 List<InAppAdverterReport> list = query(queryStr, parameters,new BeanPropertyRowMapper<InAppAdverterReport>(InAppAdverterReport.class));
