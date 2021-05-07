@@ -23,13 +23,13 @@ public class AdnetworkCallbackService {
 		AdnetworkOperatorConfig adnetworkOperatorConfig = MData.mapAdnetworkOpConfig
 				.get(vwserviceCampaignDetail.getOpId())
 				.get(vwserviceCampaignDetail.getAdNetworkId());	
-		
+		logger.info("isSendActMoreThanZeroPricePointAdnetworkCallBack adnetworkOperatorConfig: "+adnetworkOperatorConfig);
 		boolean isSendToAdnetwork=!(adnetworkOperatorConfig.atomicActSkipNumber.
 				 getAndUpdate(2, n->n>=adnetworkOperatorConfig.atomicActSkipNumber.get(1)?1:n+1)
 				 <=adnetworkOperatorConfig.atomicActSkipNumber.get(0));
 		return isSendToAdnetwork;
 		}catch(Exception ex){
-			
+			logger.error("isSendActMoreThanZeroPricePointAdnetworkCallBack Exception: "+ex);
 		}
 		return false;
 	}

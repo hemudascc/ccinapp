@@ -123,6 +123,7 @@ public boolean sendPin(InappProcessRequest inappProcessRequest
 			
 			VacaApiTrans sendPinSkmobiApiTrans=vacaServiceApi
 					.validatePin(inappProcessRequest);
+			logger.info("VacaApiTrans status: "+sendPinSkmobiApiTrans.getSuccess());
 			if(sendPinSkmobiApiTrans.getSuccess()){
 				inappProcessRequest.setSuccess(true);
 			}

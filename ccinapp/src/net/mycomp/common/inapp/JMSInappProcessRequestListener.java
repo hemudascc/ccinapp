@@ -64,7 +64,7 @@ public class JMSInappProcessRequestListener implements MessageListener{
 		}
 		
 			}catch(Exception ex){			
-			logger.error(msisdn+" onMessage::::: "+inappProcessRequest,ex);
+			logger.error(msisdn+" onMessage::::: "+inappProcessRequest+" error:  "+ex);
 			
 		}finally{
 			try{

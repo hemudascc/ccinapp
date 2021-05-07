@@ -154,9 +154,10 @@ public class VacaServiceApi {
 					inappProcessRequest.setSuccess(true);
 					inappProcessRequest.setConversionCount(1);
 					inappProcessRequest.setPinValidateAmount(vacaConfig.getPricePoint());
-					
+				logger.info("advertiser Response sucess");	
 			  }else if(map!=null&&(Objects.toString(map.get("response")).equalsIgnoreCase("SUBSCRIBED"))){
 				  inappProcessRequest.setReason(EnumReason.ALREADY_SUBSCRIBED.reason);
+				  logger.info("advertiser Response already subscribed");
 			  }
 			
 				

@@ -103,17 +103,19 @@ public class CollectcentInappPublisherService implements IInappPublisherService{
 		 if(service!=null){
 			 otpLength=service.getOtpLength();
 		 }
-		 
+		 logger.info("inappProcessRequest success Status:  "+inappProcessRequest.isSuccess());
 		if(inappProcessRequest.isSuccess()){
 			
 			if(adnetworkCallbackService.
 			isSendActMoreThanZeroPricePointAdnetworkCallBack(inappProcessRequest.vwCampaignDetail)){
+				logger.info("Collectcent Publisher Success");
 				//inappProcessRequest.setResponseObject("1");
 				inappProcessRequest.setConversionSendToAdenetwork(true);
 				responseMap.put("STATUS", "SUCCESS");
 				responseMap.put("MSG", "Otp Verify");
 				 responseMap.put("OTP_LEN", ""+otpLength);
 			}else{
+				logger.info("Collectcent Publisher fail");
 				inappOperatorServiceApi.addToBlock(inappProcessRequest);
 				responseMap.put("STATUS", "FAIL");
 				responseMap.put("MSG", "Otp Not Verify");
@@ -121,6 +123,7 @@ public class CollectcentInappPublisherService implements IInappPublisherService{
 				//inappProcessRequest.setResponseObject("0");
 			}
 		}else{
+			logger.info("Collectcent Publisher Status fail");
 			responseMap.put("STATUS", "FAIL");
 			responseMap.put("MSG", "Otp Not Verify");
 			 responseMap.put("OTP_LEN", ""+otpLength);

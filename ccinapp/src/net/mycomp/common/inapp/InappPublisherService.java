@@ -12,6 +12,7 @@ import net.mycomp.publisher.InnoveraSolutionsPublisherService;
 import net.mycomp.publisher.MaclatoInappPublisherService;
 import net.mycomp.publisher.MobilartsPublisherService;
 import net.mycomp.publisher.MplusInappPublisherService;
+import net.mycomp.publisher.OutrixwavePublisherService;
 import net.mycomp.publisher.SaintInappPublisherService;
 import net.mycomp.publisher.SarasMediaInappPublisherService;
 import net.mycomp.publisher.SmileDigitalInappPublisherService;
@@ -84,6 +85,10 @@ public class InappPublisherService implements IInappPublisherService{
 	@Qualifier("adwellyMediaPublisherService")
 	private AdwellyMediaPublisherService adwellyMediaPublisherService;
 	
+	@Autowired
+	@Qualifier("outrixwavePublisherService")  
+	private OutrixwavePublisherService outrixwavePublisherService;
+	
 private IInappPublisherService findProcessRequest(int adnetworkId){
 	
 	IInappPublisherService inappPublisherService=null;
@@ -145,6 +150,9 @@ private IInappPublisherService findProcessRequest(int adnetworkId){
 			break;
 		}case InappConstant.INAPP_ADWELLY_MEDIA_ADNETWORK_ID:{
 			inappPublisherService=adwellyMediaPublisherService;
+			break;
+		}case InappConstant.INAPP_OUTRIX_WAVE_ADNETWORK_ID:{
+			inappPublisherService=outrixwavePublisherService;
 			break;
 		}
 		default:{

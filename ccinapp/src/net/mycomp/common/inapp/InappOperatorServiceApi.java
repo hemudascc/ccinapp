@@ -215,6 +215,7 @@ public class InappOperatorServiceApi extends AbstractInappOperatorServiceApi {
 //		}
 
 		boolean status = findProcessRequest(service.getAdvertiserId()).validatePin(inappProcessRequest, modelAndView);
+		logger.info("InAppOperatorServiceAPI: "+status);
 		if (inappProcessRequest.getSuccess()) {
 			SubscriberReg subscriberReg = new SubscriberReg();
 			subscriberReg.setMsisdn(inappProcessRequest.getMsisdn());
