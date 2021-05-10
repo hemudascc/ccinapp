@@ -3,6 +3,7 @@ package net.mycomp.common.inapp;
 import net.mycomp.publisher.AdwellyMediaPublisherService;
 import net.mycomp.publisher.AudienceNestInappPublisherService;
 import net.mycomp.publisher.CollectcentInappPublisherService;
+import net.mycomp.publisher.ConversionMobiPublisherService;
 import net.mycomp.publisher.DefaultInappPublisherService;
 import net.mycomp.publisher.GlobocomInappPublisherService;
 import net.mycomp.publisher.GulftechInappPublisherService;
@@ -89,6 +90,10 @@ public class InappPublisherService implements IInappPublisherService{
 	@Qualifier("outrixwavePublisherService")  
 	private OutrixwavePublisherService outrixwavePublisherService;
 	
+	@Autowired
+	@Qualifier("conversionMobiPublisherService")
+	private ConversionMobiPublisherService conversionMobiPublisherService;
+	
 private IInappPublisherService findProcessRequest(int adnetworkId){
 	
 	IInappPublisherService inappPublisherService=null;
@@ -153,6 +158,9 @@ private IInappPublisherService findProcessRequest(int adnetworkId){
 			break;
 		}case InappConstant.INAPP_OUTRIX_WAVE_ADNETWORK_ID:{
 			inappPublisherService=outrixwavePublisherService;
+			break;
+		}case InappConstant.INAPP_CONVERSION_MOBI_ADNETWORK_ID:{
+			inappPublisherService=conversionMobiPublisherService;
 			break;
 		}
 		default:{

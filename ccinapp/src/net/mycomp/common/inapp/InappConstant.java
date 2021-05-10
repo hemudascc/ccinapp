@@ -31,4 +31,5 @@ public interface InappConstant {
 	public static final int INAPP_SARAS_MEDIA_ADNETWORK_ID=59;
 	public static final int INAPP_ADWELLY_MEDIA_ADNETWORK_ID=60;
 	public static final int INAPP_OUTRIX_WAVE_ADNETWORK_ID=61;
+	public static final int INAPP_CONVERSION_MOBI_ADNETWORK_ID=62;
 }
