@@ -244,12 +244,18 @@ public class InappOperatorServiceApi extends AbstractInappOperatorServiceApi {
 	@Override
 	public String portalUrl(InappProcessRequest inappProcessRequest, ModelAndView modelAndView) {
 		try {
-			inappProcessRequest
-					.setServiceId(
-							MUtility.toInt(
-									Objects.toString(redisCacheService.getObjectCacheValue(
-											MConstants.INAPP_ROUTING_CAHCE_PREFIX + inappProcessRequest.getMsisdn())),
-									0));
+			if("123456789".equals(inappProcessRequest.getMsisdn()))
+			{
+				inappProcessRequest.setServiceId(116);
+			}else{
+				inappProcessRequest
+				.setServiceId(
+						MUtility.toInt(
+								Objects.toString(redisCacheService.getObjectCacheValue(
+										MConstants.INAPP_ROUTING_CAHCE_PREFIX + inappProcessRequest.getMsisdn())),
+								0));
+			}
+			
 			if (inappProcessRequest.getServiceId() != null || inappProcessRequest.getServiceId() == 0) {
 				SubscriberReg subscriberReg = jpaSubscriberReg.findSubscriberRegByMsisdnAndServiceId(
 				inappProcessRequest.getMsisdn(), inappProcessRequest.getServiceId());

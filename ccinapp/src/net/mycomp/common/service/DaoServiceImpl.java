@@ -250,4 +250,14 @@ public class DaoServiceImpl implements IDaoService {
 			}
 			return null;
 	}
+
+	@Override
+	public long findInappAdvertiserReportCount(AggReport aggReport) {
+		try {
+			return commonDao.findInappAdvertiserReportCount(aggReport);
+			}catch(Exception ex) {
+				logger.info("Error in getSingleRecord"+ex);  
+			}
+			return 0;
+	}
 }
