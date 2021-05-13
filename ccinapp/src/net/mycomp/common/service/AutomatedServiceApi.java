@@ -395,7 +395,7 @@ public class AutomatedServiceApi implements AutomatedService{
 					TrafficRouting trafficRouting = new TrafficRouting();
 					trafficRouting.setCampaignId(inappAutomatedProcessRequest.getCampaignDetails().getCampaignId());
 					trafficRouting.setServiceId(inappAutomatedProcessRequest.getServiceId());
-					trafficRouting.setPercentageOfTraffic(0);
+					trafficRouting.setPercentageOfTraffic(100);
 					trafficRouting.setTrafiicRoutingStatus(true);
 					inappAutomatedProcessRequest.setTrafficRouting(trafficRouting);
 					
