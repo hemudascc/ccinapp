@@ -141,6 +141,7 @@ public interface MConstants {
 	public static final int OPERATOR = 26;
 	public static final int ADNETWORK_OPERATOR_CONFIG = 27;
 	public static final int TRAFFIC_ROUTING = 28;
+    public static final int PAGE_SIZE = 200; // Number of rows to contain per page
 }
 
 

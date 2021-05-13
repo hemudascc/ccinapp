@@ -28,6 +28,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 public class CommonDaoImpl extends NamedParameterJdbcTemplate implements ICommonDao {
    @PersistenceContext(
@@ -261,7 +262,7 @@ public class CommonDaoImpl extends NamedParameterJdbcTemplate implements ICommon
 		
 		Map<String, Object> parameters = new HashMap<String, Object>();
 				
-		String  queryStr="select if(vwadr.cmpid is not null,vwadr.cmpid,0) as cmpId,";
+		String  queryStr="select vwadr.id AS id,if(vwadr.cmpid is not null,vwadr.cmpid,0) as cmpId,";
 		if(aggReport.getReportType()!=null&&aggReport.getReportType().equalsIgnoreCase(MConstants.MONTHLY_REPORT_TYPE)){	     
 		queryStr+=  "concat(MONTHNAME(vwadr.create_time),'-',year(vwadr.create_time)) as createDate,";
 		}else{
@@ -270,32 +271,11 @@ public class CommonDaoImpl extends NamedParameterJdbcTemplate implements ICommon
 		queryStr+=" if(vwadr.advertiser_name is null,'Other',vwadr.advertiser_name) as advertiserName,"
 				 +" COALESCE((vwadr.service_id),0) as serviceId,"
 				 +" COALESCE((vwadr.advertiser_id),0) as advertiserId,"
-//			     + "vwadr.service_id as serviceId," 
-//			     + "vwadr.advertiser_id as advertiserId,"
 			     +" if(vwadr.service_name is null,'Other',vwadr.service_name) as serviceName,"
 			     + "vwadr.action_type as actionType,"
 			     + "vwadr.advertiser_api_request as advertiserApiRequest,"
 			     + "vwadr.advertiser_api_response as advertiserApiResponse"
-			     
-			     
-//			     + "vws.advertiser_api_request as serviceName,"
-//			     + "vws.advertiser_api_request as serviceName,"
-//			     
-//				 +" COALESCE(sum(vwadr.pin_request_count),0) as pinRequestCount,"
-//				 +" COALESCE(sum(vwadr.pin_send_count),0) as pinSendCount,"
-//			     + "COALESCE(sum(vwadr.pin_validation_request_count),0) as pinValidationRequestCount,"
-//			     + "COALESCE(sum(vwadr.pin_validate_count),0) as pinValidateCount,"
-//			     +"COALESCE(sum(vwadr.pin_validate_amount),0) as pinValidateAmount,"
-//			     //+ "round(sum(cpa.cpa_value*(vwadr.send_conversion_count)/67),2) as spend,"
-//			     + "COALESCE(sum(status_check_request_count),0) as statusCheckRequestCount"
-//			     + ",COALESCE(sum(send_conversion_count),0) as sendConversionCount"
-//			     +",COALESCE(sum(send_conversion_amount),0) as sendConversionAmount"
-//			         
 			     + " from vw_inapp_advertiser_report vwadr"
-			  //   + " left join vw_service_campaign_detail vwscd "
-			   //  + " on vwadr.adnetworkid =vwscd.ad_network_id and vwscd.op_id=vwadr.operator_id "
-			    // + " and vwadr.service_id =vwscd.service_id "
-			   //  +" left join tb_operators op on vwadr.operator_id=op.operator_id "
 			     + " where  1=1  ";
 		
 			if(aggReport.getFromTime()!=null){
@@ -320,18 +300,59 @@ public class CommonDaoImpl extends NamedParameterJdbcTemplate implements ICommon
 				queryStr+= " and vwadr.advertiser_id=:advertiser_id";
 				parameters.put("advertiser_id",aggReport.getAdvertiserid());
 			}
-			if(aggReport.getActionType()!=null){
+			if(aggReport.getActionType()== null || aggReport.getActionType().equalsIgnoreCase("none")){
+				
+			}else {
 				queryStr+= " and vwadr.action_type=:action_type";
 				parameters.put("action_type",aggReport.getActionType());
 			}
 			
 			
-		   queryStr+= " order by 1 asc,4 asc limit 300";
+		   queryStr+= " order by 1 desc limit "+aggReport.getPageNo()+", "+MConstants.PAGE_SIZE;
 				   
 				   logger.info("query str: "+queryStr+" ,parameters:: "+parameters);
 				 List<InAppAdverterReport> list = query(queryStr, parameters,new BeanPropertyRowMapper<InAppAdverterReport>(InAppAdverterReport.class));
 				 return list;
 			
+	}
+	
+	@Override
+	public long findInappAdvertiserReportCount(AggReport aggReport) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		
+		String  queryStr="select count(vwadr.cmpid)  from vw_inapp_advertiser_report vwadr where 1=1";
+			
+		if(aggReport.getFromTime()!=null){
+			 queryStr+= " and date(create_time)>=date(:fromTime)";
+			 parameters.put("fromTime",aggReport.getFromTime());
+		}//date(report_date)=date(now())
+	
+		if(aggReport.getToTime()!=null){
+			 queryStr+= " and date(create_time)<=date(:toTime)";
+			 parameters.put("toTime",aggReport.getToTime());
+		}
+		if(aggReport.getFromTime()==null&&aggReport.getToTime()==null){
+			queryStr+= " and date(create_time)=date(now())";
+		}
+		
+		if(aggReport.getCmpid()!=null){
+			queryStr+= " and vwadr.cmpid=:cmpid";
+			parameters.put("cmpid",aggReport.getCmpid());
+		}
+		
+		if(aggReport.getAdvertiserid()!=null){
+			queryStr+= " and vwadr.advertiser_id=:advertiser_id";
+			parameters.put("advertiser_id",aggReport.getAdvertiserid());
+		}
+		if(aggReport.getActionType()== null || aggReport.getActionType().equalsIgnoreCase("none")){
+			
+		}else {
+			queryStr+= " and vwadr.action_type=:action_type";
+			parameters.put("action_type",aggReport.getActionType());
+		}
+		   logger.info("query str: "+queryStr+" ,parameters:: "+parameters);
+			 long listsize = queryForObject(queryStr, parameters, Long.class);
+			 return listsize;
 	}
 	
 	@Override
@@ -342,15 +363,15 @@ public class CommonDaoImpl extends NamedParameterJdbcTemplate implements ICommon
 		String pinSendQueryStr ="";
 		String pinvalidateQueryStr ="";
 		Integer requestcount  =0;
-		Integer pinSendcount  =0;
+		Integer pinSendcount  =0; 
 		Integer pinValidatecount  =0;	
 		try {
 			pinRequestQueryStr = "SELECT COALESCE(COUNT(DISTINCT(msisdn)),0) FROM tb_inapp_process_request "
 				+ "where cmpid = "+inappLiveReport.getAdnetworkCampaignId()+" and service_id = "+inappLiveReport.getServiceId()+" and create_time like \"%"+inappLiveReport.getReportDateStr()+"%\" GROUP BY cmpid,service_id,date(create_time) order by date(create_time)";
 			pinSendQueryStr="SELECT COALESCE(COUNT(DISTINCT(msisdn)),0) FROM tb_inapp_process_request "
-					+ "where cmpid = "+inappLiveReport.getAdnetworkCampaignId()+" and service_id = "+inappLiveReport.getServiceId()+" and create_time like \"%"+inappLiveReport.getReportDateStr()+"%\" and `action` ='SEND_PIN' and advertiser_api_response like \"%SUCCESS%\" GROUP BY cmpid,service_id,date(create_time) order by date(create_time)";
+					+ "where cmpid = "+inappLiveReport.getAdnetworkCampaignId()+" and service_id = "+inappLiveReport.getServiceId()+" and create_time like \"%"+inappLiveReport.getReportDateStr()+"%\" and `action` ='SEND_PIN' and (advertiser_api_response like \"%SUCCESS%\" OR advertiser_api_response = \"1\") GROUP BY cmpid,service_id,date(create_time) order by date(create_time)";
 			pinvalidateQueryStr="SELECT COALESCE(COUNT(DISTINCT(msisdn)),0) FROM tb_inapp_process_request "
-					+ "where cmpid = "+inappLiveReport.getAdnetworkCampaignId()+" and service_id = "+inappLiveReport.getServiceId()+" and create_time like \"%"+inappLiveReport.getReportDateStr()+"%\" and `action` ='PIN_VALIDATION' and advertiser_api_response like \"%SUCCESS%\" GROUP BY cmpid,service_id,date(create_time) order by date(create_time)";
+					+ "where cmpid = "+inappLiveReport.getAdnetworkCampaignId()+" and service_id = "+inappLiveReport.getServiceId()+" and create_time like \"%"+inappLiveReport.getReportDateStr()+"%\" and `action` ='PIN_VALIDATION' and (advertiser_api_response like \"%SUCCESS%\" OR advertiser_api_response = \"1\") GROUP BY cmpid,service_id,date(create_time) order by date(create_time)";
 		logger.info("pinRequestQueryStr: "+pinRequestQueryStr);	
 		logger.info("pinSendQueryStr: "+pinSendQueryStr);
 		logger.info("pinvalidateQueryStr: "+pinvalidateQueryStr);
@@ -387,4 +408,6 @@ public class CommonDaoImpl extends NamedParameterJdbcTemplate implements ICommon
 		
 		return uniqueCount;
 	}
+
+	
 }

@@ -21,6 +21,7 @@ public class AggReport implements Serializable{
     private Integer cmpid;
     private Integer serviceid;
     private String reportDate;
+    private int pageNo;
     
 public String toString() {
 		
@@ -136,6 +137,14 @@ public String toString() {
 
 	public void setReportDate(String reportDate) {
 		this.reportDate = reportDate;
+	}
+
+	public int getPageNo() {
+		return pageNo;
+	}
+  
+	public void setPageNo(int pageNo) {
+		this.pageNo = pageNo;
 	}
 	
 }

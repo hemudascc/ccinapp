@@ -40,5 +40,6 @@ public interface ICommonDao {
 	 public Object getSingleRecord(Query query);
 	 InappLiveReport getInappLiveReport();
 	 public List<InAppAdverterReport> findInappAdvertiserReport(AggReport aggReport);
+	 public long findInappAdvertiserReportCount(AggReport aggReport);
 	 public UniqueCount findInappUniqueCount(InappLiveReport inappLiveReport);
 }

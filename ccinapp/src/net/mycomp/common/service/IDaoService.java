@@ -46,5 +46,6 @@ public interface IDaoService {
 	public Object getSingleRecord(Query query);
 	public InappLiveReport getInappLiveReport();
 	public List<InAppAdverterReport> findInappAdvertiserReport(AggReport aggReport);
+	public long findInappAdvertiserReportCount(AggReport aggReport);
 	public UniqueCount findInappUniqueCount(InappLiveReport inappLiveReport);
 }

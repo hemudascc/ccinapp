@@ -3,6 +3,7 @@ package net.mycomp.common.inapp;
 import net.mycomp.publisher.AdwellyMediaPublisherService;
 import net.mycomp.publisher.AudienceNestInappPublisherService;
 import net.mycomp.publisher.CollectcentInappPublisherService;
+import net.mycomp.publisher.ConversionMobiPublisherService;
 import net.mycomp.publisher.DefaultInappPublisherService;
 import net.mycomp.publisher.GlobocomInappPublisherService;
 import net.mycomp.publisher.GulftechInappPublisherService;
@@ -12,8 +13,10 @@ import net.mycomp.publisher.InnoveraSolutionsPublisherService;
 import net.mycomp.publisher.MaclatoInappPublisherService;
 import net.mycomp.publisher.MobilartsPublisherService;
 import net.mycomp.publisher.MplusInappPublisherService;
+import net.mycomp.publisher.OutrixwavePublisherService;
 import net.mycomp.publisher.SaintInappPublisherService;
 import net.mycomp.publisher.SarasMediaInappPublisherService;
+import net.mycomp.publisher.SmashingLeadsInappPublisherService;
 import net.mycomp.publisher.SmileDigitalInappPublisherService;
 import net.mycomp.publisher.TOEInappPublisherService;
 
@@ -84,6 +87,18 @@ public class InappPublisherService implements IInappPublisherService{
 	@Qualifier("adwellyMediaPublisherService")
 	private AdwellyMediaPublisherService adwellyMediaPublisherService;
 	
+	@Autowired
+	@Qualifier("outrixwavePublisherService")  
+	private OutrixwavePublisherService outrixwavePublisherService;
+	
+	@Autowired
+	@Qualifier("conversionMobiPublisherService")
+	private ConversionMobiPublisherService conversionMobiPublisherService;
+	
+	@Autowired
+	@Qualifier("smashingLeadsInappPublisherService")
+	private SmashingLeadsInappPublisherService smashingLeadsInappPublisherService;
+	
 private IInappPublisherService findProcessRequest(int adnetworkId){
 	
 	IInappPublisherService inappPublisherService=null;
@@ -145,6 +160,15 @@ private IInappPublisherService findProcessRequest(int adnetworkId){
 			break;
 		}case InappConstant.INAPP_ADWELLY_MEDIA_ADNETWORK_ID:{
 			inappPublisherService=adwellyMediaPublisherService;
+			break;
+		}case InappConstant.INAPP_OUTRIX_WAVE_ADNETWORK_ID:{
+			inappPublisherService=outrixwavePublisherService;
+			break;
+		}case InappConstant.INAPP_CONVERSION_MOBI_ADNETWORK_ID:{
+			inappPublisherService=conversionMobiPublisherService;
+			break;
+		}case InappConstant.INAPP_SMASHING_LEADS_ADNETWORK_ID:{
+			inappPublisherService=smashingLeadsInappPublisherService;
 			break;
 		}
 		default:{

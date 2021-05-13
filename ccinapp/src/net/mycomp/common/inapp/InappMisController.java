@@ -306,11 +306,21 @@ public class InappMisController {
 	
 	@RequestMapping("/advertreport")	
 	public ModelAndView advertReport(@ModelAttribute(value="AggReport") AggReport aggReport,BindingResult result) {
-		
+		long totalUsersCount; // number of rows in Database
+		int lastPageNo;
 		ModelAndView modelAndView=new ModelAndView("inapp/advertiser_report");
 		
 		logger.info(" aggReport :  "+aggReport);		   
 		modelAndView.addObject("advertiserList", MData.mapIdToAdvertiser.values().stream().collect(Collectors.toList()));
+		aggReport.setPageNo(aggReport.getPageNo()*MConstants.PAGE_SIZE);
+        totalUsersCount = daoService.findInappAdvertiserReportCount(aggReport); //total no of users
+        if (totalUsersCount % MConstants.PAGE_SIZE != 0)
+            lastPageNo = (int)(totalUsersCount / MConstants.PAGE_SIZE) + 1; // get last page No (zero based)
+        else
+            lastPageNo = (int)(totalUsersCount / MConstants.PAGE_SIZE);
+        logger.info("totalUsersCount:  "+totalUsersCount);
+        logger.info("lastPageNo:  "+lastPageNo);
+        modelAndView.addObject("lastPageNo", lastPageNo);
 		List<InAppAdverterReport> list = daoService.findInappAdvertiserReport(aggReport);
 		modelAndView.addObject("reportlist",list);
 		logger.info("reportlist:"+list);
