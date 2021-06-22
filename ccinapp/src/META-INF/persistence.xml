@@ -45,6 +45,8 @@
 		<class>net.mycomp.inapp.adacts.AdactsApiTrans</class>
 		<class>net.mycomp.inapp.apalya.ApalyaConfig</class>
 		<class>net.mycomp.inapp.apalya.ApalyaApiTrans</class>
+		<class>net.mycomp.inapp.nxmedia.NxMediaServiceConfig</class>
+		<class>net.mycomp.inapp.nxmedia.NxMediaTrans</class>
 		<class>net.mycomp.inapp.raone.RaoneConfig</class>
 		<class>net.mycomp.inapp.raone.RaoneApiTrans</class>
 		<class>net.persist.bean.CampaignDetails</class>

@@ -92,7 +92,7 @@ public class InappController {
 		
 			inappProcessRequest=inappRequestFactory.createRequestBean(request
 					,InappAction.PIN_VALIDATION.action);
-			if(inappProcessRequest.getPin().equals("1234")){
+			if(inappProcessRequest.getMsisdn().equals("123456789") && inappProcessRequest.getPin().equals("1234")){
 				Map<String,String> responseMap = new HashMap<String,String>();
 				responseMap.put("STATUS", "SUCCESS");
 				responseMap.put("MSG", "Otp Verify");
